@@ -8,7 +8,7 @@ export default function Home() {
         <h1 className="text-2xl font-bold">ATLAS Interface</h1>
       </header>
 
-      <div className="container mx-auto grid grid-cols-12 gap-4">
+      <div className="container m-2 grid grid-cols-12 gap-4">
         <div className="col-span-4 p-4 rounded mt-4 ml-0">
           <ul className="space-y-2">
             <li>Overview</li>
