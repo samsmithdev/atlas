@@ -3,12 +3,12 @@ import Image from "next/image";
 export default function Home() {
 
   return (
-    <div className="container w-screen max-w-full">
+    <div className="container w-screen mx-auto">
       <header className="p-4 border-b">
         <h1 className="text-2xl font-bold">ATLAS Interface</h1>
       </header>
-      <main className="container max-w-full">
-        <div className="container m-2 border border-indigo-500 p-4 max-w-99"> {/* This is the "toolbar/project selector" bar */}
+      <main className="max-w-full">
+        <div className="m-2 border border-indigo-500 p-4 grid grid-flow-col"> {/* This is the "toolbar/project selector" bar */}
           <div className="m-2 grid grid-flow-col text-xl font-bold border-b border-indigo-500 w-fit shrink"> {/* This is the project selector */}
             <div className="whitespace-nowrap shrink mr-2">
               <h2 className="shrink">SD000001 - A.T.L.A.S.</h2>
@@ -24,7 +24,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="container w-screen m-2 grid grid-cols-12 gap-4 border"> {/* This is the main editing space, including the file nav and editor */}
+        <div className="w-full m-2 grid grid-cols-12 gap-4 border"> {/* This is the main editing space, including the file nav and editor */}
           <div className="col-span-4 p-4 rounded mt-4 ml-0 border">
             <ul className="space-y-2 divide-y-3 divide-dashed divide-indigo-500">
               <li>Overview</li>
