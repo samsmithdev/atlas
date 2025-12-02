@@ -8,6 +8,7 @@ export default function Home() {
         <h1 className="text-2xl font-bold">ATLAS Interface</h1>
       </header>
       <main className="max-w-full">
+
         <div className="m-2 border border-indigo-500 p-4 grid grid-flow-col"> {/* This is the "toolbar/project selector" bar */}
           <div className="m-2 grid grid-flow-col text-xl font-bold border-b border-indigo-500 w-fit shrink"> {/* This is the project selector */}
             <div className="whitespace-nowrap shrink mr-2">
