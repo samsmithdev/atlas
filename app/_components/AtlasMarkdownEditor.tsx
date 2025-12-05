@@ -3,7 +3,7 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
-const Editor = () => {
+const AtlasMarkdownEditor = () => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -13,9 +13,10 @@ const Editor = () => {
     // rendered HTML elements inside the editor.
     editorProps: {
       attributes: {
-        class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none h-screen p-4',
+        class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none h-full p-4',
       },
     },
+    immediatelyRender: false
   })
 
   if (!editor) {
@@ -30,4 +31,4 @@ const Editor = () => {
   )
 }
 
-export default Editor
+export default AtlasMarkdownEditor

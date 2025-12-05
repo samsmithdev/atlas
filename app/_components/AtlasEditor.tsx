@@ -1,3 +1,5 @@
+import AtlasMarkdownEditor from "./AtlasMarkdownEditor";
+
 export default function AtlasEditor() {
 
     return (
@@ -10,8 +12,8 @@ export default function AtlasEditor() {
                 </ul>
             </div>
 
-            <div className="col-span-8 mt-4 gap-4 p-4 border rounded">
-                <p>This is a whole lot of text.</p>
+            <div className="col-span-8 mt-4 w-full gap-4 p-4 border rounded">
+                <AtlasMarkdownEditor />
             </div>
         </div>
     );
