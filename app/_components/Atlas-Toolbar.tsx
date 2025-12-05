@@ -1,7 +1,7 @@
 export default function AtlasToolbar() {
 
     return (
-        <div className="m-2 border border-indigo-500 p-4 grid grid-flow-col"> {/* This is the "toolbar/project selector" bar */}
+        <div className="w-full m-2 gap-4 border grid grid-flow-col"> {/* This is the "toolbar/project selector" bar */}
             <div className="m-2 grid grid-flow-col text-xl font-bold border-b border-indigo-500 w-fit shrink"> {/* This is the project selector */}
                 <div className="whitespace-nowrap shrink mr-2">
                     <h2 className="shrink">SD000001 - A.T.L.A.S.</h2>
