@@ -24,7 +24,7 @@ const AtlasMarkdownEditor = () => {
   }
 
   return (
-    <div className="w-full border rounded-lg shadow-sm bg-white">
+    <div className="w-full h-full border rounded-lg shadow-sm bg-white">
       {/* This acts as the container */}
       <EditorContent editor={editor} />
     </div>
