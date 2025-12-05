@@ -1,7 +1,7 @@
 export default function AtlasToolbar() {
 
     return (
-        <div className="w-full m-2 gap-4 border grid grid-flow-col"> {/* This is the "toolbar/project selector" bar */}
+        <div className="w-full mt-2 mb-2 gap-4 border grid grid-flow-col"> {/* This is the "toolbar/project selector" bar */}
             <div className="m-2 grid grid-flow-col text-xl font-bold border-b border-indigo-500 w-fit shrink"> {/* This is the project selector */}
                 <div className="whitespace-nowrap shrink mr-2">
                     <h2 className="shrink">SD000001 - A.T.L.A.S.</h2>
@@ -12,7 +12,7 @@ export default function AtlasToolbar() {
                     </svg>
                 </div>
             </div>
-            <div> {/* This is the toolbar to the right of the project selector */}
+            <div className="m-2 text-xl font-bold w-fit shrink"> {/* This is the toolbar to the right of the project selector */}
                 <p>Hello World!</p>
             </div>
         </div>

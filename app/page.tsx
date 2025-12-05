@@ -1,14 +1,11 @@
 import Image from "next/image";
-import AtlasToolbar from "./_components/Atlas-Toolbar";
-import AtlasEditor from "./_components/AtlasEditor";
+import AtlasProjectEditor from "./_components/AtlasProjectEditor";
 
 export default function Home() {
 
   return (
-    <div className="container w-screen mx-auto">
-      <AtlasToolbar />
-
-      <AtlasEditor />
+    <div className="container w-screen h-[95%] mx-auto border">
+      <AtlasProjectEditor />
     </div>
   );
 }

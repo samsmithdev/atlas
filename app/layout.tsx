@@ -26,10 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen flex flex-col overflow-hidden border`}
       >
         <AtlasSiteHeader />
-        <main>{children}</main>
+        <main className="flex-1 w-full overflow-y-auto flex justify-center items-center">{children}</main>
       </body>
     </html>
   );
