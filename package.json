@@ -9,7 +9,8 @@
     "lint": "eslint",
     "prisma:generate": "dotenv -e .env -- npx prisma generate",
     "prisma:push": "dotenv -e .env -- npx prisma db push",
-    "prisma:studio": "dotenv -e .env -- npx prisma studio"
+    "prisma:studio": "dotenv -e .env -- npx prisma studio",
+    "prisma:seed": "dotenv -e .env -- npx prisma db seed"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.0.0",
@@ -34,6 +35,7 @@
     "eslint-config-next": "16.0.1",
     "prisma": "7.0.0",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }
