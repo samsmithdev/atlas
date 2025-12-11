@@ -24,7 +24,7 @@ model Subject {
 model Project {
   id           String   @id @default(cuid())
   name         String
-  created_date DateTime
+  created_date DateTime @default(now())
   author       String
   description  String
   files        File[]
