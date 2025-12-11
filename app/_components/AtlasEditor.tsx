@@ -27,7 +27,7 @@ export default async function AtlasEditor() {
                 </ul>
             </div>
 
-            <div className="col-span-8 mt-4 w-full gap-4 p-4 border rounded">
+            <div className="col-span-8 mt-4 w-full gap-4 p-4 border rounded overflow-hidden">
                 <AtlasMarkdownEditor />
             </div>
         </div>
