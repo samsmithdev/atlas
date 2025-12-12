@@ -20,6 +20,7 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
     GRANT ALL PRIVILEGES ON DATABASE "$APP_DB" TO "$APP_USER";
 
     -- Optional: If using specific schemas later, you might grant schema usage here
+    GRANT ALL ON SCHEMA public TO "$APP_USER";
 EOSQL
 
-echo "Jarvis database initialization complete."
+echo "Jarvis database initialization complete. Created USER, created DATABASE, granted DATABASE privileges, granted SCHEMA privileges."
