@@ -17,7 +17,7 @@ services:
       # This is the magic part:
       - ./db-init:/docker-entrypoint-initdb.d
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:5432"
 
   # Since you're using NextJS & Prisma, you might want a GUI for the DB too
   pgadmin:
