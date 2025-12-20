@@ -10,7 +10,8 @@
     "prisma:generate": "dotenv -e .env -- npx prisma generate",
     "prisma:push": "dotenv -e .env -- npx prisma db push",
     "prisma:studio": "dotenv -e .env -- npx prisma studio",
-    "prisma:seed": "dotenv -e .env -- npx prisma db seed"
+    "prisma:seed": "dotenv -e .env -- npx prisma db seed",
+    "test": "npx vitest"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.0.0",
