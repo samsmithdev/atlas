@@ -1,8 +1,10 @@
 import { describe, it, expect, vi, test } from 'vitest'
+// Import File type for being able to code 
+import { File } from '@/app/generated/prisma/client'
 
 // 1. Import the "Real" code we want to test
 // (I'm assuming you'll have a function called 'createNote' eventually)
-import { createFile } from './files' 
+import { createFile, fetchFilesForProject } from './files' 
 
 // 2. Import the "Real" DB file
 // BUT... because of the magic line below, it will actually import the MOCK
@@ -53,10 +55,54 @@ describe('createFile with All Parameters Action', () => {
       data: {
         contents: testContentString,
         author: testAuthorString,
+        createdDate: testCreatedDate,
+        id: testId,
         description: testDescriptionString,
         name: testNameString,
         tags: testTagArray
       }
+    })
+  })
+})
+
+describe('getFilesByProject', () => {
+  it('should return all files associated with a specific project', async () => {
+    // --- ARRANGE ---
+    // We create "Fake Data" (The Fixture)
+    // Notice: We just make up a projectId. We don't need to create a Project first.
+    const mockFiles: File[] = [];
+    const testProjectId = 'TestProjID-00000';
+    const testNumberOfFiles = 5;
+
+    for (let i = 0; i < testNumberOfFiles; i++) {
+      mockFiles.push({
+        author: `Mock Author ${i}`,
+        contents: `Mock Contents ${i}: this is longer text`,
+        createdDate: new Date(),
+        description: `Mock Description ${i}: this is a mock description`,
+        name: `Mock File Name ${i}`,
+        id: `Mock ID ${i}`,
+        tags: [],
+        projectId: `${testProjectId}`
+      });
+    }
+
+    // We tell the mock: "If anyone calls findMany, give them this list."
+    vi.mocked(prisma.file.findMany).mockResolvedValue(mockFiles);
+
+    // --- ACT ---
+    const result = await fetchFilesForProject(testProjectId);
+
+    // --- ASSERT ---
+    
+    // Check 1: Did we get the data back?
+    expect(result).toHaveLength(testNumberOfFiles)
+
+    expect(result[0]).toBe(mockFiles[0])
+
+    expect(prisma.file.findMany).toHaveBeenCalledWith({
+      where: { projectId: testProjectId },
+      orderBy: { id: 'desc' }
     })
   })
 })
