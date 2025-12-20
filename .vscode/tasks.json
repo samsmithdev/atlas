@@ -1,0 +1,42 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Next.js Dev",
+            "type": "shell",
+            "command": "npm run dev",
+            "isBackground": true,
+            "presentation": {
+                "group": "atlas-terminals", // <--- The Magic: Groups them together
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "problemMatcher": [
+                "$tsc-watch"
+            ]
+        },
+        {
+            "label": "Vitest Watch",
+            "type": "shell",
+            "command": "npm run test",
+            "isBackground": true,
+            "presentation": {
+                "group": "atlas-terminals", // <--- Same group name = Split View
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Launch Atlas Cockpit",
+            "dependsOn": [
+                "Next.js Dev",
+                "Vitest Watch"
+            ], // Runs both above
+            "problemMatcher": [],
+            "runOptions": {
+                "runOn": "folderOpen" // <--- The Super Power: Auto-runs on startup
+            }
+        }
+    ]
+}
