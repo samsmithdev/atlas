@@ -1,11 +1,11 @@
 'use server'
 import prisma from '@/app/lib/db'
 
-export async function createFile(newFile: { id?: string, name: string, createdDate?: Date, contents: string, author: string, description: string, tags: string[], projectId?: string | null}) {
+export async function createFile(newFile: { id?: string, name: string, createdDate?: Date, contents: string, author: string, description: string, tags: string[], projectId?: string | null }) {
   const { id, name, createdDate, author, description, tags, contents, projectId } = newFile;
-  
-  if(!id && projectId) {
-    
+
+  if (!id && projectId) {
+
   };
 
   const file = await prisma.file.create({
@@ -19,7 +19,7 @@ export async function createFile(newFile: { id?: string, name: string, createdDa
       tags: tags,
     }
   });
-  
+
   return file
 }
 
