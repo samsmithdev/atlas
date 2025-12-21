@@ -12,6 +12,8 @@
     "prisma:studio": "dotenv -e .env -- npx prisma studio",
     "prisma:seed": "dotenv -e .env -- npx prisma db seed",
     "prisma:search-setup": "dotenv -e .env -- npx prisma migrate dev --create-only --name add_hybrid_search",
+    "prisma:db-reset": "dotenv -e .env -- npx prisma migrate reset",
+    "prisma:migrate": "dotenv -e .env -- npx prisma migrate dev",
     "test": "npx vitest"
   },
   "dependencies": {
