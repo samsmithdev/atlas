@@ -4,7 +4,7 @@ import { File } from '@/app/generated/prisma/client'
 
 // 1. Import the "Real" code we want to test
 // (I'm assuming you'll have a function called 'createNote' eventually)
-import { createFile, fetchFilesForProject, updateFile } from './files'
+import { createFile, fetchFilesForProject, updateFile, deleteFile } from './files'
 
 // 2. Import the "Real" DB file
 // BUT... because of the magic line below, it will actually import the MOCK
@@ -51,6 +51,32 @@ describe('updateFile Action', () => {
 
     if (result.success) {
       expect(result.data?.id).toMatch(updatedFile.id);
+    }
+  })
+})
+
+describe('deleteFile with FileId', () => {
+  it('should delete a new file from the database and return it', async () => {
+    const fileToDelete: File = {
+      author: "Test Author",
+      content: "Test Content",
+      createdDate: new Date(),
+      description: "Description",
+      id: "Test ID 001",
+      name: "Test Name",
+      projectId: null,
+      tags: []
+    }
+
+    vi.mocked(prisma.file.delete).mockResolvedValue(fileToDelete)
+
+    const result = await deleteFile(fileToDelete.id)
+
+    expect(result.success).toBe(true)
+    expect(result.data).toBeDefined()
+
+    if (result.success && result.data) {
+      expect(result.data.id).toBe(fileToDelete.id)
     }
   })
 })
