@@ -11,7 +11,8 @@
     "prisma:push": "dotenv -e .env -- npx prisma db push",
     "prisma:studio": "dotenv -e .env -- npx prisma studio",
     "prisma:seed": "dotenv -e .env -- npx prisma db seed",
-    "prisma:search-setup": "dotenv -e .env -- npx prisma migrate dev --create-only --name add_hybrid_search",
+    "prisma:file-search-setup": "dotenv -e .env -- npx prisma migrate dev --create-only --name add_hybrid_search",
+    "prisma:project-semantic-vector-migration-setup": "dotenv -e .env -- npx prisma migrate dev --create-only --name project-semantic-vector-migration-setup",
     "prisma:db-reset": "dotenv -e .env -- npx prisma migrate reset",
     "prisma:migrate": "dotenv -e .env -- npx prisma migrate dev",
     "test": "npx vitest"
