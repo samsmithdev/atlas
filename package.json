@@ -10,7 +10,11 @@
     "prisma:generate": "dotenv -e .env -- npx prisma generate",
     "prisma:push": "dotenv -e .env -- npx prisma db push",
     "prisma:studio": "dotenv -e .env -- npx prisma studio",
-    "prisma:seed": "dotenv -e .env -- npx prisma db seed"
+    "prisma:seed": "dotenv -e .env -- npx prisma db seed",
+    "prisma:search-setup": "dotenv -e .env -- npx prisma migrate dev --create-only --name add_hybrid_search",
+    "prisma:db-reset": "dotenv -e .env -- npx prisma migrate reset",
+    "prisma:migrate": "dotenv -e .env -- npx prisma migrate dev",
+    "test": "npx vitest"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.0.0",
@@ -18,7 +22,7 @@
     "@tiptap/react": "^3.13.0",
     "@tiptap/starter-kit": "^3.13.0",
     "dotenv": "^17.2.3",
-    "next": "16.0.1",
+    "next": "^16.1.0",
     "pg": "^8.16.3",
     "react": "19.2.0",
     "react-dom": "19.2.0"
@@ -30,12 +34,17 @@
     "@types/pg": "^8.15.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^5.1.2",
     "dotenv-cli": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.1",
-    "prisma": "7.0.0",
+    "jsdom": "^27.3.0",
+    "prisma": "^7.2.0",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite-tsconfig-paths": "^6.0.3",
+    "vitest": "^4.0.16",
+    "vitest-mock-extended": "^3.1.0"
   }
 }
