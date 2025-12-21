@@ -4,7 +4,7 @@ import { File } from '@/app/generated/prisma/client'
 
 // 1. Import the "Real" code we want to test
 // (I'm assuming you'll have a function called 'createNote' eventually)
-import { createFile, fetchFilesForProject } from './files' 
+import { createFile, fetchFilesForProject, updateFile } from './files'
 
 // 2. Import the "Real" DB file
 // BUT... because of the magic line below, it will actually import the MOCK
@@ -12,7 +12,48 @@ import prisma from '@/app/lib/db' //'@/app/lib/db'
 
 // 3. THE MAGIC LINE
 // This tells Vitest: "Go look in the __mocks__ folder for this file"
-vi.mock('@/app/lib/db') 
+vi.mock('@/app/lib/db')
+
+describe('updateFile Action', () => {
+  it('should update a file and return the updated file', async () => {
+    const originalContent = "Test Original Content"
+    const updatedContent = "Test Updated Content"
+
+    const originalFile: File = {
+      id: "Test ID 0001",
+      author: "Test Author",
+      content: originalContent,
+      createdDate: new Date(),
+      description: "Test description",
+      name: "Test File Name",
+      projectId: null,
+      tags: []
+    }
+
+    const updatedFile: File = {
+      id: originalFile.id,
+      author: originalFile.author,
+      createdDate: originalFile.createdDate,
+      description: originalFile.description,
+      name: originalFile.name,
+      projectId: originalFile.projectId,
+      tags: originalFile.tags,
+      content: updatedContent,
+    }
+
+    const expectedResult = { success: true, data: updatedFile };
+
+    vi.mocked(prisma.file.update).mockResolvedValue(updatedFile);
+
+    const result = await updateFile(originalFile.id, updatedContent);
+
+    expect(result.success).toBe(true)
+
+    if (result.success) {
+      expect(result.data?.id).toMatch(updatedFile.id);
+    }
+  })
+})
 
 describe('createFile with All Parameters Action', () => {
   it('should save a new file to the database and return it', async () => {
@@ -30,7 +71,7 @@ describe('createFile with All Parameters Action', () => {
       id: testId,
       name: testNameString,
       createdDate: testCreatedDate,
-      contents: testContentString,
+      content: testContentString,
       author: testAuthorString,
       description: testDescriptionString,
       tags: testTagArray,
@@ -53,7 +94,7 @@ describe('createFile with All Parameters Action', () => {
     // 2. Did the database actually get called with the right parameters?
     expect(prisma.file.create).toHaveBeenCalledWith({
       data: {
-        contents: testContentString,
+        content: testContentString,
         author: testAuthorString,
         createdDate: testCreatedDate,
         id: testId,
@@ -77,7 +118,7 @@ describe('getFilesByProject', () => {
     for (let i = 0; i < testNumberOfFiles; i++) {
       mockFiles.push({
         author: `Mock Author ${i}`,
-        contents: `Mock Contents ${i}: this is longer text`,
+        content: `Mock Contents ${i}: this is longer text`,
         createdDate: new Date(),
         description: `Mock Description ${i}: this is a mock description`,
         name: `Mock File Name ${i}`,
@@ -94,7 +135,7 @@ describe('getFilesByProject', () => {
     const result = await fetchFilesForProject(testProjectId);
 
     // --- ASSERT ---
-    
+
     // Check 1: Did we get the data back?
     expect(result).toHaveLength(testNumberOfFiles)
 
