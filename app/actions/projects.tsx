@@ -27,3 +27,36 @@ export async function fetchProjects(subjectId: string) {
 
     return fetchedProjects;
 }
+
+export async function updateProject(
+    projectId: string,
+    data: {
+        name?: string,
+        description?: string,
+        addFieldIds?: string[],
+        removeFieldIds?: string[],
+        deleteFieldIds?: string[]
+    }
+) {
+    try {
+        const updatedProject = await prisma.project.update({
+            where: { id: projectId },
+            data: {
+                name: data.name,
+                description: data.description,
+                files: {
+                    connect: data.addFieldIds?.map(id => ({ id })),
+                    disconnect: data.removeFieldIds?.map(id => ({ id })),
+                }
+            },
+            include: {
+                files: true
+            }
+        })
+
+        return { success: true, data: updatedProject };
+    } catch (error) {
+        console.error("Failed to update project relations:", error);
+        return { success: false, error: "Failed to update project" };
+    }
+}
