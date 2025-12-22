@@ -35,6 +35,8 @@ model Project {
   subject      Subject? @relation(fields: [subjectId], references: [id])
   subjectId    String?
 
+  semantic_vector Unsupported("vector(768)")?
+
   @@map("projects")
 }
 
