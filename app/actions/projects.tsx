@@ -16,3 +16,14 @@ export async function createProject(name: string, author: string, description: s
 
     return project
 }
+
+export async function fetchProjects(subjectId: string) {
+    const fetchedProjects = await prisma.project.findMany({
+        where: {
+            subjectId: subjectId
+        },
+        orderBy: { id: 'desc' }
+    });
+
+    return fetchedProjects;
+}

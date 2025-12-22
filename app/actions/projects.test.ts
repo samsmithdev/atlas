@@ -4,7 +4,7 @@ import { Project } from '@/app/generated/prisma/client'
 
 // 1. Import the "Real" code we want to test
 // (I'm assuming you'll have a function called 'createNote' eventually)
-import { createProject } from './projects'
+import { createProject, fetchProjects } from './projects'
 
 // 2. Import the "Real" DB file
 // BUT... because of the magic line below, it will actually import the MOCK
@@ -50,3 +50,32 @@ describe('createProject with All Parameters Action', () => {
     })
 })
 
+describe('fetchProjects with subjectId', () => {
+    it('should return projects with subject ID', async () => {
+        const numberOfMockProjects = 5
+        const mockedSubjectID = "Test Subject ID"
+        const mockedProjects: Project[] = Array.from({ length: numberOfMockProjects }, (i) => {
+            const mockedProject: Project = {
+                id: `Test Project ID ${i}`,
+                name: `Test Project Name #${i}`,
+                author: `Test Project Author #${i}`,
+                created_date: new Date(),
+                description: `Test project description ${i}`,
+                subjectId: mockedSubjectID,
+            }
+
+            return mockedProject
+        });
+
+        vi.mocked(prisma.project.findMany).mockResolvedValue(mockedProjects);
+
+        const result = await fetchProjects(mockedSubjectID);
+
+        expect(result).toHaveLength(numberOfMockProjects);
+
+        expect(prisma.project.findMany).toHaveBeenCalledWith({
+            where: { subjectId: mockedSubjectID },
+            orderBy: { id: 'desc' },
+        })
+    })
+})
