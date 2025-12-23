@@ -79,7 +79,7 @@ async function main() {
             author: 'Sam',
             description: `File ${i} description for ${i}`,
             tags: [ `file${i}`],
-            contents: `File ${i} content for ${i} for this whole paragraph`,
+            content: `File ${i} content for ${i} for this whole paragraph`,
             projectId: sdProj.id,
         }
     });
@@ -92,7 +92,7 @@ async function main() {
             author: 'Sam',
             description: `File ${i} description for ${i}`,
             tags: [ `file${i}`],
-            contents: `File ${i} content for ${i} for this whole paragraph`,
+            content: `File ${i} content for ${i} for this whole paragraph`,
             projectId: clProj.id,
         }
     });
