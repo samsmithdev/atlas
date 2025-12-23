@@ -1,9 +1,22 @@
 'use client' // <--- Crucial! This tells Next.js this runs in the browser.
 
 import { useEditor, EditorContent } from '@tiptap/react'
+import { useState } from 'react'
 import StarterKit from '@tiptap/starter-kit'
+import { updateFile } from '../actions/files'
 
 const AtlasMarkdownEditor = () => {
+  const [saveStatus, setSaveStatus] = useState('Saved');
+
+  const saveToDatabase = async (jsonContent: any) => {
+    setSaveStatus('Saving...')
+    try {
+
+    } catch (error) {
+
+    }
+  }
+
   const editor = useEditor({
     extensions: [
       StarterKit,
