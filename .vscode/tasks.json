@@ -6,6 +6,14 @@
             "type": "shell",
             "command": "npm run dev",
             "isBackground": true,
+            "options": {
+                "shell": {
+                    "executable": "/bin/bash", // Forces Linux bash
+                    "args": [
+                        "-c"
+                    ]
+                }
+            },
             "presentation": {
                 "group": "atlas-terminals", // <--- The Magic: Groups them together
                 "reveal": "always",
@@ -20,6 +28,14 @@
             "type": "shell",
             "command": "npm run test",
             "isBackground": true,
+            "options": {
+                "shell": {
+                    "executable": "/bin/bash", // Forces Linux bash
+                    "args": [
+                        "-c"
+                    ]
+                }
+            },
             "presentation": {
                 "group": "atlas-terminals", // <--- Same group name = Split View
                 "reveal": "always",
