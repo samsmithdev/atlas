@@ -1,11 +1,8 @@
 import prisma from '@/app/lib/db';
+import { fetchProject } from '@/app/actions/projects'
 
 export default async function AtlasToolbar() {
-    const project = await prisma.project.findFirst({
-        where: {
-            name: "Atlas",
-        }
-    });
+    const project = await fetchProject("SD001");
 
     return (
         <div className="w-full mt-2 mb-2 gap-4 border grid grid-flow-col"> {/* This is the "toolbar/project selector" bar */}

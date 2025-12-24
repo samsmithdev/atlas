@@ -17,6 +17,16 @@ export async function createProject(name: string, author: string, description: s
     return project
 }
 
+export async function fetchProject(projectId: string) {
+    const fetchedProject = await prisma.project.findUnique({
+        where: {
+            id: projectId
+        }
+    });
+
+    return fetchedProject
+}
+
 export async function fetchProjects(subjectId: string) {
     const fetchedProjects = await prisma.project.findMany({
         where: {

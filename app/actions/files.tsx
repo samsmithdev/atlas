@@ -24,6 +24,16 @@ export async function createFile(newFile: { id?: string, name: string, createdDa
   return file
 }
 
+export async function fetchFile(fileId: string) {
+  const file = await prisma.file.findUnique({
+    where: {
+      id: fileId
+    }
+  });
+
+  return file;
+}
+
 export async function fetchFilesForProject(projectId: string) {
   const files = await prisma.file.findMany({
     where: {
