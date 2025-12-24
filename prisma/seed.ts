@@ -11,33 +11,35 @@ const adapter = new PrismaPg(pool)
 const prisma = new PrismaClient({ adapter })
 
 const subjectSeedData = {
-    sd: {
-        shortcode: "SD",
-        name: "Software Development",
-        description: "Coding and computer administration related projects.",
-    },
-    cl: {
-        shortcode: "CL",
-        name: "Cleaning",
-        description: "Cleaning tips and tricks",
-    },
+  sd: {
+    shortcode: "SD",
+    name: "Software Development",
+    description: "Coding and computer administration related projects.",
+  },
+  cl: {
+    shortcode: "CL",
+    name: "Cleaning",
+    description: "Cleaning tips and tricks",
+  },
 }
 
 const projectSeedData = {
-    sd: 
-        {
-            name: "Atlas",
-            author: "Sam",
-            description: "Some Description",
-        }
-    ,
-    cl: 
-        {
-            name: "Schedule",
-            author: "Sam",
-            description: "Some Description",
-        }
-    
+  sd:
+  {
+    id: "SD001",
+    name: "Atlas",
+    author: "Sam",
+    description: "Some Description",
+  }
+  ,
+  cl:
+  {
+    id: "CL0001",
+    name: "Schedule",
+    author: "Sam",
+    description: "Some Description",
+  }
+
 }
 
 async function main() {
@@ -57,44 +59,46 @@ async function main() {
   const clSubject = await prisma.subject.create({
     data: subjectSeedCleaning
   });
-  
+
   const sdProj = await prisma.project.create({
     data: {
-        ...projectSeedSoftwareDev,
-        subjectId: sdSubject.id
+      ...projectSeedSoftwareDev,
+      subjectId: sdSubject.id
     }
   });
 
   const clProj = await prisma.project.create({
     data: {
-        ...projectSeedCleaning,
-        subjectId: clSubject.id,
+      ...projectSeedCleaning,
+      subjectId: clSubject.id,
     }
   });
 
-  for (let i = 0; i < 50; i++ ) {
+  for (let i = 0; i < 50; i++) {
     const sdFile = await prisma.file.create({
-        data: {
-            name: `File ${i}`,
-            author: 'Sam',
-            description: `File ${i} description for ${i}`,
-            tags: [ `file${i}`],
-            content: `File ${i} content for ${i} for this whole paragraph`,
-            projectId: sdProj.id,
-        }
+      data: {
+        id: `SD${i}`,
+        name: `SD File ${i}`,
+        author: 'Sam',
+        description: `File ${i} description for ${i}`,
+        tags: [`file${i}`],
+        content: `File ${i} content for ${i} for this whole paragraph`,
+        projectId: sdProj.id,
+      }
     });
   }
 
-    for (let i = 0; i < 50; i++ ) {
+  for (let i = 0; i < 50; i++) {
     const clFile = await prisma.file.create({
-        data: {
-            name: `File ${i}`,
-            author: 'Sam',
-            description: `File ${i} description for ${i}`,
-            tags: [ `file${i}`],
-            content: `File ${i} content for ${i} for this whole paragraph`,
-            projectId: clProj.id,
-        }
+      data: {
+        id: `CL${i}`,
+        name: `CL File ${i}`,
+        author: 'Sam',
+        description: `File ${i} description for ${i}`,
+        tags: [`file${i}`],
+        content: `File ${i} content for ${i} for this whole paragraph`,
+        projectId: clProj.id,
+      }
     });
   }
 }
