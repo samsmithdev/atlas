@@ -38,6 +38,17 @@ export async function fetchProjects(subjectId: string) {
     return fetchedProjects;
 }
 
+export async function fetchAllProjects() {
+    const fetchedProjects = await prisma.project.findMany({
+        where: {
+
+        },
+        orderBy: { id: 'desc' },
+    });
+
+    return fetchedProjects;
+}
+
 export async function updateProject(
     projectId: string,
     data: {
