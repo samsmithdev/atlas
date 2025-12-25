@@ -1,0 +1,1 @@
+// This will be a project ID view with no file, should display the file Navigator, the project navigator is enabled and set to [projectId]
