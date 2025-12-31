@@ -1,6 +1,7 @@
 'use server'
 import prisma from '@/app/lib/db'
 import { revalidatePath } from 'next/cache';
+import { NULL_PROJECTID, NULL_PROJECT_NAME } from '../_constants/uncategorized-items';
 
 export async function createFile(newFile: { id?: string, name: string, createdDate?: Date, content: string, author: string, description: string, tags: string[], projectId?: string | null }) {
   const { id, name, createdDate, author, description, tags, content, projectId } = newFile;
@@ -43,6 +44,16 @@ export async function fetchFilesForProject(projectId: string) {
   });
 
   return files;
+}
+
+export async function fetchFilesForProjectFileNavigator(projectId: string) {
+  const fileMenuItems = (await prisma.file.findMany({
+    where: { projectId: projectId },
+    select: { name: true, id: true, projectId: true }
+  })).map((file) => {
+    return { name: file.name, id: file.id, projectId: file.projectId ?? NULL_PROJECTID }
+  })
+  return fileMenuItems
 }
 
 export async function updateFile(fileId: string, content: string) {
