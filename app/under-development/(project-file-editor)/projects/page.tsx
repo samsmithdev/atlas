@@ -9,13 +9,15 @@ export default async function ProjectsBrowser({
 }: {
     searchParams: { preview?: string }
 }) {
+    const search = await searchParams;
+
     const allProjects = (await fetchProjectsForMenu()).map((project) => {
         return { id: project.id, name: project.name, subject: project.subject ?? undefined, subjectId: project.subjectId ?? undefined, link: `/projects?preview=${project.id}` }
     });
 
     return (
         <div>
-            <AtlasFullpageProjectNavigator allProjects={allProjects} previewProjectId={searchParams.preview}/>
+            <AtlasFullpageProjectNavigator allProjects={allProjects} previewProjectId={search.preview}/>
         </div>
     )
 }
