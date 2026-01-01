@@ -10,7 +10,7 @@ export default async function FileEditorPage({ params }: PageProps) {
     const file = params.fileId ? (await fetchFile(params.fileId)) ?? undefined: (undefined) ;
 
     return (
-        <div>
+        <div className="w-full h-full" id="fileId-page-editor-container">
             <AtlasEditor file={file} />
         </div>
     )

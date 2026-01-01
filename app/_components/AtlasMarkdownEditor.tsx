@@ -54,11 +54,11 @@ const AtlasMarkdownEditor = ({ fileId, initialContent }: { fileId: string, initi
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="text-sm text-gray-500 text-right">
+    <div className="flex flex-col gap-2" id="atlas-markdown-editor-container">
+      <div className="text-sm text-gray-500 text-right" id="atlas-markdown-editor-status-container">
         Status: {saveStatus}
       </div>
-      <div className="border border-gray-300 rounded-md p-4 min-h-[500px]">
+      <div className="border border-gray-300 rounded-md p-4 min-h-[500px]" id="atlas-markdown-editor-editor-container">
         <EditorContent editor={editor} />
       </div>
     </div>

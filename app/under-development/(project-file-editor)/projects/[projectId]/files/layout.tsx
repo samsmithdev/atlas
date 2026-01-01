@@ -11,13 +11,14 @@ type LayoutProps = {
 }
 
 export default async function FileLayout({ children, params }: LayoutProps) {
-    const files: AtlasNavigatorFile[] = params.projectId ? 
-    (await fetchFilesForProjectFileNavigator(params.projectId)).map((file) => {
+    const unwrappedParams = await params;
+    const files: AtlasNavigatorFile[] = unwrappedParams.projectId ? 
+    (await fetchFilesForProjectFileNavigator(unwrappedParams.projectId)).map((file) => {
         const name = file.name;
         const id = file.id;
         const projectId = file.projectId ?? NULL_PROJECTID;
         const link = `/projects/${projectId}/files/${id}`
-        
+
         return {
             name: name,
             id: id,
@@ -28,13 +29,13 @@ export default async function FileLayout({ children, params }: LayoutProps) {
     []
 
     return (
-        <div>
-            <div>
+        <div className="grid grid-cols-4 w-full h-full mx-auto overflow-hidden" id="files-layout-container">
+            <div className="h-[95%] mx-auto" id="files-layout-navigator-container">
                 {/* The file navigator */}
                 <AtlasFileNavigator files={files} />
             </div>
 
-            <div className="flex-1 overflow-hidden">
+            <div className="flex-1 overflow-hidden col-span-3" id="files-layout-children-container">
                 {children}
             </div>
         </div>

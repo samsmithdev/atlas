@@ -10,12 +10,12 @@ type LayoutProps = {
 
 export default async function ProjectLayout({ children, params }: LayoutProps) {
     return (
-        <div className="grid grid-rows-12 w-full h-full">
-            <div className="flex w-full bg-gray-800 shrink"> {/* This is the container that will have the Toolbar with project selector... Oh, ToolBar and page content? Duh lol */}
+        <div className="grid grid-rows-[auto_1fr] w-full h-full" id="projects-layout-container">
+            <div className="flex w-full bg-gray-800 shrink" id="projects-layout-toolbar-container"> {/* This is the container that will have the Toolbar with project selector... Oh, ToolBar and page content? Duh lol */}
                 <AtlasToolbar activeProject={undefined} />
             </div>
 
-            <div className="flex-1 overflow-hidden row-span-11">
+            <div className="flex-1 h-full w-full overflow-hidden" id="projects-layout-children-space">
                 {children}
             </div>
         </div>

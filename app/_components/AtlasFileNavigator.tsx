@@ -12,8 +12,8 @@ type AtlasFileNavigatorProps = {
 
 export default async function AtlasFileNavigator({ files, activeFileId }: AtlasFileNavigatorProps) {
     return (
-        <div className="col-span-4 p-4 rounded mt-4 ml-0 border overflow-auto">
-            {files ? (<ul className='space-y-2'>
+        <div className="col-span-4 p-4 rounded mt-4 ml-0 border h-full overflow-auto">
+            {files ? (<ul className='space-y-2 grid grid-cols-1 h-full overflow-auto'>
                 {files.map((file) => (
                     <a 
                         key={file.id}
