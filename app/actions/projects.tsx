@@ -24,7 +24,7 @@ export async function fetchProject(projectId: string) {
         }
     });
 
-    return fetchedProject
+    return fetchedProject 
 }
 
 export async function fetchProjectsForMenu() {

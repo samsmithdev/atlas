@@ -30,7 +30,7 @@ export default async function FileLayout({ children, params }: LayoutProps) {
 
     return (
         <div className="grid grid-cols-4 w-full h-full mx-auto overflow-hidden" id="files-layout-container">
-            <div className="h-[95%] mx-auto" id="files-layout-navigator-container">
+            <div className="mt-4 mb-4 ml-2 mr-2 rounded border border-white overflow-y-auto" id="files-layout-navigator-container">
                 {/* The file navigator */}
                 <AtlasFileNavigator files={files} />
             </div>

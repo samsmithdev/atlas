@@ -13,14 +13,14 @@ export type AtlasEditorProps = {
 export default async function AtlasEditor( { file }: AtlasEditorProps ) {
 
     return (
-        <div className="w-full grid grid-cols-12 gap-4 mx-auto h-[95%]" id="atlas-editor-container"> {/* This is the main editing space, including the file nav and editor */}
-            <div className="col-span-8 mt-4 w-full gap-4 p-4 border rounded overflow-auto" id="atlas-editor-markdown-container">
+        <div className="mt-4 mb-4 mr-4 ml-2 flex-1" id="atlas-editor-container"> {/* This is the main editing space */}
+            <div className="w-full h-full border rounded overflow-auto" id="atlas-editor-markdown-container">
                 {file ? (
                     <AtlasMarkdownEditor
                         fileId={file.id}
                         initialContent={file.content} />
                 ) : (
-                    <div className="flex items-center justify-center h-full text-gray-400">
+                    <div className="h-full text-gray-400">
                         <p>Please select a file to begin editing...</p>
                     </div>
                 )}
