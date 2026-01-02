@@ -1,7 +1,7 @@
 'use client' // <--- Crucial! This tells Next.js this runs in the browser.
 
 import { useEditor, EditorContent } from '@tiptap/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import StarterKit from '@tiptap/starter-kit'
 import { updateFile, fetchFile } from '../actions/files'
@@ -25,6 +25,13 @@ const AtlasMarkdownEditor = ({ fileId, initialContent }: { fileId: string, initi
   const debouncedSaved = useDebouncedCallback((content) => {
     saveToDatabase(content)
   }, 1000)
+
+  useEffect(() => {
+    // When component dies (unmounts), force the save immediately
+    return () => {
+      debouncedSaved.flush();
+    }
+  }, [debouncedSaved]);
 
   const editor = useEditor({
     extensions: [
