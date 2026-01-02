@@ -39,7 +39,6 @@ const projectSeedData = {
     author: "Sam",
     description: "Some Description",
   }
-
 }
 
 async function main() {

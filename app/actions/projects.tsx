@@ -24,7 +24,23 @@ export async function fetchProject(projectId: string) {
         }
     });
 
-    return fetchedProject
+    return fetchedProject 
+}
+
+export async function fetchProjectsForMenu() {
+    const fetchedProjects = await prisma.project.findMany({
+        where: {
+
+        },
+        select: { 
+            name: true,
+            id: true,
+            subjectId: true,
+            subject: true
+        }
+    });
+
+    return fetchedProjects;
 }
 
 export async function fetchProjects(subjectId: string) {
@@ -33,6 +49,17 @@ export async function fetchProjects(subjectId: string) {
             subjectId: subjectId
         },
         orderBy: { id: 'desc' }
+    });
+
+    return fetchedProjects;
+}
+
+export async function fetchAllProjects() {
+    const fetchedProjects = await prisma.project.findMany({
+        where: {
+
+        },
+        orderBy: { id: 'desc' },
     });
 
     return fetchedProjects;
