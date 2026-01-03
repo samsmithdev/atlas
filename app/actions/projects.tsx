@@ -43,6 +43,12 @@ export async function fetchProjectsForMenu() {
     return fetchedProjects;
 }
 
+export async function fetchProjectsForNav() {
+    const fetchedProjects = await prisma.project.groupBy({
+        by: ['subjectId'],
+    })
+}
+
 export async function fetchProjects(subjectId: string) {
     const fetchedProjects = await prisma.project.findMany({
         where: {
