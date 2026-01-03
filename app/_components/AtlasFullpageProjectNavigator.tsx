@@ -77,8 +77,8 @@ export default async function AtlasFullpageProjectNavigator({ allProjects, previ
                 </div>
             </div>
 
-            <div> { /* this is the project preview pane, this div should style the sizing */ }
-                <AtlasProjectPreviewPane previewProjectId={previewProjectId}/>
+            <div className="flex-1" id="atlas-fullpage-project-navigator-preview-pane"> { /* this is the project preview pane, this div should style the sizing */ }
+                <AtlasProjectPreviewPane previewProjectId={previewProjectId} openLink={`/projects/${previewProjectId}/files`}/> {/* Open /files endpoint directly from preview link*/}
             </div>
         </div>
     );
