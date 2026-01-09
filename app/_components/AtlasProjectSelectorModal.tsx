@@ -1,8 +1,11 @@
 'use client'
 
+import { AtlasGroupedProjectsForNav } from '@/app/_types/AtlasNavigatorTypes';
+import { Project } from '@/app/generated/prisma';
+import Link from 'next/link';
 import { useState } from 'react'
 
-export default function AtlasProjectSelectorModal() {
+export default function AtlasProjectSelectorModal({ projectMenuItems, activeProject }: { projectMenuItems: AtlasGroupedProjectsForNav, activeProject?: Project }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const close = () => setIsOpen(false);
@@ -40,8 +43,36 @@ export default function AtlasProjectSelectorModal() {
                         </button>
                     </div>
 
-                    <div className="h-64 flex items-center justify-center text-slate-400 italic bg-slate-50 dark:bg-slate-950/50 rounded border border-dashed border-slate-300 dark:border-slate-700">
-                        Project List Loading...
+                    <div className="h-64 flex items-center justify-center text-slate-400 italic bg-slate-50 dark:bg-slate-950/50 rounded border border-dashed border-slate-300 dark:border-slate-700 columns-1 xl:columns-2">
+                        {Object.values(projectMenuItems).map((group => (
+                            /* The subject group */
+                            <div 
+                                key={group.subjectName}
+                                className="break-inside-avoid mb-6 rounded-lg p-4 border border-gray-100"
+                                id="atlas-project-selector-modal-subject-group"
+                            >
+                                {/* The subject header */}
+                                <div className="flex items-baseline justify-between mb-2 border-b pb-2">
+                                    <h3 className="font-semibold text-gray-800">
+                                        <span className="text-xs font-mono uppercase">{group.subjectShortcode}</span> {group.subjectName}
+                                    </h3>
+                                </div>
+
+                                {/* Project Links */}
+                                <ul className='space-y-2'>
+                                    {group.projects.map((project) => (
+                                        <li key={project.id}>
+                                            <Link
+                                                href={project.link}
+                                                className='block text-sm text-gray-600 hover:text-blue-600 hover:bg-white hover:shadow-sm px-2 py-1 rounded transition-all'
+                                            >
+                                                {project.name}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )))}
                     </div>
 
                     <div className="mt-4 pt-2 flex justify-end">
