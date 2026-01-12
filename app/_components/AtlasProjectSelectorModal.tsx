@@ -60,7 +60,9 @@ export default function AtlasProjectSelectorModal({ projectMenuItems, activeProj
                         </button>
                     </div>
 
-                    <div className="h-64 flex items-center justify-center text-slate-400 italic bg-slate-50 dark:bg-slate-950/50 rounded border border-dashed border-slate-300 dark:border-slate-700 columns-1 xl:columns-2">
+                    <div className="h-64 flex items-center justify-center text-slate-400 italic bg-slate-50 dark:bg-slate-950/50 rounded border border-dashed border-slate-300 dark:border-slate-700 columns-1 xl:columns-2"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         {Object.values(projectMenuItems).map((group => (
                             /* The subject group */
                             <div 
@@ -92,7 +94,9 @@ export default function AtlasProjectSelectorModal({ projectMenuItems, activeProj
                         )))}
                     </div>
 
-                    <div className="mt-4 pt-2 flex justify-end">
+                    <div className="mt-4 pt-2 flex justify-end"
+                    onClick={(e) => e.stopPropagation()}
+                    >
                         {/* A placeholder for that "Create" button we talked about */}
                         <button className="text-sm bg-blue-600 text-white px-3 py-1.5 rounded hover:bg-blue-700 transition shadow-sm">
                             + New Project
