@@ -3,17 +3,32 @@
 import { AtlasGroupedProjectsForNav } from '@/app/_types/AtlasNavigatorTypes';
 import { Project } from '@/app/generated/prisma';
 import Link from 'next/link';
-import { useState } from 'react'
+import { useState } from 'react'; // replacing
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 
 export default function AtlasProjectSelectorModal({ projectMenuItems, activeProject }: { projectMenuItems: AtlasGroupedProjectsForNav, activeProject?: Project }) {
-    const [isOpen, setIsOpen] = useState(false);
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
 
-    const close = () => setIsOpen(false);
+    const isOpen = searchParams.get('modal') === 'project-selector';
+    
+    const openModal = () => {
+        const params = new URLSearchParams(searchParams);
+        params.set('modal', 'project-selector');
+        router.push(`${pathname}?${params.toString()}`);
+    }
+
+    const closeModal = () => {
+        const params = new URLSearchParams(searchParams);
+        params.delete('modal');
+        router.push(pathname);
+    }
 
     return (
         <div>
             <button
-                onClick={() => setIsOpen(true)}
+                onClick={openModal}
                 className="w-fit ml-2 mr-2 p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                 aria-label="Select Project"
                 aria-expanded={isOpen}
@@ -29,14 +44,16 @@ export default function AtlasProjectSelectorModal({ projectMenuItems, activeProj
             {isOpen && (
                 <div
                     className="fixed inset-0 z-50 flex items-start justify-center pt-24 bg-black/20 backdrop-blur-[1px]"
-                    onClick={() => setIsOpen(false)}
+                    onClick={closeModal}
                 >
-                    <div className="flex justify-between items-center mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">
+                    <div className="flex justify-between items-center mb-4 border-b border-slate-100 dark:border-slate-800 pb-2"
+                    onClick={(e) => e.stopPropagation()}
+                    >
                         <h3 className="font-semibold text-lg text-slate-800 dark:text-slate-100">
                             Go to Project..
                         </h3>
                         <button
-                            onClick={() => setIsOpen(false)}
+                            onClick={closeModal}
                             className="text-xs text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded"
                         >
                             ESC
