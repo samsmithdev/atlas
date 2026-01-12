@@ -1,6 +1,6 @@
 'use server'
 import prisma from '@/app/lib/db';
-import { Project } from '@/app/generated/prisma/client'
+import { Project } from '@/app/generated/prisma/client';
 
 export async function createProject(name: string, author: string, description: string, subjectId?: string, createdDate?: Date, id?: string) {
     const project = await prisma.project.create({
