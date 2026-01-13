@@ -3,26 +3,40 @@ import prisma from '@/app/lib/db'
 import { revalidatePath } from 'next/cache';
 import { NULL_PROJECTID, NULL_PROJECT_NAME } from '../_constants/uncategorized-items';
 
-export async function createFile(newFile: { id?: string, name: string, createdDate?: Date, content: string, author: string, description: string, tags: string[], projectId?: string | null }) {
-  const { id, name, createdDate, author, description, tags, content, projectId } = newFile;
+export async function createFileTransaction(formData: FormData) {
+  const projectId = formData.get('projectId') as string;
+  const name = formData.get('name') as string;
+  const author = 'Sam';
+  const description = formData.get('description') as string;
 
-  if (!id && projectId) {
+  if (!projectId || !name) {
+    throw new Error('Missing required fields');
+  }
 
-  };
+  const newFile = prisma.$transaction(async (tx) => {
+    // Find the project and increment the ticker
+    const updatedProject = await tx.project.update({
+      where: { id: projectId },
+      data: {
+        fileSequence: { increment: 1 }
+      }
+    })
 
-  const file = await prisma.file.create({
-    data: {
-      id: id ?? undefined,
-      name: name,
-      createdDate: createdDate ?? undefined,
-      content: content,
-      author: author,
-      description: description,
-      tags: tags,
-    }
-  });
+    const sequenceString = updatedProject.fileSequence.toString().padStart(6, '0');
+    const readableId = `${updatedProject.readableId}-${sequenceString}`;
 
-  return file
+    return await tx.file.create({
+      data: {
+        name,
+        description,
+        author,
+        projectId: updatedProject.id,
+        readableId: readableId,
+      }
+    })
+  })
+
+  return newFile;
 }
 
 export async function fetchFile(fileId: string) {

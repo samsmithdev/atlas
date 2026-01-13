@@ -59,7 +59,7 @@ model File {
   tags            String[]
   content         Json                        @default("[]")
   // "hidden" search columns managed by db triggers
-  // stores the extracted for fast keyword search
+  // stores the extracted text for fast keyword search
   fts_vector      Unsupported("tsvector")?
   // stores the AI embeddings for "ATLAS" search
   semantic_vector Unsupported("vector(768)")?
