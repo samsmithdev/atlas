@@ -16,24 +16,33 @@ datasource db {
 }
 
 model Subject {
-  id          String    @id @default(cuid())
-  shortcode   String
+  id          String @id @default(cuid())
+  shortcode   String @unique
   name        String
   description String
-  projects    Project[]
+
+  projectSequence Int @default(0)
+
+  projects Project[]
 
   @@map("subjects")
 }
 
 model Project {
-  id           String   @id @default(cuid())
+  id String @id @default(cuid())
+
+  readableId String @unique
+
   name         String
   created_date DateTime @default(now())
   author       String
   description  String
-  files        File[]
-  subject      Subject? @relation(fields: [subjectId], references: [id])
-  subjectId    String?
+
+  fileSequence Int @default(0)
+
+  files     File[]
+  subject   Subject? @relation(fields: [subjectId], references: [id])
+  subjectId String?
 
   semantic_vector Unsupported("vector(768)")?
 
@@ -42,6 +51,7 @@ model Project {
 
 model File {
   id              String                      @id @default(cuid())
+  readableId      String                      @unique
   name            String
   createdDate     DateTime                    @default(now()) @map("created_at")
   author          String
