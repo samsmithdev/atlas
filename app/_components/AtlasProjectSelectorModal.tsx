@@ -5,6 +5,7 @@ import { Project } from '@/app/generated/prisma';
 import Link from 'next/link';
 import { useState } from 'react'; // replacing
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import AtlasFormModal, { AtlasFormSelector } from './AtlasFormModal';
 
 export default function AtlasProjectSelectorModal({ projectMenuItems, activeProject }: { projectMenuItems: AtlasGroupedProjectsForNav, activeProject?: Project }) {
     const router = useRouter();
@@ -98,9 +99,7 @@ export default function AtlasProjectSelectorModal({ projectMenuItems, activeProj
                     onClick={(e) => e.stopPropagation()}
                     >
                         {/* A placeholder for that "Create" button we talked about */}
-                        <button className="text-sm bg-blue-600 text-white px-3 py-1.5 rounded hover:bg-blue-700 transition shadow-sm">
-                            + New Project
-                        </button>
+                        <AtlasFormModal type={AtlasFormSelector.Subject} />
                     </div>
                 </div>
             )}

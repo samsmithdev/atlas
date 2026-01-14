@@ -1,6 +1,24 @@
 'use server'
 import prisma from '@/app/lib/db';
 
+export async function createSubjectTransaction(formData: FormData) {
+    const name = formData.get('name') as string;
+    const shortcode = formData.get('shortcode') as string;
+    const description = formData.get('description') as string;
+
+    const newSubject = await prisma.$transaction(async (tx) => {
+        return await tx.subject.create({
+            data: {
+                name,
+                description,
+                shortcode
+            }
+        })
+    });
+
+    //return newSubject;
+}
+
 export async function createSubject(subjectData: {
     id?: string,
     shortcode: string,
