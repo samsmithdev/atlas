@@ -10,7 +10,9 @@ export default async function AtlasProjectPreviewPane({ previewProjectId, openLi
         created_date: new Date(),
         author: "-",
         description: "-",
-        subjectId: null
+        subjectId: null,
+        readableId: "-",
+        fileSequence: -1
     }
 
     const previewProject = previewProjectId ? (await fetchProject(previewProjectId)) ?? blankProject : (blankProject);
