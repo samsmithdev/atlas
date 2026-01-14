@@ -11,13 +11,13 @@ export enum AtlasFormSelector {
 
 
 
-export default function AtlasFormModal({ type }: {type: AtlasFormSelector}) {
+export default function AtlasFormModal({ type }: { type: AtlasFormSelector }) {
     // Set the current active form
     // TODO: Add link argument somehow
     // TODO: Add editingEntity
     const activeForm = (type === AtlasFormSelector.Subject) ?
-    (<AtlasFormSubject />) : 
-    (<div>Error on form...</div>)
+        (<AtlasFormSubject />) :
+        (<div>Error on form...</div>)
 
     const router = useRouter();
     const pathname = usePathname();
@@ -38,19 +38,20 @@ export default function AtlasFormModal({ type }: {type: AtlasFormSelector}) {
     }
 
     const toggleModal = () => {
+        console.log("Test modal toggle")
         const params = new URLSearchParams(searchParams);
-        (isOpen) ? 
+        (!isOpen) ?
             (params.set('form-modal', 'atlas-item-editor')) :
             (params.delete('form-modal'));
-            
+
         router.push(`${pathname}${(params.size > 0) ? (`?${params.toString()}`) : ('')}`)
     }
 
     return (
         <div id="atlas-form-modal">
-            <button>Add New {type.toString()}</button>
+            <button onClick={toggleModal}>Add New {type.toString()}</button>
             {isOpen && (
-                <div 
+                <div
                     className="fixed inset-0 z-50 flex items-start justify-center pt-24 bg-black/20 backdrop-blur-[1px]"
                     onClick={toggleModal}
                 >

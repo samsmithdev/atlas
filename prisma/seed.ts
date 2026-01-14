@@ -26,7 +26,7 @@ const subjectSeedData = {
 const projectSeedData = {
   sd:
   {
-    id: "SD001",
+    readableId: "SD001",
     name: "Atlas",
     author: "Sam",
     description: "Some Description",
@@ -34,7 +34,7 @@ const projectSeedData = {
   ,
   cl:
   {
-    id: "CL0001",
+    readableId: "CL0001",
     name: "Schedule",
     author: "Sam",
     description: "Some Description",
@@ -76,7 +76,7 @@ async function main() {
   for (let i = 0; i < 50; i++) {
     const sdFile = await prisma.file.create({
       data: {
-        id: `SD${i}`,
+        readableId: `SD${i}`,
         name: `SD File ${i}`,
         author: 'Sam',
         description: `File ${i} description for ${i}`,
@@ -90,7 +90,7 @@ async function main() {
   for (let i = 0; i < 50; i++) {
     const clFile = await prisma.file.create({
       data: {
-        id: `CL${i}`,
+        readableId: `CL${i}`,
         name: `CL File ${i}`,
         author: 'Sam',
         description: `File ${i} description for ${i}`,
