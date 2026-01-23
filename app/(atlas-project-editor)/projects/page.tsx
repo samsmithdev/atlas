@@ -1,7 +1,7 @@
 // /projects, unselected ID
 // This will be the Project navigator screen, with the project selector displayed but disabled with "Please Select Project to begin."
 import { notFound } from 'next/navigation';
-import { fetchProjectsForMenu } from '@/app/actions/projects';
+import { fetchProjectsForMenu } from '@/actions/projects';
 import AtlasFullpageProjectNavigator from '@/app/_components/AtlasFullpageProjectNavigator';
 
 export default async function ProjectsBrowser({

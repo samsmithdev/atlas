@@ -1,6 +1,6 @@
 'use client'
 
-import { AtlasGroupedProjectsForNav } from '@/app/_types/AtlasNavigatorTypes';
+import { AtlasGroupedProjectsForNav } from '@/types/AtlasNavigatorTypes';
 import { Project } from '@/app/generated/prisma';
 import Link from 'next/link';
 import { useState } from 'react'; // replacing

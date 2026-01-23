@@ -1,6 +1,6 @@
 import { Project } from '../generated/prisma';
 import AtlasProjectSelector from './AtlasProjectSelector';
-import {AtlasGroupedProjectsForNav} from '@/app/_types/AtlasNavigatorTypes';
+import {AtlasGroupedProjectsForNav} from '@/types/AtlasNavigatorTypes';
 
 export default async function AtlasToolbar({ projectMenuItems, activeProject }: { projectMenuItems: AtlasGroupedProjectsForNav, activeProject?: Project }) {
 

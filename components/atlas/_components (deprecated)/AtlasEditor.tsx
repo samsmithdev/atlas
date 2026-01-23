@@ -1,8 +1,8 @@
 import { Island_Moments } from "next/font/google";
-import prisma from "../lib/db";
+import prisma from "../../../app/lib/db";
 import AtlasMarkdownEditor from "./AtlasMarkdownEditor";
-import { fetchFile, fetchFilesForProject } from "@/app/actions/files"
-import { fetchProject } from "@/app/actions/projects"
+import { fetchFile, fetchFilesForProject } from "@/actions/files"
+import { fetchProject } from "@/actions/projects"
 import { fileURLToPath } from "url";
 import { File } from "../generated/prisma";
 

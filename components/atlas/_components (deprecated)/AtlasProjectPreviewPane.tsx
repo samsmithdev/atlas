@@ -1,6 +1,6 @@
 // Preview Pane 
 import Link from "next/link";
-import { fetchProject } from "../actions/projects";
+import { fetchProject } from "../../../actions/projects";
 import { Project } from "../generated/prisma";
 
 export default async function AtlasProjectPreviewPane({ previewProjectId, openLink }: { previewProjectId?: string, openLink?: string }) {

@@ -1,7 +1,7 @@
 'use client'
 
 import Form  from 'next/form';
-import { createSubjectTransaction } from '@/app/actions/subjects';
+import { createSubjectTransaction } from '@/actions/subjects';
 
 export default function AtlasFormSubject({ editingSubject }: { editingSubject?: string }) {
 

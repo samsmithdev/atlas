@@ -1,7 +1,7 @@
-import { fetchProjectsForMenu } from '@/app/actions/projects';
+import { fetchProjectsForMenu } from '@/actions/projects';
 import { Project } from '../generated/prisma';
 import AtlasProjectSelectorModal from './AtlasProjectSelectorModal';
-import { AtlasGroupedProjectsForNav } from '../_types/AtlasNavigatorTypes';
+import { AtlasGroupedProjectsForNav } from '../../../types/AtlasNavigatorTypes';
 
 export default async function AtlasProjectSelector({ projectMenuItems, activeProject }: { projectMenuItems: AtlasGroupedProjectsForNav, activeProject?: Project }) {
     return (

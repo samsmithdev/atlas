@@ -1,6 +1,6 @@
 'use client';
 
-import { AtlasGroupedProjectsForNav, AtlasProjectNavigatorItem } from '../_types/AtlasNavigatorTypes';
+import { AtlasGroupedProjectsForNav, AtlasProjectNavigatorItem } from '../../types/AtlasNavigatorTypes';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 export default async function AtlasProjectSelectorButton({ projectMenuItems, activeProject } : { projectMenuItems: AtlasGroupedProjectsForNav, activeProject?: AtlasProjectNavigatorItem }) {

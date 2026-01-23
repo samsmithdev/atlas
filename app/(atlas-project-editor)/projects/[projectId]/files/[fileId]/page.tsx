@@ -1,5 +1,5 @@
-import { NULL_PROJECTID } from "@/app/_constants/uncategorized-items";
-import { fetchFile } from "@/app/actions/files";
+import { NULL_PROJECTID } from "@/lib/constants/uncategorized-items";
+import { fetchFile } from "@/actions/files";
 import AtlasEditor from "@/app/_components/AtlasEditor";
 
 // This page will have the editor loaded with fileId

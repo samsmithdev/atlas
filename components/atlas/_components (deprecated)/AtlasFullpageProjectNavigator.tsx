@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { fetchProjectsForMenu } from "../actions/projects";
+import { fetchProjectsForMenu } from "../../../actions/projects";
 import { Subject } from "../generated/prisma";
 import AtlasProjectPreviewPane from "./AtlasProjectPreviewPane";
 

@@ -1,9 +1,9 @@
 // This should have the File Navigator now
-import { fetchFilesForProjectFileNavigator } from '@/app/actions/files';
+import { fetchFilesForProjectFileNavigator } from '@/actions/files';
 import { ReactNode } from 'react';
 import AtlasFileNavigator from '@/app/_components/AtlasFileNavigator';
 import { AtlasNavigatorFile } from '@/app/_components/AtlasFileNavigator';
-import { NULL_PROJECTID } from '@/app/_constants/uncategorized-items';
+import { NULL_PROJECTID } from '@/lib/constants/uncategorized-items';
 
 type LayoutProps = {
     children: ReactNode,

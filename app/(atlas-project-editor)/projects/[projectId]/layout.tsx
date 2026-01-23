@@ -1,8 +1,8 @@
 // This will just be a Project navigator in the top left corner of this div
 import { ReactNode } from 'react'
-import { fetchProjectsForMenu, fetchProject } from '@/app/actions/projects'
-import { AtlasGroupedProjectsForNav, AtlasProjectNavigatorItem } from '@/app/_types/AtlasNavigatorTypes';
-import { NULL_SUBJECT_ID, NULL_SUBJECT_NAME, NULL_SUBJECT_SHORTCODE } from '@/app/_constants/uncategorized-items';
+import { fetchProjectsForMenu, fetchProject } from '@/actions/projects'
+import { AtlasGroupedProjectsForNav, AtlasProjectNavigatorItem } from '@/types/AtlasNavigatorTypes';
+import { NULL_SUBJECT_ID, NULL_SUBJECT_NAME, NULL_SUBJECT_SHORTCODE } from '@/lib/constants/uncategorized-items';
 import AtlasToolbar from '@/app/_components/AtlasToolbar';
 
 type LayoutProps = {

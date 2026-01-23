@@ -1,7 +1,7 @@
 'use server'
 import prisma from '@/app/lib/db'
 import { revalidatePath } from 'next/cache';
-import { NULL_PROJECTID, NULL_PROJECT_NAME } from '../_constants/uncategorized-items';
+import { NULL_PROJECTID, NULL_PROJECT_NAME } from '../lib/constants/uncategorized-items';
 
 export async function createFileTransaction(formData: FormData) {
   const projectId = formData.get('projectId') as string;

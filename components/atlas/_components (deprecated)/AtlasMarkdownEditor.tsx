@@ -4,7 +4,7 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import { useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import StarterKit from '@tiptap/starter-kit'
-import { updateFile, fetchFile } from '../actions/files'
+import { updateFile, fetchFile } from '../../../actions/files'
 
 const AtlasMarkdownEditor = ({ fileId, initialContent }: { fileId: string, initialContent: any }) => {
   const [saveStatus, setSaveStatus] = useState('Saved');
