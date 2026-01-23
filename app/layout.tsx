@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "A.T.L.A.S.",
-  description: "Assistive Tech Leveraging Accessibility Standards",
+  description: "Assistive Tech Leveraging Accommodation Systems",
 };
 
 export default function RootLayout({
