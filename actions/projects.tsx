@@ -1,6 +1,6 @@
 'use server'
 import prisma from '@/lib/db';
-import { Project } from '@/app/generated/prisma/client';
+import { Project } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
