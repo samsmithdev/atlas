@@ -1,22 +1,46 @@
 'use server'
-import prisma from '@/lib/db';
 
-export async function createSubjectTransaction(formData: FormData) {
+import prisma from '@/lib/db';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+
+export type ActionState = {
+    message: string;
+    status: 'success' | 'error' | 'idle';
+    errors?: {
+        name?: string[];
+        shortcode?: string[];
+        description?: string[];
+    };
+};
+
+export async function createSubjectTransaction(prevState: ActionState, formData: FormData): Promise<ActionState> {
+    // Extract the data
     const name = formData.get('name') as string;
     const shortcode = formData.get('shortcode') as string;
     const description = formData.get('description') as string;
 
-    const newSubject = await prisma.$transaction(async (tx) => {
-        return await tx.subject.create({
+    if (!name || name.length < 3) {
+        return { status: 'error', message: 'Name must be at least 3 characters.' };
+    } else if (await prisma.subject.findFirst({ where: { shortcode: shortcode } }) !== undefined) {
+        return { status: 'error', message: 'Shortcode must be unique.' };
+    }
+
+    try {
+        await prisma.subject.create({
             data: {
                 name,
-                description,
-                shortcode
-            }
-        })
-    });
+                shortcode,
+                description
+            },
+        });
 
-    //return newSubject;
+        revalidatePath('/projects');
+
+        return { status: 'success', message: 'Subject created successfully!' };
+    } catch (error) {
+        return { status: 'error', message: `Database Error: Failed to create subject. DB response was '${error}'` };
+    }
 }
 
 export async function createSubject(subjectData: {
