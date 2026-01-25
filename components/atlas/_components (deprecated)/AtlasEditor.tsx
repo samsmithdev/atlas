@@ -1,5 +1,5 @@
 import { Island_Moments } from "next/font/google";
-import prisma from "../../../app/lib/db";
+import prisma from "../../../lib/db";
 import AtlasMarkdownEditor from "./AtlasMarkdownEditor";
 import { fetchFile, fetchFilesForProject } from "@/actions/files"
 import { fetchProject } from "@/actions/projects"
@@ -10,7 +10,7 @@ export type AtlasEditorProps = {
     file?: File
 }
 
-export default async function AtlasEditor( { file }: AtlasEditorProps ) {
+export default async function AtlasEditor({ file }: AtlasEditorProps) {
 
     return (
         <div className="mt-4 mb-4 mr-4 ml-2 flex-1" id="atlas-editor-container"> {/* This is the main editing space */}

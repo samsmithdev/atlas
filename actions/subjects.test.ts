@@ -3,7 +3,7 @@ import { Subject } from '@/app/generated/prisma/client'
 
 import { createSubject } from './subjects'
 
-import prisma from '@/app/lib/db'
+import prisma from '@/lib/db'
 
 vi.mock('@/app/lib/db');
 

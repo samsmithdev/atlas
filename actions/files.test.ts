@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, test } from 'vitest'
 // Import File type for being able to code 
-import { File } from '@/app/generated/prisma/client'
+import { File } from '@prisma/client'
 
 // 1. Import the "Real" code we want to test
 // (I'm assuming you'll have a function called 'createNote' eventually)
@@ -8,7 +8,7 @@ import { createFile, fetchFilesForProject, updateFile, deleteFile } from './file
 
 // 2. Import the "Real" DB file
 // BUT... because of the magic line below, it will actually import the MOCK
-import prisma from '@/app/lib/db' //'@/app/lib/db'
+import prisma from '@/lib/db' //'@/app/lib/db'
 
 // 3. THE MAGIC LINE
 // This tells Vitest: "Go look in the __mocks__ folder for this file"

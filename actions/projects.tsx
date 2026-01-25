@@ -1,5 +1,5 @@
 'use server'
-import prisma from '@/app/lib/db';
+import prisma from '@/lib/db';
 import { Project } from '@/app/generated/prisma/client';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -11,7 +11,7 @@ export async function fetchProject(projectId: string) {
         }
     });
 
-    return fetchedProject 
+    return fetchedProject
 }
 
 export async function fetchProjectsForMenu() {
@@ -19,7 +19,7 @@ export async function fetchProjectsForMenu() {
         where: {
 
         },
-        select: { 
+        select: {
             name: true,
             id: true,
             subjectId: true,
