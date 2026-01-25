@@ -1,8 +1,7 @@
 // prisma/seed.ts
 import { Pool } from 'pg'
 import { PrismaPg } from '@prisma/adapter-pg'
-// REMEMBER: Import from your generated file, just like in db.ts!
-import { PrismaClient } from '@/app/generated/prisma' //'../generated/client' 
+import { PrismaClient } from "@prisma/client";
 
 const connectionString = process.env.DATABASE_URL
 
