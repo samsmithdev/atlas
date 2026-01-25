@@ -1,4 +1,4 @@
-import { PrismaClient } from '@/app/generated/prisma' // Your custom path!
+import { PrismaClient } from "@prisma/client"; // Your custom path!
 import { beforeEach } from 'vitest'
 import { mockDeep, DeepMockProxy } from 'vitest-mock-extended'
 
