@@ -79,6 +79,19 @@ export async function fetchProjectsForMenu() {
     return fetchedProjects;
 }
 
+export async function fetchProjectSelectors() {
+    const fetchedProjects = await prisma.project.findMany({
+        where: {},
+        select: {
+            name: true,
+            id: true,
+            readableId: true,
+        }
+    });
+
+    return fetchedProjects;
+}
+
 export async function fetchProjects(subjectId: string) {
     const fetchedProjects = await prisma.project.findMany({
         where: {
