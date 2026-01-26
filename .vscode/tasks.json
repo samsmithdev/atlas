@@ -4,7 +4,7 @@
         {
             "label": "Next.js Dev",
             "type": "shell",
-            "command": "npm run dev",
+            "command": "npm i && npm run dev",
             "isBackground": true,
             "options": {
                 "shell": {
