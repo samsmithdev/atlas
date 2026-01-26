@@ -46,7 +46,7 @@ export async function createProjectFormTransaction(prevState: ActionState, formD
                     readableId: readableId,
                 }
             });
-        }) 
+        });
         return { status: 'success', message: 'Project successfully created.' }
     } catch (error) {
         return { status: 'error', message: 'Project creation DB error...' }

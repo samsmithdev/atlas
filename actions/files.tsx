@@ -13,6 +13,45 @@ export type ActionState = {
     };
 };
 
+export async function createFileFormTransaction(prevState: ActionState, formData: FormData): Promise<ActionState> {
+  // Extract the data
+  const projectId = formData.get('projectId') as string;
+  const name = formData.get('name') as string;
+  const author = 'Sam';
+  const description = formData.get('description') as string;
+
+  if (!projectId || !name) {
+    return { status: 'error', message: 'Files require a ProjectId and name.' };
+  }
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      const updatedProject = await tx.project.update({
+        where: { id: projectId },
+        data: {
+          fileSequence: { increment: 1 }
+        }
+      });
+
+      const sequenceString = updatedProject.fileSequence.toString().padStart(6, '0');
+      const readableId = `${updatedProject.readableId}-${sequenceString}`;
+
+      await tx.file.create({
+        data: {
+          name,
+          description,
+          author,
+          projectId: updatedProject.id,
+          readableId: readableId
+        }
+      });
+    });
+    return { status: 'success', message: 'File successfully created.' }
+  } catch (error) {
+    return { status: 'error', message: 'DB Error attempting to create file...' };
+  }
+}
+
 export async function createFileTransaction(formData: FormData) {
   const projectId = formData.get('projectId') as string;
   const name = formData.get('name') as string;
