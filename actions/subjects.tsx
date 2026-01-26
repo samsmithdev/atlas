@@ -20,10 +20,16 @@ export async function createSubjectTransaction(prevState: ActionState, formData:
     const shortcode = formData.get('shortcode') as string;
     const description = formData.get('description') as string;
 
+    const duplicateSubjectShortcode = await prisma.subject.findUnique({
+        where: {
+            shortcode: shortcode
+        }
+    })
+
     if (!name || name.length < 3) {
         return { status: 'error', message: 'Name must be at least 3 characters.' };
-    } else if (await prisma.subject.findFirst({ where: { shortcode: shortcode } }) !== undefined) {
-        return { status: 'error', message: 'Shortcode must be unique.' };
+    } else if (duplicateSubjectShortcode) {
+         return { status: 'error', message: 'Shortcode must be unique.' };
     }
 
     try {

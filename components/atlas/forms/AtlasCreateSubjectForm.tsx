@@ -18,7 +18,7 @@ const initialState: ActionState = {
     status: 'idle',
 };
 
-export default function CreateSubjectForm() {
+export default function AtlasCreateSubjectForm() {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();

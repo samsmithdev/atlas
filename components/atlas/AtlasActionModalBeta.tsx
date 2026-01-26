@@ -9,6 +9,7 @@ import {
     DialogDescription,
 } from '@/components/ui/dialog';
 import { DecimalsArrowRightIcon } from 'lucide-react';
+import AtlasCreateSubjectForm from './forms/AtlasCreateSubjectForm';
 
 export enum AtlasFormSelector {
     SelectProject = "select-project",
@@ -58,7 +59,7 @@ export default function AtlasActionModal() {
                             <DialogTitle>New Subject</DialogTitle>
                             <DialogDescription>Create a new top-level category for Projects.</DialogDescription>
                         </DialogHeader>
-                        <div className="p-4 border rounded-md bg-muted/50">Create Subject Form Goes Here</div>
+                        <AtlasCreateSubjectForm />
                     </>
                 );
 
