@@ -46,14 +46,11 @@ export async function createProjectFormTransaction(prevState: ActionState, formD
                     readableId: readableId,
                 }
             });
-
-            return { status: 'success', message: 'Project successfully created.' }
         }) 
+        return { status: 'success', message: 'Project successfully created.' }
     } catch (error) {
         return { status: 'error', message: 'Project creation DB error...' }
     }
-
-    return { status: 'error', message: 'Failed to create project' }
 }
 
 export async function fetchProject(projectId: string) {

@@ -10,6 +10,11 @@ import {
 } from '@/components/ui/dialog';
 import { DecimalsArrowRightIcon } from 'lucide-react';
 import AtlasCreateSubjectForm from './forms/AtlasCreateSubjectForm';
+import AtlasCreateProjectForm from './forms/AtlasCreateProjectForm';
+
+// Type Imports
+import { AtlasSubjectSelectorItem } from '@/types/AtlasSelectorTypes';
+import { AtlasProjectNavigatorItem, AtlasGroupedProjectsForNav } from '@/types/AtlasNavigatorTypes';
 
 export enum AtlasFormSelector {
     SelectProject = "select-project",
@@ -18,7 +23,11 @@ export enum AtlasFormSelector {
     CreateFile = "create-file"
 }
 
-export default function AtlasActionModal() {
+type AtlasActionModalProps = {
+    subjects: AtlasSubjectSelectorItem[];
+}
+
+export default function AtlasActionModal({ subjects }: AtlasActionModalProps) {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -70,7 +79,7 @@ export default function AtlasActionModal() {
                             <DialogTitle>New Project</DialogTitle>
                             <DialogDescription>Create a new Project.</DialogDescription>
                         </DialogHeader>
-                        <div className="p-4 bourder rounded-md bg-muted/50">Create Project Form Goes Here</div>
+                        <AtlasCreateProjectForm subjects={subjects}/>
                     </>
                 );
 

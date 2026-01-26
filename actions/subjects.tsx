@@ -73,6 +73,18 @@ export async function fetchSubjects() {
     return subjects;
 }
 
+export async function fetchSubjectSelectors() {
+    const subjects = await prisma.subject.findMany({
+        select: {
+            id: true,
+            shortcode: true,
+            name: true,
+        }
+    });
+
+    return subjects;
+}
+
 export async function updateSubject(
     subjectId: string,
     updatedSubjectData: {

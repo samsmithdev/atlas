@@ -7,7 +7,7 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 // ATLAS Imports
 import { createSubjectTransaction, ActionState } from '@/actions/subjects';
 
-// Shadcn UI Components
+// Shadcn UI Imports
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -31,7 +31,7 @@ export default function AtlasCreateSubjectForm() {
         if (state.status === 'success') {
             const params = new URLSearchParams(searchParams);
             params.delete('action-modal');
-            router.replace(`${pathname}?${params.toString()}`)
+            router.replace(`${pathname}?${params.toString()}`);
         }
     }, [state.status, router, pathname, searchParams]);
 
