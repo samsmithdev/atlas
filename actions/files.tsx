@@ -3,6 +3,16 @@ import prisma from '@/lib/db'
 import { revalidatePath } from 'next/cache';
 import { NULL_PROJECTID, NULL_PROJECT_NAME } from '../lib/constants/uncategorized-items';
 
+export type ActionState = {
+    message: string;
+    status: 'success' | 'error' | 'idle';
+    errors?: {
+        name?: string[];
+        shortcode?: string[];
+        description?: string[];
+    };
+};
+
 export async function createFileTransaction(formData: FormData) {
   const projectId = formData.get('projectId') as string;
   const name = formData.get('name') as string;

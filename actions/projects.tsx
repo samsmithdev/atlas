@@ -4,6 +4,58 @@ import { Project } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
+export type ActionState = {
+    message: string;
+    status: 'success' | 'error' | 'idle';
+    errors?: {
+        name?: string[];
+        shortcode?: string[];
+        description?: string[];
+    };
+};
+
+export async function createProjectFormTransaction(prevState: ActionState, formData: FormData): Promise<ActionState> {
+    // Extract the data
+    const subjectId = formData.get('subjectId') as string;
+    const name = formData.get('name') as string;
+    const description = formData.get('description') as string;
+
+    // Basic validation, will consider Zod in the future
+    if (!subjectId || !name) {
+        return { status: 'error', message: 'Projects require a subjectId and name.'}
+    }
+
+    try {
+        await prisma.$transaction(async (tx) => {
+            const updatedSubject = await tx.subject.update({
+                where: { id: subjectId },
+                data: {
+                    projectSequence: { increment: 1 }
+                }
+            });
+
+            const sequenceString = updatedSubject.projectSequence.toString().padStart(6, '0');
+            const readableId = `${updatedSubject.shortcode}${sequenceString}`;
+
+            await tx.project.create({
+                data: {
+                    name,
+                    description,
+                    author: 'Sam',
+                    subjectId: updatedSubject.id,
+                    readableId: readableId,
+                }
+            });
+
+            return { status: 'success', message: 'Project successfully created.' }
+        }) 
+    } catch (error) {
+        return { status: 'error', message: 'Project creation DB error...' }
+    }
+
+    return { status: 'error', message: 'Failed to create project' }
+}
+
 export async function fetchProject(projectId: string) {
     const fetchedProject = await prisma.project.findUnique({
         where: {
