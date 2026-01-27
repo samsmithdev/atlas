@@ -47,6 +47,8 @@ export async function createProjectFormTransaction(prevState: ActionState, formD
                 }
             });
         });
+        revalidatePath('/projects');
+
         return { status: 'success', message: 'Project successfully created.' }
     } catch (error) {
         return { status: 'error', message: 'Project creation DB error...' }

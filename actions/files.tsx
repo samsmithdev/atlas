@@ -46,6 +46,7 @@ export async function createFileFormTransaction(prevState: ActionState, formData
         }
       });
     });
+    revalidatePath('/projects');
     return { status: 'success', message: 'File successfully created.' }
   } catch (error) {
     return { status: 'error', message: 'DB Error attempting to create file...' };

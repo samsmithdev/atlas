@@ -1,5 +1,6 @@
 import AtlasActionModal from "@/components/atlas/AtlasActionModalBeta";
 import { fetchSubjectSelectors } from "@/actions/subjects";
+import { fetchProjectSelectors } from "@/actions/projects";
 
 export default async function AtlasProjectsLayout({
     children,
@@ -8,11 +9,12 @@ export default async function AtlasProjectsLayout({
 }>
 ) {
     const subjectSelectors = await fetchSubjectSelectors();
+    const projectSelectors = await fetchProjectSelectors();
 
     return (
         <div className="w-full h-full">
             {children}
-            <AtlasActionModal subjects={subjectSelectors}/>
+            <AtlasActionModal projects={projectSelectors} subjects={subjectSelectors}/>
         </div>
     )
 }

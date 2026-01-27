@@ -11,9 +11,10 @@ import {
 import { DecimalsArrowRightIcon } from 'lucide-react';
 import AtlasCreateSubjectForm from './forms/AtlasCreateSubjectForm';
 import AtlasCreateProjectForm from './forms/AtlasCreateProjectForm';
+import AtlasCreateFileForm from './forms/AtlasCreateFileForm';
 
 // Type Imports
-import { AtlasSubjectSelectorItem } from '@/types/AtlasSelectorTypes';
+import { AtlasSubjectSelectorItem, AtlasProjectSelectorItem } from '@/types/AtlasSelectorTypes';
 import { AtlasProjectNavigatorItem, AtlasGroupedProjectsForNav } from '@/types/AtlasNavigatorTypes';
 
 export enum AtlasFormSelector {
@@ -24,10 +25,11 @@ export enum AtlasFormSelector {
 }
 
 type AtlasActionModalProps = {
+    projects: AtlasProjectSelectorItem[];
     subjects: AtlasSubjectSelectorItem[];
 }
 
-export default function AtlasActionModal({ subjects }: AtlasActionModalProps) {
+export default function AtlasActionModal({ subjects, projects }: AtlasActionModalProps) {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -90,7 +92,7 @@ export default function AtlasActionModal({ subjects }: AtlasActionModalProps) {
                             <DialogTitle>New File</DialogTitle>
                             <DialogDescription>Create a new File.</DialogDescription>
                         </DialogHeader>
-                        <div className="p-4 border rounded-md bg-muted/50">Create File Form Goes Here</div>
+                        <AtlasCreateFileForm projects={projects} />
                     </>
                 );
 
