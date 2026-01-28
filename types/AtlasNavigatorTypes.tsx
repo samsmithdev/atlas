@@ -1,4 +1,4 @@
-import { Subject } from "@/app/generated/prisma";
+import { Subject } from "@prisma/client";
 
 export type AtlasProjectNavigatorItem = {
     id: string,
@@ -6,10 +6,16 @@ export type AtlasProjectNavigatorItem = {
     subject?: Subject,
     subjectId?: string,
     link: string,
-}
+};
 
-export type AtlasGroupedProjectsForNav<> = Record<string, {
+export type AtlasGroupedProjectsForNav = Record<string, {
     subjectName: string;
     subjectShortcode: string;
     projects: AtlasProjectNavigatorItem[];
 }>;
+
+export type AtlasProjectLinkSubjectGroup = {
+    subjectName: string;
+    subjectShortcode: string;
+    projects: AtlasProjectNavigatorItem[];
+};
