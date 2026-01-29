@@ -15,7 +15,7 @@ import AtlasCreateFileForm from './forms/AtlasCreateFileForm';
 
 // Type Imports
 import { AtlasSubjectSelectorItem, AtlasProjectSelectorItem } from '@/types/AtlasSelectorTypes';
-import { AtlasProjectNavigatorItem, AtlasGroupedProjectsForNav, AtlasProjectLinkSubjectGroup } from '@/types/AtlasNavigatorTypes';
+import { AtlasProjectNavigatorItem, AtlasGroupedProjectsForNav } from '@/types/AtlasNavigatorTypes';
 import AtlasSelectProjectPane from './panes/AtlasSelectProjectPane';
 
 export enum AtlasFormSelector {
@@ -28,7 +28,7 @@ export enum AtlasFormSelector {
 type AtlasActionModalProps = {
     projects: AtlasProjectSelectorItem[];
     subjects: AtlasSubjectSelectorItem[];
-    projectLinkSubjectGroup: AtlasProjectLinkSubjectGroup[];
+    projectLinkSubjectGroup: AtlasGroupedProjectsForNav;
 }
 
 export default function AtlasActionModal({ subjects, projects, projectLinkSubjectGroup }: AtlasActionModalProps) {
