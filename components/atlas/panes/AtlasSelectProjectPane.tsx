@@ -4,6 +4,7 @@ import { useActionState, useEffect } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 import { AtlasGroupedProjectsForNav, AtlasProjectLinkSubjectGroup } from '@/types/AtlasNavigatorTypes';
+import Link from 'next/link';
 
 type SelectProjectPaneProps = {
     projectsGroupedBySubject: AtlasProjectLinkSubjectGroup[];
@@ -17,7 +18,23 @@ export default function AtlasSelectProjectPane({ projectsGroupedBySubject, activ
             {projectsGroupedBySubject.map((subjectGroup) => {
                 return (
                     <div id="atlas-select-project-pane_subject-group">
-                        <h3 className="font-semibold text-gray-800">{subjectGroup.subjectShortcode}</h3>
+                        <div id="atlas-select-project-pan_subject-group-header">
+                            <h3 className="font-semibold text-gray-800">
+                                {subjectGroup.subjectShortcode}-{subjectGroup.subjectName}
+                            </h3>
+                        </div>
+
+                        <ul id="atlas-select-project-pane_subject-group_project-list">
+                            {subjectGroup.projects.map((project) => (
+                                <li key={project.id}>
+                                    <Link 
+                                        href={project.link}
+                                    >
+                                        {project.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 )
             })}
