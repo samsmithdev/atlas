@@ -15,7 +15,8 @@ import AtlasCreateFileForm from './forms/AtlasCreateFileForm';
 
 // Type Imports
 import { AtlasSubjectSelectorItem, AtlasProjectSelectorItem } from '@/types/AtlasSelectorTypes';
-import { AtlasProjectNavigatorItem, AtlasGroupedProjectsForNav } from '@/types/AtlasNavigatorTypes';
+import { AtlasProjectNavigatorItem, AtlasGroupedProjectsForNav, AtlasProjectLinkSubjectGroup } from '@/types/AtlasNavigatorTypes';
+import AtlasSelectProjectPane from './panes/AtlasSelectProjectPane';
 
 export enum AtlasFormSelector {
     SelectProject = "select-project",
@@ -27,9 +28,10 @@ export enum AtlasFormSelector {
 type AtlasActionModalProps = {
     projects: AtlasProjectSelectorItem[];
     subjects: AtlasSubjectSelectorItem[];
+    projectLinkSubjectGroup: AtlasProjectLinkSubjectGroup[];
 }
 
-export default function AtlasActionModal({ subjects, projects }: AtlasActionModalProps) {
+export default function AtlasActionModal({ subjects, projects, projectLinkSubjectGroup }: AtlasActionModalProps) {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -59,7 +61,7 @@ export default function AtlasActionModal({ subjects, projects }: AtlasActionModa
                             <DialogTitle>Open Project</DialogTitle>
                             <DialogDescription>Select a project to open.</DialogDescription>
                         </DialogHeader>
-                        <div className="p-4 border rounded-md bg-muted/50">Project Selector Component Goes Here</div>
+                        <AtlasSelectProjectPane projectsGroupedBySubject={projectLinkSubjectGroup}/>
                     </>
                 );
 

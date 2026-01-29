@@ -14,7 +14,7 @@ export default async function AtlasProjectsLayout({
     return (
         <div className="w-full h-full">
             {children}
-            <AtlasActionModal projects={projectSelectors} subjects={subjectSelectors}/>
+            <AtlasActionModal projects={projectSelectors} subjects={subjectSelectors} projectLinkSubjectGroup={}/>
         </div>
     )
 }
