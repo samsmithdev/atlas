@@ -20,6 +20,14 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## UI Components
+We use [shadcn/ui](https://ui.shadcn.com/) for our component library.
+
+**To add a new primitive:**
+```bash
+npx shadcn add [component-name]
+# Example: npx shadcn add accordion
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

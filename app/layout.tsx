@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import AtlasSiteHeader from "./_components/AtlasSiteHeader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "A.T.L.A.S.",
-  description: "Assistive Tech Leveraging Accessibility Standards",
+  description: "Assistive Tech Leveraging Accommodation Systems",
 };
 
 export default function RootLayout({
@@ -24,12 +23,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen flex flex-col overflow-hidden border`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full w-full overflow-hidden bg-background text-foreground`}
       >
-        <AtlasSiteHeader />
-        <main className="flex-1 w-full h-full overflow-hidden flex justify-center">{children}</main>
+        {children}
       </body>
     </html>
   );
