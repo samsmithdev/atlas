@@ -10,7 +10,10 @@ export default async function AtlasSelectFileForProjectPane({ files, activeFileI
         <div className="w-full h-full">
             {files ? (
                 <ul className='space-y-2 grid grid-cols-1'>
-                    {files.map((file) => (
+                    {files.sort((left, right) => {
+                        return left.readableId.localeCompare(right.readableId);
+                    })
+                    .map((file) => (
                         <a
                             key={file.id}
                             href={file.link}

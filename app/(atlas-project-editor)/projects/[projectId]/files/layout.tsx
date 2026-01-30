@@ -26,7 +26,7 @@ export default async function AtlasFilesLayout({
     });
 
     return (
-        <div className="w-full h-full flex flex-col">
+        <div className="w-full h-full flex flex-row">
             <div className="w-1/4 h-full overflow-y-auto">
                 <AtlasSelectFileForProjectPane files={fileNavigatorItems} />
             </div>
