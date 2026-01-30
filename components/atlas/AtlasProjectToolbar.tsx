@@ -11,17 +11,17 @@ type AtlasProjectToolbarProps = {
 
 export default function AtlasProjectToolbar({ activeProject }: AtlasProjectToolbarProps) {
     return (
-        <div 
-        id="atlas-project-toolbar-container"
-        className="grid grid-row gap-5 pl-4 pt-4 pb-4 pr-4"
+        <div
+            id="atlas-project-toolbar-container"
+            className="grid grid-flow-col gap-5 pl-4 pt-4 pb-4 pr-4 bg-black"
         >
-        <div className="shrink">
-            <AtlasProjectSelectorButton activeProject={activeProject}/>
-        </div>
+            <div className="shrink">
+                <AtlasProjectSelectorButton activeProject={activeProject} />
+            </div>
 
-        <div className="shrink">
-            <AtlasNewItemButton />
-        </div>
+            <div className="shrink">
+                <AtlasNewItemButton />
+            </div>
         </div>
     )
 }
