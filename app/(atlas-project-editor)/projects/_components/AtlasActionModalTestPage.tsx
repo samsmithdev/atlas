@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from "next/navigation";
-import { AtlasFormSelector } from "@/components/atlas/AtlasActionModalBeta";
+import { AtlasFormSelector } from "@/components/atlas/AtlasActionModal";
 import { Button } from "@/components/ui/button";
 
 export default function AtlasActionModalTestPage() {

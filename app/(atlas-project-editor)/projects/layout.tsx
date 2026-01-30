@@ -1,4 +1,4 @@
-import AtlasActionModal from "@/components/atlas/AtlasActionModalBeta";
+import AtlasActionModal from "@/components/atlas/AtlasActionModal";
 import { fetchSubjectSelectors } from "@/actions/subjects";
 import { fetchProjectSelectors, fetchProjectsForMenu } from "@/actions/projects";
 import { AtlasGroupedProjectsForNav, AtlasProjectNavigatorItem } from "@/types/AtlasNavigatorTypes";
