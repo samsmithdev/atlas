@@ -81,6 +81,19 @@ export async function fetchProjectsForMenu() {
     return fetchedProjects;
 }
 
+export async function fetchProjectSelector(projectId: string) {
+    const fetchedProject = await prisma.project.findUnique({
+        where: { id: projectId },
+        select: {
+            name: true,
+            id: true,
+            readableId: true,
+        }
+    });
+
+    return fetchedProject;
+}
+
 export async function fetchProjectSelectors() {
     const fetchedProjects = await prisma.project.findMany({
         where: {},

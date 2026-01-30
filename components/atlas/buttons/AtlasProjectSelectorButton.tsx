@@ -1,19 +1,24 @@
 'use client';
 
-import { AtlasGroupedProjectsForNav, AtlasProjectNavigatorItem } from '../../types/AtlasNavigatorTypes';
+import { AtlasGroupedProjectsForNav, AtlasProjectNavigatorItem } from '@/types/AtlasNavigatorTypes';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { Button } from "@/components/ui/button";
+import { AtlasProjectSelectorItem } from '@/types/AtlasSelectorTypes';
 
-export default async function AtlasProjectSelectorButton({ projectMenuItems, activeProject } : { projectMenuItems: AtlasGroupedProjectsForNav, activeProject?: AtlasProjectNavigatorItem }) {
+export default function AtlasProjectSelectorButton({ activeProject } : {activeProject?: AtlasProjectSelectorItem }) {
     const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
 
+    const triggerModal = () => {
+        router.push('?action-modal=select-project')
+    }
 
     return (
-        <button
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+        <Button 
+            variant="outline"
+            onClick={() => triggerModal()}
+            className='bg-slate-800 hover:bg-slate-500 text-xl p-8 border-b-2 border-indigo-500 cursor-auto hover:cursor-pointer flex-none'
         >
-            {(activeProject ? (activeProject.name) : ("Please select a project..."))}
-        </button>
+            {(activeProject) ? activeProject.name : "Please select a project"}
+        </Button>
     )
 }
