@@ -7,7 +7,7 @@ interface LayoutProps {
   params: Promise<{ projectId: string }>; 
 }
 
-export default async function AtlasProjectIdLayout({
+export default async function AtlasFilesLayout({
     children, params
 }: LayoutProps) {
     const { projectId } = await params;
@@ -15,7 +15,6 @@ export default async function AtlasProjectIdLayout({
 
     return (
         <div className="w-full h-full flex flex-col">
-            <div className=""><AtlasProjectToolbar activeProject={activeProject ?? undefined}/></div>
             <div className="flex-1">{children}</div>
         </div>
     )
