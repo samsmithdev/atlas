@@ -16,7 +16,7 @@ export default async function AtlasProjectIdLayout({
     return (
         <div className="w-full h-full flex flex-col">
             <div className=""><AtlasProjectToolbar activeProject={activeProject ?? undefined}/></div>
-            <div className="flex-1">{children}</div>
+            <div className="flex-1 h-full w-full">{children}</div>
         </div>
     )
 }

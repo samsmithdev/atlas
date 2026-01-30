@@ -99,6 +99,21 @@ export async function fetchFile(fileId: string) {
   return file;
 }
 
+export async function fetchFileNavItemsForProject(projectId: string) {
+  const files = await prisma.file.findMany({
+    where: {
+      projectId: projectId,
+    },
+    select: {
+      id: true,
+      readableId: true,
+      name: true
+    }
+  });
+
+  return files;
+}
+
 export async function fetchFilesForProject(projectId: string) {
   const files = await prisma.file.findMany({
     where: {

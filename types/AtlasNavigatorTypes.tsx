@@ -15,6 +15,7 @@ export type AtlasGroupedProjectsForNav = Record<string, {
 
 export type AtlasFileNavigatorItem = {
     id: string,
+    readableId: string,
     name: string,
     link: string
 }
