@@ -22,7 +22,11 @@ export default function AtlasNewItemButton() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="default">New +</Button>
+                <Button variant="default"
+                    className='rounded-none bg-slate-950 border-b-2 border-blue-700 text-2xl'
+                >
+                    +
+                </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={() => openModal(AtlasFormSelector.CreateFile)}>
