@@ -1,6 +1,7 @@
 'use client';
 
 import { AtlasFileNavigatorItem } from "@/types/AtlasNavigatorTypes";
+import AtlasEmptySelectFileForProjectPane from "./empty-states/AtlasEmptySelectFileForProjectPane";
 import { useParams } from 'next/navigation';
 
 type AtlasSelectFileForProjectPaneProps = {
@@ -13,7 +14,7 @@ export default function AtlasSelectFileForProjectPane({ files }: AtlasSelectFile
 
     return (
         <div className="w-full h-full">
-            {files ? (
+            {(files && files.length > 0) ? (
                 <ul className='space-y-2 flex flex-col pr-4 pl-4 h-full mb-4'>
                     {files.sort((left, right) => {
                         return left.readableId.localeCompare(right.readableId);
@@ -31,7 +32,7 @@ export default function AtlasSelectFileForProjectPane({ files }: AtlasSelectFile
                             </a>
                         ))}
                 </ul>
-            ) : (<p>No files found</p>)}
+            ) : (<AtlasEmptySelectFileForProjectPane />)}
         </div>
     )
 }
