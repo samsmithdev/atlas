@@ -1,17 +1,17 @@
 'use client';
 
-import {useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent } from '@tiptap/react';
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import StarterKit from '@tiptap/starter-kit'
 import { updateFile } from '@/actions/files'
 
-interface AtlasEditMarkdownFilePaneProps { 
+interface AtlasEditMarkdownFilePaneProps {
     fileId: string;
     initialContent: any; // ANY WARNING: Best for tip tap content?
 }
 
-export default function AtlasEditMarkdownFilePane({fileId, initialContent}: AtlasEditMarkdownFilePaneProps) {
+export default function AtlasEditMarkdownFilePane({ fileId, initialContent }: AtlasEditMarkdownFilePaneProps) {
     const [saveStatus, setSaveStatus] = useState('Saved');
 
     const saveToDatabase = async (jsonContent: any) => {
@@ -56,11 +56,11 @@ export default function AtlasEditMarkdownFilePane({fileId, initialContent}: Atla
     })
 
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 h-full w-full">
             <div className='text-sm text-gray-500 text-right'>
                 Status: {saveStatus}
             </div>
-            <div className='border border-gray-300 rounded-md p-4 min-h-[500px]'>
+            <div className='border border-gray-300 rounded-md p-4 min-h-[500px] flex-1 mb-8'>
                 <EditorContent editor={editor} />
             </div>
         </div>
