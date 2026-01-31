@@ -107,7 +107,7 @@ export default function AtlasActionModal({ subjects, projects, projectLinkSubjec
 
     return (
         <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-            <DialogContent className="sm:max-w-[425px]">{formChoice && renderForm()}</DialogContent>
+            <DialogContent className="sm:max-w-[425px] bg-black">{formChoice && renderForm()}</DialogContent>
         </Dialog>
     )
 }
