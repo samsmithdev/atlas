@@ -13,7 +13,7 @@ export default function AtlasProjectToolbar({ activeProject }: AtlasProjectToolb
     return (
         <div
             id="atlas-project-toolbar-container"
-            className="grid grid-flow-col gap-5 pl-4 pt-4 pb-4 pr-4 bg-black"
+            className="flex items-center gap-2 p-4 bg-black"
         >
             <div className="shrink">
                 <AtlasProjectSelectorButton activeProject={activeProject} />

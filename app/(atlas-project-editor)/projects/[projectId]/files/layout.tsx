@@ -5,9 +5,12 @@ import AtlasProjectSelectorButton from "@/components/atlas/buttons/AtlasProjectS
 import AtlasSelectFileForProjectPane from "@/components/atlas/panes/AtlasSelectFileForProjectPane";
 import { AtlasFileNavigatorItem } from "@/types/AtlasNavigatorTypes";
 
+// Defined at /projects/[projectId]/files/layout.tsx
+// Currently viewed from /projects/[projectId]/files/[fileId] in the URL
+
 interface LayoutProps {
-  children: React.ReactNode;
-  params: Promise<{ projectId: string, fileId?: string }>; 
+    children: React.ReactNode;
+    params: Promise<{ projectId: string, fileId?: string }>;
 }
 
 export default async function AtlasFilesLayout({
@@ -27,7 +30,7 @@ export default async function AtlasFilesLayout({
 
     return (
         <div className="w-full h-full flex flex-row" id='atlas-files-layout_container'>
-            <div className="w-1/4 h-full overflow-y-auto mb-8 mt-8" id='atlas-files-layout_select-file-container'>
+            <div className="w-1/4 overflow-y-auto mb-8 mt-8 scroll-h" id='atlas-files-layout_select-file-container'>
                 <AtlasSelectFileForProjectPane files={fileNavigatorItems} />
             </div>
             <div className="flex-1" id='atlas-files-layout_content'>{children}</div>
