@@ -10,7 +10,7 @@ export default async function AtlasFileIdPage({ params }: AtlasFileIdPageProps) 
     const file = await fetchFile(fileId);
 
     return (
-        <div className="h-full w-full">
+        <div className="h-full w-full" id='atlas-fileid-page'>
             <AtlasEditMarkdownFilePane fileId={fileId} initialContent={file?.content} />
         </div>
     )

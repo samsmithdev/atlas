@@ -36,7 +36,7 @@ export default async function AtlasProjectsLayout({
     }, {} as AtlasGroupedProjectsForNav)
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-full bg-black" id='atlas-projects-layout'>
             {children}
             <AtlasActionModal projects={projectSelectors} subjects={subjectSelectors} projectLinkSubjectGroup={projectLinkSubjectGroup}/>
         </div>
