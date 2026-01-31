@@ -4,6 +4,7 @@ import { useActionState, useEffect } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 import { AtlasGroupedProjectsForNav } from '@/types/AtlasNavigatorTypes';
+import AtlasEmptySelectProjectPane from './empty-states/AtlasEmptySelectProjectPane';
 import Link from 'next/link';
 
 type SelectProjectPaneProps = {
@@ -15,7 +16,7 @@ export default function AtlasSelectProjectPane({ projectsGroupedBySubject, activ
 
     return (
         <div className="w-full h-full overflow-y-auto p-6 border-r columns-1 xl:columns-2 gap-6 space-y-6" id="atlas-select-project-pane-container">
-            {Object.values(projectsGroupedBySubject).sort((left, right) => {
+            {(Object.values(projectsGroupedBySubject).length > 0) ? (Object.values(projectsGroupedBySubject).sort((left, right) => {
                 return ('' + left.subjectShortcode).localeCompare(right.subjectShortcode);
             }).map((subjectGroup) => (
                 <div
@@ -42,7 +43,7 @@ export default function AtlasSelectProjectPane({ projectsGroupedBySubject, activ
                         ))}
                     </ul>
                 </div>
-            ))}
+            ))) : ((<AtlasEmptySelectProjectPane />))} 
         </div>
     )
 }
