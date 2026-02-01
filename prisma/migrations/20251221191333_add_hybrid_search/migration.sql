@@ -1,5 +1,6 @@
 -- CreateExtension
 CREATE EXTENSION IF NOT EXISTS "vector";
+
 CREATE EXTENSION IF NOT EXISTS "pg_trgm";
 
 -- CreateTable
@@ -8,7 +9,6 @@ CREATE TABLE "subjects" (
     "shortcode" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-
     CONSTRAINT "subjects_pkey" PRIMARY KEY ("id")
 );
 
@@ -20,11 +20,12 @@ CREATE TABLE "projects" (
     "author" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "subjectId" TEXT,
-
     CONSTRAINT "projects_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
+
+
 CREATE TABLE "files" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -44,10 +45,12 @@ CREATE TABLE "files" (
 CREATE INDEX "files_fts_vector_idx" ON "files" USING GIN ("fts_vector");
 
 -- AddForeignKey
-ALTER TABLE "projects" ADD CONSTRAINT "projects_subjectId_fkey" FOREIGN KEY ("subjectId") REFERENCES "subjects"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "projects"
+ADD CONSTRAINT "projects_subjectId_fkey" FOREIGN KEY ("subjectId") REFERENCES "subjects" ("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "files" ADD CONSTRAINT "files_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "projects"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "files"
+ADD CONSTRAINT "files_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "projects" ("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- 3. Create a function to extract text from Tiptap JSON
 -- Tiptap stores text in "text" keys nested inside "content" arrays.
@@ -73,7 +76,7 @@ $$ LANGUAGE plpgsql IMMUTABLE;
 CREATE OR REPLACE FUNCTION files_tsvector_trigger() RETURNS trigger AS $$
 BEGIN
   -- Convert the extracted text into a searchable vector
-  NEW.fts_vector := to_tsvector('english', extract_tiptap_text(NEW.content));
+  NEW.fts_vector := to_tsvector('english', coalesce(NEW.name, '') || ' ' || coalesce(NEW.description, '') || ' ' || coalesce(extract_tiptap_text(NEW.content)));
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -84,5 +87,6 @@ ON "files" FOR EACH ROW EXECUTE PROCEDURE files_tsvector_trigger();
 -- 5. Add Indices
 CREATE INDEX files_search_idx ON "files" USING GIN (fts_vector);
 -- Create the vector index for AI search (IVFFlat is good for speed)
-CREATE INDEX files_semantic_idx ON "files" USING ivfflat (semantic_vector vector_cosine_ops);
-
+CREATE INDEX files_semantic_idx ON "files" USING ivfflat (
+    semantic_vector vector_cosine_ops
+);
