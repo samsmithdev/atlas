@@ -36,7 +36,7 @@ export default function AtlasCreateSubjectForm() {
     }, [state.status, router, pathname, searchParams]);
 
     return (
-        <form action={formAction} className="grid gap-4 py-4">
+        <form action={formAction} className="grid gap-4 py-4 scheme-dark">
             <div className="grid gap-2">
                 <Label htmlFor="name">Name</Label>
                 <Input 
