@@ -54,8 +54,8 @@ export default function AtlasCreateProjectForm({ subjects, activeSubjectId }: Cr
     }, [state.status, router, pathname, searchParams]);
 
     return (
-        <form action={formAction} className="space-y-4">
-            <div className="space-y-2">
+        <form action={formAction} className="space-y-4 scheme-dark">
+            <div className="space-y-2 scheme-dark">
                 <Label htmlFor="subjectId">Parent Subject</Label>
 
                 <Select name="subjectId" required>
@@ -63,9 +63,9 @@ export default function AtlasCreateProjectForm({ subjects, activeSubjectId }: Cr
                         <SelectValue placeholder="Select a Subject" />
                     </SelectTrigger>
 
-                    <SelectContent>
+                    <SelectContent className='scheme-dark'>
                         {subjects.map((subject)=> (
-                            <SelectItem key={subject.id} value={subject.id}>
+                            <SelectItem key={subject.id} value={subject.id} className='scheme-dark'>
                                 {subject.shortcode} - {subject.name}
                             </SelectItem>
                         ))}

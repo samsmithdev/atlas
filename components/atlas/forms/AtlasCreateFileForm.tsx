@@ -47,8 +47,8 @@ export default function AtlasCreateFileForm({ projects }: AtlasCreateFileFormPro
     }, [state.status, router, pathname, searchParams]);
 
     return (
-        <form action={formAction} className='space-y-4'>
-            <div className='space-y-2'>
+        <form action={formAction} className='space-y-4 text-blue-400 dark:bg-background dark:text-primary'>
+            <div className='space-y-2 dark:bg-background dark:text-primary'>
                 <Label htmlFor='projectId'>Parent Project</Label>
 
                 <Select name="projectId" required>
@@ -72,12 +72,13 @@ export default function AtlasCreateFileForm({ projects }: AtlasCreateFileFormPro
                 <Input 
                     id='name'
                     name='name'
+                    className='scheme-dark'
                     placeholder='e.g. Project Overview'
                     required
                 />
             </div>
 
-            <div className='grid gap-2'>
+            <div className='grid gap-2 text-indigo-400'>
                 <Label htmlFor='description'>Description</Label>
                 <Textarea 
                     id='description'
@@ -92,7 +93,7 @@ export default function AtlasCreateFileForm({ projects }: AtlasCreateFileFormPro
 
             <div className='flex justify-end'>
                 <Button type='submit' disabled={isPending}>
-                    {isPending ? 'Saving...' : 'Create Project'}
+                    {isPending ? 'Saving...' : 'Create File'}
                 </Button>
             </div>
         </form>
