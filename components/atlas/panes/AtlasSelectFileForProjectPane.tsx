@@ -1,8 +1,9 @@
 'use client';
 
-import { AtlasFileNavigatorItem } from "@/types/AtlasNavigatorTypes";
+import { AtlasFileNavigatorItem, AtlasNavigationTypes } from "@/types/AtlasNavigatorTypes";
 import AtlasEmptySelectFileForProjectPane from "./empty-states/AtlasEmptySelectFileForProjectPane";
 import { useParams } from 'next/navigation';
+import AtlasItemButton from "../buttons/AtlasItemButton";
 
 type AtlasSelectFileForProjectPaneProps = {
     files: AtlasFileNavigatorItem[];
@@ -20,16 +21,17 @@ export default function AtlasSelectFileForProjectPane({ files }: AtlasSelectFile
                         return left.readableId.localeCompare(right.readableId);
                     })
                         .map((file) => (
-                            <a
-                                key={file.id}
-                                href={file.link}
-                                className={`p-2 rounded text-sm border-2 border-indigo-500 border-bottom ${file.id === activeFileId
-                                    ? 'bg-blue-800 hover:bg-blue-600 text-blue-200 font-medium'
-                                    : 'text-gray-400 hover:bg-blue-950'
-                                    }`}
-                            >
-                                {file.readableId}-{file.name}
-                            </a>
+                            // <a
+                            //     key={file.id}
+                            //     href={file.link}
+                            //     className={`p-2 rounded text-sm border-2 border-indigo-500 border-bottom ${file.id === activeFileId
+                            //         ? 'bg-blue-800 hover:bg-blue-600 text-blue-200 font-medium'
+                            //         : 'text-gray-400 hover:bg-blue-950'
+                            //         }`}
+                            // >
+                            //     {file.readableId}-{file.name}
+                            // </a>
+                            <AtlasItemButton cellItem={{id: file.id, link: file.link, type: AtlasNavigationTypes.File, name:`${file.readableId}-${file.name}`}} />
                         ))}
                 </ul>
             ) : (<AtlasEmptySelectFileForProjectPane />)}
