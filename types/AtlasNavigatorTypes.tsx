@@ -18,4 +18,17 @@ export type AtlasFileNavigatorItem = {
     readableId: string,
     name: string,
     link: string
-}
+};
+
+export enum AtlasNavigationTypes {
+    File = "file",
+    Project = "project",
+    Subject = "subject",
+};
+
+export type AtlasNavigationItem = {
+    id: string,
+    name: string,
+    type: AtlasNavigationTypes,
+    link: string,
+};

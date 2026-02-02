@@ -15,10 +15,12 @@ import AtlasCreateFileForm from './forms/AtlasCreateFileForm';
 
 // Type Imports
 import { AtlasSubjectSelectorItem, AtlasProjectSelectorItem } from '@/types/AtlasSelectorTypes';
-import { AtlasProjectNavigatorItem, AtlasGroupedProjectsForNav } from '@/types/AtlasNavigatorTypes';
+import { AtlasProjectNavigatorItem, AtlasGroupedProjectsForNav, AtlasNavigationItem } from '@/types/AtlasNavigatorTypes';
 import AtlasSelectProjectPane from './panes/AtlasSelectProjectPane';
+import AtlasSearchPane from './panes/AtlasSearchPane';
 
 export enum AtlasFormSelector {
+    Search = "search",
     SelectProject = "select-project",
     CreateSubject = "create-subject",
     CreateProject = "create-project",
@@ -61,7 +63,7 @@ export default function AtlasActionModal({ subjects, projects, projectLinkSubjec
                             <DialogTitle>Open Project</DialogTitle>
                             <DialogDescription>Select a project to open.</DialogDescription>
                         </DialogHeader>
-                        <AtlasSelectProjectPane projectsGroupedBySubject={projectLinkSubjectGroup}/>
+                        <AtlasSelectProjectPane projectsGroupedBySubject={projectLinkSubjectGroup} />
                     </>
                 );
 
@@ -83,7 +85,7 @@ export default function AtlasActionModal({ subjects, projects, projectLinkSubjec
                             <DialogTitle>New Project</DialogTitle>
                             <DialogDescription>Create a new Project.</DialogDescription>
                         </DialogHeader>
-                        <AtlasCreateProjectForm subjects={subjects}/>
+                        <AtlasCreateProjectForm subjects={subjects} />
                     </>
                 );
 
@@ -98,6 +100,17 @@ export default function AtlasActionModal({ subjects, projects, projectLinkSubjec
                     </>
                 );
 
+            case AtlasFormSelector.Search:
+                return (
+                    <>
+                        <DialogHeader>
+                            <DialogTitle>New File</DialogTitle>
+                            <DialogDescription>Create a new File.</DialogDescription>
+                        </DialogHeader>
+                        <AtlasSearchPane />
+                    </>
+                );
+
             default:
                 return (
                     <div>Unknown Action</div>
@@ -107,9 +120,9 @@ export default function AtlasActionModal({ subjects, projects, projectLinkSubjec
 
     return (
         <div className="scheme-dark dark:bg-background">
-        <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-            <DialogContent className="sm:max-w-[425px] dark:bg-background">{formChoice && renderForm()}</DialogContent>
-        </Dialog>
+            <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+                <DialogContent className="sm:max-w-[425px] dark:bg-background">{formChoice && renderForm()}</DialogContent>
+            </Dialog>
         </div>
-    )
+    );
 }
