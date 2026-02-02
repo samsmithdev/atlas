@@ -155,13 +155,13 @@ export async function updateFile(fileId: string, content: string) {
 
 export async function deleteFile(fileId: string) {
   try {
-    const deletedUser = await prisma.file.delete({
+    const deletedFile = await prisma.file.delete({
       where: {
         id: fileId
       }
     })
 
-    return { success: true, data: deletedUser }
+    return { success: true, data: deletedFile }
   } catch (error) {
     console.error("Failed to delete file:", error);
     return { success: false, error: error }
