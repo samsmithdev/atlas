@@ -11,7 +11,7 @@ export default function AtlasSearchResultsPane({ navigatorItems }: AtlasSearchRe
             {(navigatorItems && navigatorItems.length > 0) ?
                 (<ul>
                     {navigatorItems.map((navigatorItem) => (
-                        <li key={navigatorItem.link}>
+                        <li key={navigatorItem.id}>
                             <Link href={navigatorItem.link}>{navigatorItem.name}</Link>
                         </li>
                     ))}

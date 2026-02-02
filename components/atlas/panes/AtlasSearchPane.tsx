@@ -8,7 +8,7 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import AtlasSearchResultsPane from '@/components/atlas/panes/AtlasSearchResultsPane'
 import { searchFiles } from "@/actions/queries";
 import { useDebouncedCallback } from "use-debounce";
-import { AtlasNavigationItem } from "@/types/AtlasNavigatorTypes";
+import { AtlasNavigationItem, AtlasNavigationTypes } from "@/types/AtlasNavigatorTypes";
 import { useState, useEffect } from "react";
 
 type AtlasSearchPaneProps = {
@@ -40,8 +40,17 @@ export default function AtlasSearchPane() {
                 // CALL THE SERVER ACTION DIRECTLY
                 // This works because Server Actions are just async functions!
                 const data = (await searchFiles(query));
-                console.log(`found ${data.length}`);
-                setResults(data ?? []);
+                
+                const links: AtlasNavigationItem[] = data.map((fileRes) => {
+                    return {
+                        id: fileRes.name,
+                        name: `${fileRes.readableId}-${fileRes.name}`,
+                        type: AtlasNavigationTypes.File,
+                        link: `/projects/${fileRes.projectId}/files/${fileRes.id}`
+                    }
+                })
+
+                setResults(links);
             } catch (error) {
                 console.error("Search failed:", error);
             } finally {

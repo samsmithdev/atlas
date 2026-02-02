@@ -27,6 +27,7 @@ export enum AtlasNavigationTypes {
 };
 
 export type AtlasNavigationItem = {
+    id: string,
     name: string,
     type: AtlasNavigationTypes,
     link: string,
