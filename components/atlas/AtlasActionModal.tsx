@@ -119,9 +119,9 @@ export default function AtlasActionModal({ subjects, projects, projectLinkSubjec
     }
 
     return (
-        <div className="scheme-dark dark:bg-background">
+        <div className="bg-background text-foreground antialiased" id='atlas-action-modal-container'>
             <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-                <DialogContent className="sm:max-w-[425px] dark:bg-background">{formChoice && renderForm()}</DialogContent>
+                <DialogContent className="sm:max-w-[425px]">{formChoice && renderForm()}</DialogContent>
             </Dialog>
         </div>
     );
