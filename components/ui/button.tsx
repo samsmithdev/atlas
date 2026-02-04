@@ -19,7 +19,7 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
-        atlas_action: "border bg-input shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 rounded-none cursor-auto hover:cursor-pointer hover:scale-110",
+        atlas_action: "text-xl pb-4 pt-4 pr-4 pl-4 border-t-0 border-r-0 border-l-0 border-ro border-b-2 bg-input shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 rounded-none cursor-auto hover:cursor-pointer hover:scale-110",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
