@@ -160,7 +160,7 @@ export async function deleteFile(fileId: string) {
         id: fileId
       }
     })
-
+    revalidatePath('/projects');
     return { success: true, data: deletedFile }
   } catch (error) {
     console.error("Failed to delete file:", error);

@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { deleteFile } from "@/actions/files";
 
+
 type AtlasItemCellData = {
     id: string;
     name: string;
@@ -30,7 +31,7 @@ export default function AtlasItemButton({ cellItem }: AtlasItemButtonProps) {
     return (
         <div id='atlas-item-cell' className='flex flex-row'>
             <Link className='flex-1' href={cellItem.link}>{cellItem.name}</Link>
-            <Button variant='destructive' className='shrink' onClick={() => deleteItem(cellItem.id, AtlasNavigationTypes.File)}>X</Button>
+            <Button variant='destructive' size='xs' className='shrink' onClick={() => deleteItem(cellItem.id, AtlasNavigationTypes.File)}>X</Button>
         </div>
     )
 }
