@@ -28,9 +28,9 @@ export default function AtlasItemButton({ cellItem }: AtlasItemButtonProps) {
     }
 
     return (
-        <div id='atlas-item-cell'>
-            <Link href={cellItem.link}>{cellItem.name}</Link>
-            <Button onClick={() => deleteItem(cellItem.id, AtlasNavigationTypes.File)}>X</Button>
+        <div id='atlas-item-cell' className='flex flex-row'>
+            <Link className='flex-1' href={cellItem.link}>{cellItem.name}</Link>
+            <Button variant='destructive' className='shrink' onClick={() => deleteItem(cellItem.id, AtlasNavigationTypes.File)}>X</Button>
         </div>
     )
 }
