@@ -15,23 +15,14 @@ type AtlasItemCellData = {
 
 interface AtlasItemButtonProps {
     cellItem: AtlasItemCellData;
+    onDelete: (id: string) => void;
 }
 
-export default function AtlasItemButton({ cellItem }: AtlasItemButtonProps) {
-    const deleteItem = (id: string, type: AtlasNavigationTypes) => {
-        switch (type) {
-            case (AtlasNavigationTypes.File):
-                deleteFile(id);
-                break;
-            default:
-                break;
-        }
-    }
-
+export default function AtlasItemButton({ cellItem, onDelete }: AtlasItemButtonProps) {
     return (
         <div id='atlas-item-cell' className='flex flex-row'>
             <Link className='flex-1' href={cellItem.link}>{cellItem.name}</Link>
-            <Button variant='destructive' size='xs' className='shrink' onClick={() => deleteItem(cellItem.id, AtlasNavigationTypes.File)}>X</Button>
+            <Button variant='destructive' size='xs' className='shrink' onClick={() => onDelete(cellItem.id)}>X</Button>
         </div>
     )
 }
