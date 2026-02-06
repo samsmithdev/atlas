@@ -4,6 +4,7 @@ import { fetchProjectSelector } from "@/actions/projects";
 import AtlasProjectSelectorButton from "@/components/atlas/buttons/AtlasProjectSelectorButton"
 import { AtlasProjectSelectorItem } from "@/types/AtlasSelectorTypes";
 import AtlasNewItemButton from "./buttons/AtlasNewItemButton";
+import AtlasSearchButton from "./buttons/AtlasSearchButton";
 
 type AtlasProjectToolbarProps = {
     activeProject?: AtlasProjectSelectorItem;
@@ -13,7 +14,7 @@ export default function AtlasProjectToolbar({ activeProject }: AtlasProjectToolb
     return (
         <div
             id="atlas-project-toolbar-container"
-            className="flex items-center gap-2 p-4 bg-black"
+            className="flex items-center gap-2 p-4"
         >
             <div className="shrink">
                 <AtlasProjectSelectorButton activeProject={activeProject} />
@@ -21,6 +22,10 @@ export default function AtlasProjectToolbar({ activeProject }: AtlasProjectToolb
 
             <div className="shrink">
                 <AtlasNewItemButton />
+            </div>
+
+            <div className="shrink">
+                <AtlasSearchButton />
             </div>
         </div>
     )

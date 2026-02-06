@@ -144,7 +144,7 @@ export async function updateFile(fileId: string, content: string) {
       },
     });
 
-    //revalidatePath(`/files/${fileId}`);
+    revalidatePath(`/projects/${updatedFile.projectId}/files/${fileId}`);
 
     return { success: true, data: updatedFile }
   } catch (error) {
@@ -160,7 +160,7 @@ export async function deleteFile(fileId: string) {
         id: fileId
       }
     })
-
+    revalidatePath('/projects');
     return { success: true, data: deletedFile }
   } catch (error) {
     console.error("Failed to delete file:", error);
