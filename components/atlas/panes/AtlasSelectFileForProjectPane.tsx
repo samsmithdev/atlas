@@ -31,7 +31,7 @@ export default function AtlasSelectFileForProjectPane({ files }: AtlasSelectFile
                             // >
                             //     {file.readableId}-{file.name}
                             // </a>
-                            <AtlasItemButton cellItem={{id: file.id, link: file.link, type: AtlasNavigationTypes.File, name:`${file.readableId}-${file.name}`}} />
+                            <AtlasItemButton key={file.id} cellItem={{id: file.id, link: file.link, type: AtlasNavigationTypes.File, name:`${file.readableId}-${file.name}`}} />
                         ))}
                 </ul>
             ) : (<AtlasEmptySelectFileForProjectPane />)}

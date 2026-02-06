@@ -6,7 +6,6 @@ import AtlasSelectFileForProjectPane from "@/components/atlas/panes/AtlasSelectF
 import { AtlasFileNavigatorItem } from "@/types/AtlasNavigatorTypes";
 
 // Defined at /projects/[projectId]/files/layout.tsx
-// Currently viewed from /projects/[projectId]/files/[fileId] in the URL
 
 interface LayoutProps {
     children: React.ReactNode;
