@@ -23,7 +23,7 @@ export default function AtlasNewItemButton() {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="atlas_action"
-                    className='rounded-none border-b-2 text-2xl'
+                    className='text-2xl'
                 >
                     +
                 </Button>
