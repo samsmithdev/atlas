@@ -144,7 +144,7 @@ export async function updateFile(fileId: string, content: string) {
       },
     });
 
-    //revalidatePath(`/files/${fileId}`);
+    revalidatePath(`/projects/${updatedFile.projectId}/files/${fileId}`);
 
     return { success: true, data: updatedFile }
   } catch (error) {
