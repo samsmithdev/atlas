@@ -1,4 +1,5 @@
 'use server'
+import {auth} from '@/auth';
 import prisma from '@/lib/db';
 import { Project } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
@@ -15,6 +16,11 @@ export type ActionState = {
 };
 
 export async function createProjectFormTransaction(prevState: ActionState, formData: FormData): Promise<ActionState> {
+    const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error('Unauthorized: You muse be logged in to view a file.');
+  }
     // Extract the data
     const subjectId = formData.get('subjectId') as string;
     const name = formData.get('name') as string;
@@ -41,7 +47,7 @@ export async function createProjectFormTransaction(prevState: ActionState, formD
                 data: {
                     name,
                     description,
-                    author: 'Sam',
+                    userId: session!.user!.id!,
                     subjectId: updatedSubject.id,
                     readableId: readableId,
                 }
@@ -163,6 +169,11 @@ export async function updateProject(
 }
 
 export async function createProjectTransaction(formData: FormData) {
+      const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error('Unauthorized: You muse be logged in to view a file.');
+  }
     const subjectId = formData.get('subjectId') as string;
     const name = formData.get('name') as string;
     const description = formData.get('description') as string;
@@ -189,7 +200,7 @@ export async function createProjectTransaction(formData: FormData) {
             data: {
                 name,
                 description,
-                author: 'Sam',
+                userId: session!.user!.id!,
                 subjectId: updatedSubject.id,
                 readableId: readableId,
             }

@@ -1,4 +1,6 @@
 'use server'
+
+import { auth } from '@/auth';
 import prisma from '@/lib/db'
 import { revalidatePath } from 'next/cache';
 import { NULL_PROJECTID, NULL_PROJECT_NAME } from '../lib/constants/uncategorized-items';
@@ -14,10 +16,18 @@ export type ActionState = {
 };
 
 export async function createFileFormTransaction(prevState: ActionState, formData: FormData): Promise<ActionState> {
+  // Get the session inside the action
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error('Unauthorized: You muse be logged in to create a file.');
+  }
+
+  const userId = session!.user!.id!;
+
   // Extract the data
   const projectId = formData.get('projectId') as string;
   const name = formData.get('name') as string;
-  const author = 'Sam';
   const description = formData.get('description') as string;
 
   if (!projectId || !name) {
@@ -40,7 +50,7 @@ export async function createFileFormTransaction(prevState: ActionState, formData
         data: {
           name,
           description,
-          author,
+          userId: userId,
           projectId: updatedProject.id,
           readableId: readableId
         }
@@ -54,6 +64,14 @@ export async function createFileFormTransaction(prevState: ActionState, formData
 }
 
 export async function createFileTransaction(formData: FormData) {
+    // Get the session inside the action
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error('Unauthorized: You muse be logged in to create a file.');
+  }
+
+  const userId = session!.user!.id!;
   const projectId = formData.get('projectId') as string;
   const name = formData.get('name') as string;
   const author = 'Sam';
@@ -79,7 +97,7 @@ export async function createFileTransaction(formData: FormData) {
       data: {
         name,
         description,
-        author,
+        userId,
         projectId: updatedProject.id,
         readableId: readableId,
       }
@@ -90,19 +108,37 @@ export async function createFileTransaction(formData: FormData) {
 }
 
 export async function fetchFile(fileId: string) {
+    // Get the session inside the action
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error('Unauthorized: You muse be logged in to view a file.');
+  }
+
   const file = await prisma.file.findUnique({
     where: {
       id: fileId
     }
   });
 
+  if (file && file.userId !== session?.user?.id) {
+    throw new Error('Unauthorized: User IDs do not match.');
+  }
+
   return file;
 }
 
 export async function fetchFileNavItemsForProject(projectId: string) {
+    const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error('Unauthorized: You muse be logged in to view a file.');
+  }
+
   const files = await prisma.file.findMany({
     where: {
       projectId: projectId,
+      userId: session?.user?.id,
     },
     select: {
       id: true,

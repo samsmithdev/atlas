@@ -1,5 +1,6 @@
 'use server'
 
+import { auth } from '@/auth';
 import prisma from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -15,6 +16,11 @@ export type ActionState = {
 };
 
 export async function createSubjectTransaction(prevState: ActionState, formData: FormData): Promise<ActionState> {
+      const session = await auth();
+    
+      if (!session?.user?.id) {
+        throw new Error('Unauthorized: You muse be logged in to view a file.');
+      }
     // Extract the data
     const name = formData.get('name') as string;
     const shortcode = formData.get('shortcode') as string;
@@ -37,7 +43,8 @@ export async function createSubjectTransaction(prevState: ActionState, formData:
             data: {
                 name,
                 shortcode,
-                description
+                description,
+                userId: session!.user!.id!
             },
         });
 
@@ -55,12 +62,18 @@ export async function createSubject(subjectData: {
     name: string,
     description?: string,
 }) {
+      const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error('Unauthorized: You muse be logged in to view a file.');
+  }
     const newSubject = prisma.subject.create({
         data: {
             id: subjectData.id,
             shortcode: subjectData.shortcode,
             name: subjectData.name,
             description: subjectData.description ?? "",
+            userId: session!.user!.id!,
         }
     });
 
