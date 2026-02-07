@@ -20,6 +20,9 @@ model Subject {
   name        String
   description String
 
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   projectSequence Int @default(0)
 
   projects Project[]
@@ -111,6 +114,7 @@ model User {
   sessions      Session[]
   
   // Connect to your Logic
+  subjects      Subject[]
   projects      Project[]
   files         File[]
 }
