@@ -1,4 +1,5 @@
 'use server'
+import { auth } from '@/auth';
 import prisma from '@/lib/db';
 import { Project } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
@@ -15,6 +16,13 @@ export type ActionState = {
 };
 
 export async function createProjectFormTransaction(prevState: ActionState, formData: FormData): Promise<ActionState> {
+    // Get the session inside the action
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        throw new Error('Unauthorized: You muse be logged in to create a file.');
+    }
     // Extract the data
     const subjectId = formData.get('subjectId') as string;
     const name = formData.get('name') as string;
@@ -22,13 +30,13 @@ export async function createProjectFormTransaction(prevState: ActionState, formD
 
     // Basic validation, will consider Zod in the future
     if (!subjectId || !name) {
-        return { status: 'error', message: 'Projects require a subjectId and name.'}
+        return { status: 'error', message: 'Projects require a subjectId and name.' }
     }
 
     try {
         await prisma.$transaction(async (tx) => {
             const updatedSubject = await tx.subject.update({
-                where: { id: subjectId },
+                where: { id: subjectId, userId: userId },
                 data: {
                     projectSequence: { increment: 1 }
                 }
@@ -41,7 +49,7 @@ export async function createProjectFormTransaction(prevState: ActionState, formD
                 data: {
                     name,
                     description,
-                    author: 'Sam',
+                    userId: userId,
                     subjectId: updatedSubject.id,
                     readableId: readableId,
                 }
@@ -56,9 +64,18 @@ export async function createProjectFormTransaction(prevState: ActionState, formD
 }
 
 export async function fetchProject(projectId: string) {
+    // Get the session inside the action
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        throw new Error('Unauthorized: You muse be logged in to create a file.');
+    }
+
     const fetchedProject = await prisma.project.findUnique({
         where: {
-            id: projectId
+            id: projectId,
+            userId: userId,
         }
     });
 
@@ -66,9 +83,17 @@ export async function fetchProject(projectId: string) {
 }
 
 export async function fetchProjectsForMenu() {
+    // Get the session inside the action
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        throw new Error('Unauthorized: You muse be logged in to create a file.');
+    }
+
     const fetchedProjects = await prisma.project.findMany({
         where: {
-
+            userId: userId,
         },
         select: {
             name: true,
@@ -82,8 +107,16 @@ export async function fetchProjectsForMenu() {
 }
 
 export async function fetchProjectSelector(projectId: string) {
+    // Get the session inside the action
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        throw new Error('Unauthorized: You muse be logged in to create a file.');
+    }
+
     const fetchedProject = await prisma.project.findUnique({
-        where: { id: projectId },
+        where: { id: projectId, userId: userId },
         select: {
             name: true,
             id: true,
@@ -95,8 +128,16 @@ export async function fetchProjectSelector(projectId: string) {
 }
 
 export async function fetchProjectSelectors() {
+    // Get the session inside the action
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        throw new Error('Unauthorized: You muse be logged in to create a file.');
+    }
+
     const fetchedProjects = await prisma.project.findMany({
-        where: {},
+        where: { userId: userId, },
         select: {
             name: true,
             id: true,
@@ -108,9 +149,17 @@ export async function fetchProjectSelectors() {
 }
 
 export async function fetchProjects(subjectId: string) {
+    // Get the session inside the action
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        throw new Error('Unauthorized: You muse be logged in to create a file.');
+    }
     const fetchedProjects = await prisma.project.findMany({
         where: {
-            subjectId: subjectId
+            subjectId: subjectId,
+            userId: userId,
         },
         orderBy: { id: 'desc' }
     });
@@ -119,9 +168,16 @@ export async function fetchProjects(subjectId: string) {
 }
 
 export async function fetchAllProjects() {
+    // Get the session inside the action
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        throw new Error('Unauthorized: You muse be logged in to create a file.');
+    }
     const fetchedProjects = await prisma.project.findMany({
         where: {
-
+            userId: userId,
         },
         orderBy: { id: 'desc' },
     });
@@ -139,9 +195,16 @@ export async function updateProject(
         deleteFieldIds?: string[]
     }
 ) {
+    // Get the session inside the action
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        throw new Error('Unauthorized: You muse be logged in to create a file.');
+    }
     try {
         const updatedProject = await prisma.project.update({
-            where: { id: projectId },
+            where: { id: projectId, userId: userId, },
             data: {
                 name: data.name,
                 description: data.description,
@@ -163,6 +226,13 @@ export async function updateProject(
 }
 
 export async function createProjectTransaction(formData: FormData) {
+    // Get the session inside the action
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        throw new Error('Unauthorized: You muse be logged in to create a file.');
+    }
     const subjectId = formData.get('subjectId') as string;
     const name = formData.get('name') as string;
     const description = formData.get('description') as string;
@@ -175,7 +245,7 @@ export async function createProjectTransaction(formData: FormData) {
     const newProject = await prisma.$transaction(async (tx) => {
         // Find the subject and increment the ticker
         const updatedSubject = await tx.subject.update({
-            where: { id: subjectId },
+            where: { id: subjectId, userId: userId, },
             data: {
                 projectSequence: { increment: 1 }
             }
@@ -189,7 +259,7 @@ export async function createProjectTransaction(formData: FormData) {
             data: {
                 name,
                 description,
-                author: 'Sam',
+                userId: userId,
                 subjectId: updatedSubject.id,
                 readableId: readableId,
             }
