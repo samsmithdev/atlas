@@ -6,24 +6,23 @@ import { revalidatePath } from 'next/cache';
 import { NULL_PROJECTID, NULL_PROJECT_NAME } from '../lib/constants/uncategorized-items';
 
 export type ActionState = {
-    message: string;
-    status: 'success' | 'error' | 'idle';
-    errors?: {
-        name?: string[];
-        shortcode?: string[];
-        description?: string[];
-    };
+  message: string;
+  status: 'success' | 'error' | 'idle';
+  errors?: {
+    name?: string[];
+    shortcode?: string[];
+    description?: string[];
+  };
 };
 
 export async function createFileFormTransaction(prevState: ActionState, formData: FormData): Promise<ActionState> {
   // Get the session inside the action
   const session = await auth();
+  const userId = session?.user?.id;
 
-  if (!session?.user?.id) {
+  if (!userId) {
     throw new Error('Unauthorized: You muse be logged in to create a file.');
   }
-
-  const userId = session!.user!.id!;
 
   // Extract the data
   const projectId = formData.get('projectId') as string;
@@ -64,14 +63,14 @@ export async function createFileFormTransaction(prevState: ActionState, formData
 }
 
 export async function createFileTransaction(formData: FormData) {
-    // Get the session inside the action
+  // Get the session inside the action
   const session = await auth();
+  const userId = session?.user?.id;
 
-  if (!session?.user?.id) {
+  if (!userId) {
     throw new Error('Unauthorized: You muse be logged in to create a file.');
   }
 
-  const userId = session!.user!.id!;
   const projectId = formData.get('projectId') as string;
   const name = formData.get('name') as string;
   const author = 'Sam';
@@ -108,37 +107,37 @@ export async function createFileTransaction(formData: FormData) {
 }
 
 export async function fetchFile(fileId: string) {
-    // Get the session inside the action
+  // Get the session inside the action
   const session = await auth();
+  const userId = session?.user?.id;
 
-  if (!session?.user?.id) {
-    throw new Error('Unauthorized: You muse be logged in to view a file.');
+  if (!userId) {
+    throw new Error('Unauthorized: You muse be logged in to create a file.');
   }
 
   const file = await prisma.file.findUnique({
     where: {
-      id: fileId
+      id: fileId,
+      userId: userId,
     }
   });
-
-  if (file && file.userId !== session?.user?.id) {
-    throw new Error('Unauthorized: User IDs do not match.');
-  }
 
   return file;
 }
 
 export async function fetchFileNavItemsForProject(projectId: string) {
-    const session = await auth();
+  // Get the session inside the action
+  const session = await auth();
+  const userId = session?.user?.id;
 
-  if (!session?.user?.id) {
-    throw new Error('Unauthorized: You muse be logged in to view a file.');
+  if (!userId) {
+    throw new Error('Unauthorized: You muse be logged in to create a file.');
   }
 
   const files = await prisma.file.findMany({
     where: {
       projectId: projectId,
-      userId: session?.user?.id,
+      userId: userId,
     },
     select: {
       id: true,
@@ -151,9 +150,18 @@ export async function fetchFileNavItemsForProject(projectId: string) {
 }
 
 export async function fetchFilesForProject(projectId: string) {
+  // Get the session inside the action
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    throw new Error('Unauthorized: You muse be logged in to create a file.');
+  }
+
   const files = await prisma.file.findMany({
     where: {
       projectId: projectId,
+      userId: userId,
     },
     orderBy: { id: 'desc' }
   });
@@ -162,8 +170,16 @@ export async function fetchFilesForProject(projectId: string) {
 }
 
 export async function fetchFilesForProjectFileNavigator(projectId: string) {
+  // Get the session inside the action
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    throw new Error('Unauthorized: You muse be logged in to create a file.');
+  }
+
   const fileMenuItems = (await prisma.file.findMany({
-    where: { projectId: projectId },
+    where: { projectId: projectId, userId: userId },
     select: { name: true, id: true, projectId: true }
   })).map((file) => {
     return { name: file.name, id: file.id, projectId: file.projectId ?? NULL_PROJECTID }
@@ -172,9 +188,17 @@ export async function fetchFilesForProjectFileNavigator(projectId: string) {
 }
 
 export async function updateFile(fileId: string, content: string) {
+  // Get the session inside the action
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    throw new Error('Unauthorized: You muse be logged in to create a file.');
+  }
+
   try {
     const updatedFile = await prisma.file.update({
-      where: { id: fileId },
+      where: { id: fileId, userId: userId },
       data: {
         content: content
       },
@@ -190,12 +214,21 @@ export async function updateFile(fileId: string, content: string) {
 }
 
 export async function deleteFile(fileId: string) {
+  // Get the session inside the action
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    throw new Error('Unauthorized: You muse be logged in to create a file.');
+  }
+
   try {
     const deletedFile = await prisma.file.delete({
       where: {
-        id: fileId
+        id: fileId,
+        userId: userId,
       }
-    })
+    });
     revalidatePath('/projects');
     return { success: true, data: deletedFile }
   } catch (error) {
