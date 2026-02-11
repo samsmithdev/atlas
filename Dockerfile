@@ -32,7 +32,7 @@ COPY . .
 
 # Important: We must regenerate the Prisma Client here because the
 # Linux environment inside Docker might be different from your Mac/Windows.
-RUN npx prisma generate
+RUN DATABASE_URL="postgresql://dummy:password@localhost:5432/mydb" npx prisma generate
 
 # Build the Next.js application
 RUN npm run build
@@ -45,7 +45,7 @@ RUN npm run build
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 # Create a non-root user (Security Best Practice)
 # If someone hacks your app, they won't have root access to the container.
