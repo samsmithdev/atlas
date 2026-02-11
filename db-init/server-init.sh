@@ -4,6 +4,10 @@ set -e
 # Log info
 echo "--- STARTING JARVIS DB INITIALIZATION ---"
 
+APP_USER=''
+APP_PASSWORD=''
+APP_DB=''
+
 # 1. Create the App User (No Superuser needed!)
 # We use the env vars you passed in Unraid
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
