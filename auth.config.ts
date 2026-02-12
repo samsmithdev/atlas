@@ -7,6 +7,22 @@ export const authConfig = {
     GitHub, 
   ],
   callbacks: {
+    signIn({ user }) {
+      // Get the allowed email from environment variables
+      const allowedEmail = process.env.ALLOWED_EMAIL;
+
+      // If the variable isn't set, deciding to fail open or closed is up to you.
+      // Returning 'true' means "no lock is set, let everyone in".
+      if (!allowedEmail) return true;
+
+      // Check the email
+      if (user.email === allowedEmail) {
+        return true; // Access Granted
+      } else {
+        console.log(`Blocked sign-in attempt from: ${user.email}`);
+        return false; // Access Denied
+      }
+    },
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = nextUrl.pathname.startsWith('/projects'); // Protect specific routes
