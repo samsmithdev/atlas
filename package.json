@@ -17,6 +17,7 @@
     "auth-setup":"dotenv -e .env -- npx auth secret",
     "prisma:db-reset": "dotenv -e .env -- npx prisma migrate reset",
     "prisma:migrate": "dotenv -e .env -- npx prisma migrate dev",
+    "prisma:migrate-add-fields": "dotenv -e .env -- npx prisma migrate dev --name add_project_fields",
     "test": "npx vitest"
   },
   "dependencies": {
