@@ -145,7 +145,13 @@ export async function fetchFileNavItemsForProject(projectId: string) {
     select: {
       id: true,
       readableId: true,
-      name: true
+      name: true,
+      folderId: true,
+      folder: {
+        select: {
+          name: true, // Select only the parent's name field
+        },
+      },
     }
   });
 
