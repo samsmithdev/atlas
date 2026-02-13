@@ -6,6 +6,7 @@ import AtlasEmptySelectFileForProjectPane from "./empty-states/AtlasEmptySelectF
 import { useParams } from 'next/navigation';
 import AtlasItemButton from "../buttons/AtlasItemButton";
 import { deleteFile } from '@/actions/files';
+import AtlasFolderItemButton from '../buttons/AtlasFolderItemButton';
 
 type AtlasSelectFileForProjectPaneProps = {
     files: AtlasFileNavigatorItem[];
@@ -57,7 +58,11 @@ export default function AtlasSelectFileForProjectPane({ files }: AtlasSelectFile
                         return accumulator;
                     }, {} as AtlasGroupedFilesForNav)).map((folderGroup) => (
                         (folderGroup.folderName) ? 
-                        (<p></p>) : 
+                        (<AtlasFolderItemButton 
+                            key={folderGroup.folderId}
+                            cellItem={{folderName: folderGroup.folderName!, folderId: folderGroup.folderId, files: folderGroup.files}}
+                            onDelete={handleDeleteRequest}
+                        />) : 
                         (folderGroup.files.map((rootFile) => (
                             <AtlasItemButton 
                                 key={rootFile.id}
