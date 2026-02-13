@@ -42,3 +42,13 @@ export async function createFolderFormTransaction(prevState: ActionState, formDa
     }
 }
 
+export async function fetchFolderDetails(folderId: string) {
+    checkAuth();
+
+    const folder = await prisma.folder.findUnique({
+        where: { id: folderId },
+        select: { id: true, name: true, projectId: true }
+    });
+
+    return folder;
+}
