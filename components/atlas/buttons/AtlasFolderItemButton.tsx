@@ -1,0 +1,3 @@
+//import { AtlasNavigationTypes }
+
+// TODO: Setup a State variable and button that optionally renders a list of files below it? Will need to figure out styling from the parent to here to the children item buttons and the item button...
