@@ -28,6 +28,7 @@ export async function createFileFormTransaction(prevState: ActionState, formData
   const projectId = formData.get('projectId') as string;
   const name = formData.get('name') as string;
   const description = formData.get('description') as string;
+  const folderId = formData.get('folderId') as string;
 
   if (!projectId || !name) {
     return { status: 'error', message: 'Files require a ProjectId and name.' };
@@ -50,6 +51,7 @@ export async function createFileFormTransaction(prevState: ActionState, formData
           name,
           description,
           userId: userId,
+          folderId: folderId,
           projectId: updatedProject.id,
           readableId: readableId
         }
@@ -73,8 +75,8 @@ export async function createFileTransaction(formData: FormData) {
 
   const projectId = formData.get('projectId') as string;
   const name = formData.get('name') as string;
-  const author = 'Sam';
   const description = formData.get('description') as string;
+  const folderId = formData.get('folderId') as string;
 
   if (!projectId || !name) {
     throw new Error('Missing required fields');
@@ -97,6 +99,7 @@ export async function createFileTransaction(formData: FormData) {
         name,
         description,
         userId,
+        folderId,
         projectId: updatedProject.id,
         readableId: readableId,
       }
