@@ -18,12 +18,14 @@ import { AtlasSubjectSelectorItem, AtlasProjectSelectorItem } from '@/types/Atla
 import { AtlasProjectNavigatorItem, AtlasGroupedProjectsForNav, AtlasNavigationItem } from '@/types/AtlasNavigatorTypes';
 import AtlasSelectProjectPane from './panes/AtlasSelectProjectPane';
 import AtlasSearchPane from './panes/AtlasSearchPane';
+import AtlasCreateFolderForm from './forms/AtlasCreateFolderForm';
 
 export enum AtlasFormSelector {
     Search = "search",
     SelectProject = "select-project",
     CreateSubject = "create-subject",
     CreateProject = "create-project",
+    CreateFolder = "create-folder",
     CreateFile = "create-file"
 }
 
@@ -100,12 +102,22 @@ export default function AtlasActionModal({ subjects, projects, projectLinkSubjec
                     </>
                 );
 
+            case AtlasFormSelector.CreateFolder:
+                return (
+                    <>
+                        <DialogHeader>
+                            <DialogTitle>New Folder</DialogTitle>
+                            <DialogDescription>Create a new Folder.</DialogDescription>
+                        </DialogHeader>
+                        <AtlasCreateFolderForm projects={projects} />
+                    </>
+                );
+
             case AtlasFormSelector.Search:
                 return (
                     <>
                         <DialogHeader>
-                            <DialogTitle>New File</DialogTitle>
-                            <DialogDescription>Create a new File.</DialogDescription>
+                            <DialogTitle>Search...</DialogTitle>
                         </DialogHeader>
                         <AtlasSearchPane />
                     </>

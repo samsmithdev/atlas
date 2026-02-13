@@ -33,6 +33,10 @@ export default function AtlasNewItemButton() {
                     New File
                 </DropdownMenuItem>
 
+                <DropdownMenuItem onClick={() => openModal(AtlasFormSelector.CreateFolder)}>
+                    New Folder
+                </DropdownMenuItem>
+
                 <DropdownMenuItem onClick={() => openModal(AtlasFormSelector.CreateProject)}>
                     New Project
                 </DropdownMenuItem>
