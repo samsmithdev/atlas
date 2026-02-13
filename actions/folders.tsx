@@ -52,3 +52,14 @@ export async function fetchFolderDetails(folderId: string) {
 
     return folder;
 }
+
+export async function fetchFoldersForProject(projectId: string) {
+    checkAuth();
+
+    const folders = await prisma.folder.findMany({
+        where: { projectId: projectId },
+        select: { id: true, name: true, projectId: true }
+    });
+
+    return folders;
+}
