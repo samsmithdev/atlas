@@ -4,15 +4,20 @@ import Link from "next/link";
 export default function Home() {
 
   return (
-    <div className="bg-slate-900 w-full h-full items-center flex flex-col gap-8">
-      <h1 className="text-5xl text-indigo-200 border-b-4 border-indigo-500 p-8">Welcome to the ATLAS Development Center!</h1>
+    <div className="bg-background w-full h-full items-center flex flex-col gap-8">
+      <h1 className="text-5xl text-primary border-b-4 border-indigo-500 p-8">Welcome to the A.T.L.A.S. Development Center!</h1>
+      <p className='text-s text-muted'>Assistant Technology Leveraging Accessibility Systems</p>
+      
+      <p className='text-l text-primary w-1/2 text-center'>A.T.L.A.S. is a personal knowledge system designed to handle as much of maintenance associated with managing notes as possible. Executive dysfunction can make taking comprehensive and organized notes hugely impactful, exactly as it makes maintaining them much more difficult. A.T.L.A.S.' goal is to streamline the intake and organizing processes to support neurodivergent folks by removing key friction points that lead to abandoning systems.</p>
       <ThinkingIndicator />
-      <p className="text-xs text-indigo-200">Unauthorized use is not authorized.</p>
+      
       <Link
-        className="border rounded-2xl border-indigo-600 text-white mx-auto p-4 text-2xl"
+        className="border rounded-2xl border-indigo-600 text-primary mx-auto p-4 text-2xl"
         href="/projects">
         Open /projects
       </Link>
+
+      <p className="text-xs text-secondary">Unauthorized use is not authorized.</p>
     </div>
   );
 }
