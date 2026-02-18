@@ -3,6 +3,36 @@
 import { getPresignedUploadUrl } from '@/lib/storage';
 import { auth } from '@/auth'; // Assuming you have an auth helper
 import { v4 as uuidv4 } from 'uuid'; // npm install uuid @types/uuid
+import prisma from '@/lib/db';
+
+export async function createAsset(data: {
+  name: string;
+  objectName: string; // The Minio path (userId/date/uuid.ext)
+  mimeType: string;
+  size: number;
+  bucket: string;
+  projectId?: string; // Optional: Link directly to a project
+  folderId?: string;  // Optional: Link directly to a folder
+}) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+
+  // Create the Asset record
+  const asset = await prisma.asset.create({
+    data: {
+      name: data.name,
+      key: data.objectName,
+      bucket: data.bucket,
+      mimeType: data.mimeType,
+      size: data.size,
+      userId: session.user.id,
+      // If we are uploading directly to a File, we might link it here, 
+      // but for "Inbox" flow, these might be null initially.
+    },
+  });
+
+  return asset;
+}
 
 export type UploadConfig = {
   url: string;
