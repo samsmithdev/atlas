@@ -9,13 +9,13 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { generateUploadUrl, createAsset } from "@/actions/storage"; // Import your actions
 
-interface UploadPaneProps {
+interface AtlasUploadPaneProps {
   onUploadComplete?: (asset: any) => void; // Callback when done
   projectId?: string; // Optional context
   className?: string;
 }
 
-export function UploadPane({ onUploadComplete, projectId, className }: UploadPaneProps) {
+export function AtlasUploadPane({ onUploadComplete, projectId, className }: AtlasUploadPaneProps) {
   const [file, setFile] = useState<File | null>(null);
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState<"idle" | "uploading" | "success" | "error">("idle");

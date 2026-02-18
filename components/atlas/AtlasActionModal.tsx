@@ -19,6 +19,7 @@ import { AtlasProjectNavigatorItem, AtlasGroupedProjectsForNav, AtlasNavigationI
 import AtlasSelectProjectPane from './panes/AtlasSelectProjectPane';
 import AtlasSearchPane from './panes/AtlasSearchPane';
 import AtlasCreateFolderForm from './forms/AtlasCreateFolderForm';
+import { AtlasUploadPane } from './panes/AtlasUploadPane';
 
 export enum AtlasFormSelector {
     Search = "search",
@@ -119,7 +120,13 @@ export default function AtlasActionModal({ subjects, projects, projectLinkSubjec
                         <DialogHeader>
                             <DialogTitle>Search...</DialogTitle>
                         </DialogHeader>
-                        <AtlasSearchPane />
+                        <AtlasUploadPane 
+                            projectId='cmllew0fn0003icnkvtue5ujj' 
+                onUploadComplete={(asset) => {
+                        closeModal(); // Close modal
+                            router.refresh(); // Refresh list
+                        }}
+                        />
                     </>
                 );
 

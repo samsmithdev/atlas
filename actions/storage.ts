@@ -4,6 +4,7 @@ import { getPresignedUploadUrl } from '@/lib/storage';
 import { auth } from '@/auth'; // Assuming you have an auth helper
 import { v4 as uuidv4 } from 'uuid'; // npm install uuid @types/uuid
 import prisma from '@/lib/db';
+import { ensureBucketExists } from '@/lib/minio';
 
 export async function createAsset(data: {
   name: string;
@@ -16,7 +17,7 @@ export async function createAsset(data: {
 }) {
   const session = await auth();
   if (!session?.user?.id) throw new Error("Unauthorized");
-
+  ensureBucketExists('atlas-uploads');
   // Create the Asset record
   const asset = await prisma.asset.create({
     data: {
