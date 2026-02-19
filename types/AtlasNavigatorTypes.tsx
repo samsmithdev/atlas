@@ -17,8 +17,16 @@ export type AtlasFileNavigatorItem = {
     id: string,
     readableId: string,
     name: string,
-    link: string
+    link: string,
+    folderId?: string,
+    folderName?: string,
 };
+
+export type AtlasGroupedFilesForNav = Record<string, {
+    folderName?: string,
+    folderId: string,
+    files: AtlasFileNavigatorItem[],
+}>;
 
 export enum AtlasNavigationTypes {
     File = "file",

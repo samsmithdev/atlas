@@ -1,7 +1,7 @@
 'use client';
 
 // React and NextJS Imports
-import { useActionState, useEffect } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 // ATLAS Imports
@@ -21,6 +21,8 @@ import {
     SelectValue
 } from '@/components/ui/select';
 
+import { fetchFoldersForProject } from '@/actions/folders';
+
 type AtlasCreateFileFormProps = {
     projects: AtlasProjectSelectorItem[];
 };
@@ -34,6 +36,9 @@ export default function AtlasCreateFileForm({ projects }: AtlasCreateFileFormPro
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const [selectedProjectId, setSelectedProjectId] = useState('');
+    const [projectFolders, setProjectFolders] = useState(Array<{ id: string; name: string; projectId: string; }>);
+    const [isLoadingFolders, setIsLoadingFolders] = useState(false);
 
     const [state, formAction, isPending] = useActionState(createFileFormTransaction, initialState);
 
@@ -46,12 +51,43 @@ export default function AtlasCreateFileForm({ projects }: AtlasCreateFileFormPro
         }
     }, [state.status, router, pathname, searchParams]);
 
+    useEffect(() => {
+        setProjectFolders([]);
+
+        if (!selectedProjectId) return;
+
+        let isActive = true;
+
+        const loadFolders = async () => {
+            setIsLoadingFolders(true);
+
+            try {
+                const folders = await fetchFoldersForProject(selectedProjectId);
+
+                if (isActive && folders) {
+                    setProjectFolders(folders);
+                }
+            } catch (error) {
+
+            } finally {
+                if (isActive) setIsLoadingFolders(false);
+            }
+        };
+
+        loadFolders();
+
+        // 3. The Cleanup Function
+        return () => {
+            isActive = false;
+        };
+    }, [selectedProjectId]);
+
     return (
         <form action={formAction} className='space-y-4 text-blue-400 dark:bg-background dark:text-primary'>
             <div className='space-y-2 dark:bg-background dark:text-primary'>
                 <Label htmlFor='projectId'>Parent Project</Label>
 
-                <Select name="projectId" required>
+                <Select name="projectId" required value={selectedProjectId} onValueChange={setSelectedProjectId}>
                     <SelectTrigger>
                         <SelectValue placeholder="Select a Project" />
                     </SelectTrigger>
@@ -66,10 +102,30 @@ export default function AtlasCreateFileForm({ projects }: AtlasCreateFileFormPro
                 </Select>
             </div>
 
+            <div className='space-y-2 dark:bg-background dark:text-primary'>
+                <Label htmlFor='folderId'>Folder</Label>
+                
+                <Select name='folderId'>
+                    <SelectTrigger>
+                        <SelectValue placeholder='Select a Folder?' />
+                    </SelectTrigger>
+
+                    {projectFolders && 
+                        (<SelectContent>
+                            {projectFolders.map((projectFolder) => (
+                                <SelectItem key={projectFolder.id} value={projectFolder.id}>
+                                    {projectFolder.name}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>)
+                    }
+                </Select>
+            </div>
+
             <div className='grid gap-2'>
                 <Label htmlFor='name'>Name</Label>
 
-                <Input 
+                <Input
                     id='name'
                     name='name'
                     className='scheme-dark'
@@ -80,7 +136,7 @@ export default function AtlasCreateFileForm({ projects }: AtlasCreateFileFormPro
 
             <div className='grid gap-2 text-indigo-400'>
                 <Label htmlFor='description'>Description</Label>
-                <Textarea 
+                <Textarea
                     id='description'
                     name='description'
                     placeholder='What is the file about?'

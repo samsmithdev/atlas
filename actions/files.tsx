@@ -28,6 +28,8 @@ export async function createFileFormTransaction(prevState: ActionState, formData
   const projectId = formData.get('projectId') as string;
   const name = formData.get('name') as string;
   const description = formData.get('description') as string;
+  const folderIdField = formData.get('folderId');
+  const folderId = folderIdField ? folderIdField as string : null;
 
   if (!projectId || !name) {
     return { status: 'error', message: 'Files require a ProjectId and name.' };
@@ -50,6 +52,7 @@ export async function createFileFormTransaction(prevState: ActionState, formData
           name,
           description,
           userId: userId,
+          folderId: folderId,
           projectId: updatedProject.id,
           readableId: readableId
         }
@@ -73,8 +76,11 @@ export async function createFileTransaction(formData: FormData) {
 
   const projectId = formData.get('projectId') as string;
   const name = formData.get('name') as string;
-  const author = 'Sam';
   const description = formData.get('description') as string;
+  const folderIdField = formData.get('folderId') as string;
+  const folderId = folderIdField==='' ? folderIdField : null;
+  console.log(folderId);
+  console.log(folderIdField);
 
   if (!projectId || !name) {
     throw new Error('Missing required fields');
@@ -97,6 +103,7 @@ export async function createFileTransaction(formData: FormData) {
         name,
         description,
         userId,
+        folderId: folderId,
         projectId: updatedProject.id,
         readableId: readableId,
       }
@@ -142,7 +149,13 @@ export async function fetchFileNavItemsForProject(projectId: string) {
     select: {
       id: true,
       readableId: true,
-      name: true
+      name: true,
+      folderId: true,
+      folder: {
+        select: {
+          name: true, // Select only the parent's name field
+        },
+      },
     }
   });
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams, useParams } from 'next/navigation';
 import {
     Dialog,
     DialogContent,
@@ -18,13 +18,18 @@ import { AtlasSubjectSelectorItem, AtlasProjectSelectorItem } from '@/types/Atla
 import { AtlasProjectNavigatorItem, AtlasGroupedProjectsForNav, AtlasNavigationItem } from '@/types/AtlasNavigatorTypes';
 import AtlasSelectProjectPane from './panes/AtlasSelectProjectPane';
 import AtlasSearchPane from './panes/AtlasSearchPane';
+import AtlasCreateFolderForm from './forms/AtlasCreateFolderForm';
+import { AtlasUploadPane } from './panes/AtlasUploadPane';
+import { fetchFile } from '@/actions/files';
 
 export enum AtlasFormSelector {
     Search = "search",
     SelectProject = "select-project",
     CreateSubject = "create-subject",
     CreateProject = "create-project",
-    CreateFile = "create-file"
+    CreateFolder = "create-folder",
+    CreateFile = "create-file",
+    UploadAsset = "upload-asset"
 }
 
 type AtlasActionModalProps = {
@@ -37,6 +42,10 @@ export default function AtlasActionModal({ subjects, projects, projectLinkSubjec
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const params = useParams();
+
+    const activeFileId = params.fileId as string;
+    const activeProjectId = params.projectId as string;
 
     const formChoice = searchParams.get('action-modal');
 
@@ -56,6 +65,22 @@ export default function AtlasActionModal({ subjects, projects, projectLinkSubjec
 
     const renderForm = () => {
         switch (formChoice) {
+            case AtlasFormSelector.UploadAsset:
+                return (
+                    <>
+                        <DialogHeader>
+                            <DialogTitle>Upload Asset</DialogTitle>
+                            <DialogDescription>Upload an asset</DialogDescription>
+                        </DialogHeader>
+                        <AtlasUploadPane
+                            fileId={activeFileId}
+                            onUploadComplete={(asset) => {
+                                closeModal(); // Close modal
+                                router.refresh(); // Refresh list
+                            }}
+                        />
+                    </>
+                );
             case AtlasFormSelector.SelectProject:
                 return (
                     <>
@@ -100,12 +125,22 @@ export default function AtlasActionModal({ subjects, projects, projectLinkSubjec
                     </>
                 );
 
+            case AtlasFormSelector.CreateFolder:
+                return (
+                    <>
+                        <DialogHeader>
+                            <DialogTitle>New Folder</DialogTitle>
+                            <DialogDescription>Create a new Folder.</DialogDescription>
+                        </DialogHeader>
+                        <AtlasCreateFolderForm projects={projects} />
+                    </>
+                );
+
             case AtlasFormSelector.Search:
                 return (
                     <>
                         <DialogHeader>
-                            <DialogTitle>New File</DialogTitle>
-                            <DialogDescription>Create a new File.</DialogDescription>
+                            <DialogTitle>Search...</DialogTitle>
                         </DialogHeader>
                         <AtlasSearchPane />
                     </>

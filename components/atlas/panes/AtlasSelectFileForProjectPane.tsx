@@ -1,11 +1,12 @@
 'use client';
 
 import { useOptimistic, startTransition } from 'react';
-import { AtlasFileNavigatorItem, AtlasNavigationTypes } from "@/types/AtlasNavigatorTypes";
+import { AtlasFileNavigatorItem, AtlasGroupedFilesForNav, AtlasNavigationTypes } from "@/types/AtlasNavigatorTypes";
 import AtlasEmptySelectFileForProjectPane from "./empty-states/AtlasEmptySelectFileForProjectPane";
 import { useParams } from 'next/navigation';
 import AtlasItemButton from "../buttons/AtlasItemButton";
 import { deleteFile } from '@/actions/files';
+import AtlasFolderItemButton from '../buttons/AtlasFolderItemButton';
 
 type AtlasSelectFileForProjectPaneProps = {
     files: AtlasFileNavigatorItem[];
@@ -38,17 +39,47 @@ export default function AtlasSelectFileForProjectPane({ files }: AtlasSelectFile
         <div className="w-full h-full">
             {(optimisticFiles && optimisticFiles.length > 0) ? (
                 <ul className='space-y-2 flex flex-col pr-4 pl-4 h-full mb-4'>
-                    {optimisticFiles.sort((left, right) => {
+                    {Object.values(optimisticFiles.sort((left, right) => {
                         return left.readableId.localeCompare(right.readableId);
-                    })
-                        .map((file) => (
+                    }).reduce((accumulator, fileNavItem) => {
+                        const folderId = fileNavItem.folderId ?? 'root';
+                        const folderName = fileNavItem.folderName;
+                        
+                        if (!accumulator[folderId]) {
+                            accumulator[folderId] = {
+                                folderName,
+                                folderId,
+                                files: []
+                            };
+                        }
+
+                        accumulator[folderId].files.push(fileNavItem);
+
+                        return accumulator;
+                    }, {} as AtlasGroupedFilesForNav)).map((folderGroup) => (
+                        (folderGroup.folderName) ? 
+                        (<AtlasFolderItemButton 
+                            key={folderGroup.folderId}
+                            cellItem={{folderName: folderGroup.folderName!, folderId: folderGroup.folderId, files: folderGroup.files}}
+                            onDelete={handleDeleteRequest}
+                        />) : 
+                        (folderGroup.files.map((rootFile) => (
                             <AtlasItemButton 
-                            key={file.id} 
-                            cellItem={{id: file.id, link: file.link, type: AtlasNavigationTypes.File, name:`${file.readableId}-${file.name}`}}
-                            onDelete={handleDeleteRequest} />
-                        ))}
+                                key={rootFile.id}
+                                cellItem={{id: rootFile.id, link: rootFile.link, type: AtlasNavigationTypes.File, name:`${rootFile.readableId}-${rootFile.name}`}}
+                                onDelete={handleDeleteRequest}
+                            />
+                        )))
+                        )
+                    )}
                 </ul>
             ) : (<AtlasEmptySelectFileForProjectPane />)}
         </div>
     )
 }
+                        // .map((file) => (
+                        //     <AtlasItemButton 
+                        //     key={file.id} 
+                        //     cellItem={{id: file.id, link: file.link, type: AtlasNavigationTypes.File, name:`${file.readableId}-${file.name}`}}
+                        //     onDelete={handleDeleteRequest} />
+                        // ))}

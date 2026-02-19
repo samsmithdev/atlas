@@ -21,7 +21,9 @@ export default async function AtlasFilesLayout({
             id: file.id,
             readableId: file.readableId,
             name: file.name,
-            link: `/projects/${projectId}/files/${file.id}`
+            link: `/projects/${projectId}/files/${file.id}`,
+            folderId: file.folderId ?? undefined,
+            folderName: file.folder?.name ?? undefined
         }
 
         return newFile;

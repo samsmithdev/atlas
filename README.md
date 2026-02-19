@@ -1,6 +1,6 @@
 # A.T.L.A.S. Overview
 
-Project A.T.L.A.S. stands for Assistive Tech Leveraging Accommodation Systems. 
+Project A.T.L.A.S. stands for Assistant Technology Leveraging Accessibility Systems. 
 
 The goal is to provide a local-first app for supporting folks suffering from executive dysfunction. Organization systems can be one of the most significant quality of life upgrades, but the manual organizing and upkeep can prevent people who need them most from being able to access the benefits of them. 
 

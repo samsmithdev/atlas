@@ -1,4 +1,4 @@
-import { AtlasNavigationTypes } from "@/types/AtlasNavigatorTypes";
+import { AtlasFileNavigatorItem, AtlasNavigationTypes } from "@/types/AtlasNavigatorTypes";
 import { Label } from "@/components/ui/label";
 import { Button } from '@/components/ui/button';
 import Link from "next/link";
