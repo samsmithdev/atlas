@@ -12,10 +12,12 @@ export interface AtlasLinkButtonProps
     VariantProps<typeof buttonVariants> {
   // You can add your own custom props here later if needed!
   // e.g., isExternal?: boolean;
+  displayText?: string;
 }
 
 export function AtlasLinkButton({ 
   className, 
+  displayText,
   variant, 
   size, 
   href, 
@@ -29,6 +31,8 @@ export function AtlasLinkButton({
       // custom classes you passed in using cn().
       className={cn(buttonVariants({ variant, size, className }))} 
       {...props} 
-    />
+    >
+      {displayText}
+    </Link>
   );
 }

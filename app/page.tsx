@@ -1,4 +1,5 @@
 import { ThinkingIndicator } from "@/components/atlas/AtlasInteractionModule";
+import { AtlasLinkButton } from "@/components/atlas/buttons/AtlasLinkButton";
 import Link from "next/link";
 
 export default function Home() {
@@ -16,6 +17,8 @@ export default function Home() {
         href="/projects">
         Open /projects
       </Link>
+
+      <AtlasLinkButton className='text-2xl p-6 m-4' href={"/projects"} displayText='Projects' variant='atlas_link'/>
 
       <p className="text-xs text-secondary">Unauthorized use is not authorized.</p>
     </div>
