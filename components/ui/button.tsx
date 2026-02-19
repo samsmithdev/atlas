@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
@@ -19,15 +19,34 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
-        atlas_link: "border border-2 bg-background hover:bg-accent border-ro rounded-none border-t-0 border-r-0 border-l-0 border-input hover:cursor-pointer hover:scale-101",
-        atlas_action: "text-xl pb-4 pt-4 pr-4 pl-4 border-t-0 border-r-0 border-l-0 border-ro border-b-2 bg-input shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 rounded-none cursor-auto hover:cursor-pointer hover:scale-110",
+        
+        atlas_link: cn(
+          // Border
+          "border border-2 border-ro rounded-none border-t-0 border-r-0 border-l-0", 
+          
+          // Background
+          "bg-background hover:bg-accent",
+
+          // Hover
+          "hover:cursor-pointer hover:scale-101"),
+        atlas_action: cn(
+          // Border
+          "border-t-0 border-r-0 border-l-0 border-ro border-b-2 bg-background rounded-none shadow-xs",  
+          
+          // Background
+          "hover:bg-accent hover:text-accent-foreground",
+        
+          // Hover 
+          "hover:bg-accent hover:text-accent-foreground cursor-auto hover:cursor-pointer hover:scale-110"
+         ),
+
         atlas_folder: 'text-l p-4 border-b-2 bg-input shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 rounded-none cursor-auto hover:cursor-pointer hover:scale-110',
       },
       size: {
-        default: "h-9 px-4 py-2 has-[>svg]:px-3",
+        default: "h-9 px-4 py-2 text-base has-[>svg]:px-3",
         xs: "h-6 gap-1 rounded-md px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
-        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+        sm: "h-8 rounded-md gap-1.5 px-3 text-sm has-[>svg]:px-2.5",
+        lg: "h-10 rounded-md px-6 text-large has-[>svg]:px-4",
         icon: "size-9",
         "icon-xs": "size-6 rounded-md [&_svg:not([class*='size-'])]:size-3",
         "icon-sm": "size-8",
