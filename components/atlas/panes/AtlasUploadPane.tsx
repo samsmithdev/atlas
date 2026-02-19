@@ -11,11 +11,11 @@ import { generateUploadUrl, createAsset } from "@/actions/storage"; // Import yo
 
 interface AtlasUploadPaneProps {
   onUploadComplete?: (asset: any) => void; // Callback when done
-  projectId?: string; // Optional context
+  fileId?: string; // Optional context
   className?: string;
 }
 
-export function AtlasUploadPane({ onUploadComplete, projectId, className }: AtlasUploadPaneProps) {
+export function AtlasUploadPane({ onUploadComplete, fileId, className }: AtlasUploadPaneProps) {
   const [file, setFile] = useState<File | null>(null);
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState<"idle" | "uploading" | "success" | "error">("idle");
@@ -75,7 +75,7 @@ export function AtlasUploadPane({ onUploadComplete, projectId, className }: Atla
         mimeType: data.mimeType,
         size: file.size,
         bucket: "jarvis-assets", // Or from env
-        projectId
+        fileId
       });
 
       setStatus("success");

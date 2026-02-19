@@ -12,7 +12,7 @@ export async function createAsset(data: {
   mimeType: string;
   size: number;
   bucket: string;
-  projectId?: string; // Optional: Link directly to a project
+  fileId?: string; // Optional: Link directly to a project
   folderId?: string;  // Optional: Link directly to a folder
 }) {
   const session = await auth();
@@ -27,8 +27,7 @@ export async function createAsset(data: {
       mimeType: data.mimeType,
       size: data.size,
       userId: session.user.id,
-      // If we are uploading directly to a File, we might link it here, 
-      // but for "Inbox" flow, these might be null initially.
+      fileId: data.fileId
     },
   });
 

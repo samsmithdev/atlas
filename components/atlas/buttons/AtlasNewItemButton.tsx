@@ -44,6 +44,10 @@ export default function AtlasNewItemButton() {
                 <DropdownMenuItem onClick={() => openModal(AtlasFormSelector.CreateSubject)}>
                     New Subject
                 </DropdownMenuItem>
+
+                <DropdownMenuItem onClick={() => openModal(AtlasFormSelector.UploadAsset)}>
+                    New Asset
+                </DropdownMenuItem>
             </DropdownMenuContent>
 
         </DropdownMenu>
