@@ -30,6 +30,7 @@ export type AtlasGroupedFilesForNav = Record<string, {
 
 export enum AtlasNavigationTypes {
     File = "file",
+    Folder = "folder",
     Project = "project",
     Subject = "subject",
 };
