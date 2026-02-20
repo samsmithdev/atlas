@@ -42,7 +42,6 @@ export default async function ProjectsHomepage() {
                 header: header,
                 description: subjectDescription,
                 id: subjectId,
-                onDelete: handleDeleteRequest,
                 listItems: []
             };
         }
@@ -51,7 +50,6 @@ export default async function ProjectsHomepage() {
             displayText: project.name,
             itemId: project.id,
             link: `/projects/${project.id}/files`,
-            onDelete: handleDeleteRequest
         }
 
         accumulator[subjectId].listItems.push(projectItem);

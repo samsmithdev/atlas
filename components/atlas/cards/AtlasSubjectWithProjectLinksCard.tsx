@@ -1,5 +1,6 @@
 'use client';
 
+import { deleteProject } from "@/actions/projects";
 import AtlasListItemCard from "@/components/atlas/cards/AtlasListItemCard";
 import { Button } from '@/components/ui/button';
 import { Card,
@@ -11,22 +12,42 @@ import { Card,
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { AtlasItemType, AtlasListItem } from "@/types/AtlasListTypes";
+import { startTransition, useOptimistic } from "react";
 
 interface AtlasSubjectWithProjectLinksCardProps {
     subjectName: string;
     subjectDescription: string;
     subjectId: string;
     projects: AtlasListItem[];
-    onDelete: (id: string, type: AtlasItemType) => void;
+    onDelete: (id: string) => void;
 }
 
 export default function AtlasSubjectWithProjectLinksCard({ subjectName, subjectDescription, subjectId, projects, onDelete }: AtlasSubjectWithProjectLinksCardProps) {
+    const [optimisticProjects, removeOptimisticProject] = useOptimistic(
+        projects,
+        (currentProjects, projectIdToRemove: string) => {
+            return currentProjects.filter(project => project.itemId !== projectIdToRemove);
+        }
+    );
+
+    const handleDeleteProjectRequest = async (projectId: string) => {
+        startTransition(() => {
+            removeOptimisticProject(projectId);
+        });
+
+        const result = await deleteProject(projectId);
+
+        if (!result.success) {
+            console.error("Failed to delete");
+        }
+    }
+
     return (
         <Card>
             <CardTitle>{subjectName}</CardTitle>
             <CardDescription>{subjectDescription}</CardDescription>
             <CardAction>
-                <Button size='xs' variant='destructive' onClick={() => onDelete(subjectId, AtlasItemType.Subject)}>X</Button>
+                <Button size='xs' variant='destructive' onClick={() => onDelete(subjectId)}>X</Button>
             </CardAction>
             <CardContent className={cn(
                 // Content Border
@@ -41,7 +62,7 @@ export default function AtlasSubjectWithProjectLinksCard({ subjectName, subjectD
                 {(projects && projects.length > 0) ? (
                     <ul>
                         {projects.map((project) => (
-                            <AtlasListItemCard displayText={project.displayText} itemId={project.itemId} onDelete={() => project.onDelete(project.itemId, AtlasItemType.Project)} href={project.link} />
+                            <AtlasListItemCard key={project.itemId} displayText={project.displayText} itemId={project.itemId} onDelete={handleDeleteProjectRequest} href={project.link} />
                         ))}
                     </ul>
                 ) : 

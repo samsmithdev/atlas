@@ -5,14 +5,12 @@ export type AtlasListItem = {
     displayText: string;
     itemId: string;
     link: string;
-    onDelete: (id: string, type: AtlasItemType) => void;
 }
 
 export type AtlasListGroup = {
     header: string;
     description?: string;
     id: string;
-    onDelete: (id: string, type: AtlasItemType) => void;
     listItems: AtlasListItem[];
 }
 
