@@ -3,12 +3,13 @@
 import { deleteProject } from "@/actions/projects";
 import AtlasListItemCard from "@/components/atlas/cards/AtlasListItemCard";
 import { Button } from '@/components/ui/button';
-import { Card,
-        CardTitle,
-        CardDescription,
-        CardHeader,
-        CardContent,
-        CardAction,
+import {
+    Card,
+    CardTitle,
+    CardDescription,
+    CardHeader,
+    CardContent,
+    CardAction,
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { AtlasItemType, AtlasListItem } from "@/types/AtlasListTypes";
@@ -20,9 +21,10 @@ interface AtlasSubjectWithProjectLinksCardProps {
     subjectId: string;
     projects: AtlasListItem[];
     onDelete: (id: string) => void;
+    className?: string;
 }
 
-export default function AtlasSubjectWithProjectLinksCard({ subjectName, subjectDescription, subjectId, projects, onDelete }: AtlasSubjectWithProjectLinksCardProps) {
+export default function AtlasSubjectWithProjectLinksCard({ subjectName, subjectDescription, subjectId, projects, onDelete, className }: AtlasSubjectWithProjectLinksCardProps) {
     const [optimisticProjects, removeOptimisticProject] = useOptimistic(
         projects,
         (currentProjects, projectIdToRemove: string) => {
@@ -43,12 +45,26 @@ export default function AtlasSubjectWithProjectLinksCard({ subjectName, subjectD
     }
 
     return (
-        <Card>
-            <CardTitle>{subjectName}</CardTitle>
-            <CardDescription>{subjectDescription}</CardDescription>
-            <CardAction>
-                <Button size='xs' variant='destructive' onClick={() => onDelete(subjectId)}>X</Button>
-            </CardAction>
+        <Card className={cn(
+            // Background
+            'bg-background text-card-foreground',
+
+            // Border
+            'border-2 border-primary',
+
+            className
+        )}>
+            <CardHeader className='flex flex-col w-full'>
+                <div className='flex flex-row w-full'>
+                    <CardTitle className='flex-1'>{subjectName}</CardTitle>
+                    <CardAction>
+                        <Button size='xs' variant='destructive' onClick={() => onDelete(subjectId)}>X</Button>
+                    </CardAction>
+                </div>
+
+                <CardDescription>{subjectDescription}</CardDescription>
+
+            </CardHeader>
             <CardContent className={cn(
                 // Content Border
                 'border-2 rounded-none border-primary',
@@ -65,8 +81,8 @@ export default function AtlasSubjectWithProjectLinksCard({ subjectName, subjectD
                             <AtlasListItemCard key={project.itemId} displayText={project.displayText} itemId={project.itemId} onDelete={handleDeleteProjectRequest} href={project.link} />
                         ))}
                     </ul>
-                ) : 
-                (<p>No Projects</p>) }
+                ) :
+                    (<p>No Projects</p>)}
             </CardContent>
         </Card>
     );

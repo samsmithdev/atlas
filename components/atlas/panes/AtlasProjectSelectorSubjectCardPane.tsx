@@ -34,11 +34,17 @@ export default function AtlasProjectSelectorSubjectCardPane({projectNavigatorIte
     }
 
     return (
-        <ScrollArea>
-            <div className="flex flex-col flex-col-2 gap-2">
+        <ScrollArea className='w-full h-full p-8'>
+            <div className="flex flex-col flex-col-2 gap-8">
                 {(projectNavigatorItems ?
                     (projectNavigatorItems.map((subject) => (
-                        <AtlasSubjectWithProjectLinksCard key={subject.id} subjectName={subject.header} subjectDescription={subject.description ?? ''} subjectId={subject.id} projects={subject.listItems} onDelete={handleDeleteSubjectRequest}/>
+                        <AtlasSubjectWithProjectLinksCard 
+                        key={subject.id} 
+                        subjectName={subject.header} 
+                        subjectDescription={subject.description ?? ''} subjectId={subject.id} projects={subject.listItems} 
+                        onDelete={handleDeleteSubjectRequest}
+                        className='flex shrink w-1/3'
+                        />
                     ))) : 
                     (<p></p>))}
             </div>
