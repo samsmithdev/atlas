@@ -32,6 +32,7 @@ export async function createFolderFormTransaction(prevState: ActionState, formDa
                 data: {
                     name,
                     projectId,
+                    userId
                 }
             });
         });
@@ -43,7 +44,7 @@ export async function createFolderFormTransaction(prevState: ActionState, formDa
 }
 
 export async function fetchFolderDetails(folderId: string) {
-    checkAuth();
+    await checkAuth();
 
     const folder = await prisma.folder.findUnique({
         where: { id: folderId },
@@ -54,7 +55,7 @@ export async function fetchFolderDetails(folderId: string) {
 }
 
 export async function fetchFoldersForProject(projectId: string) {
-    checkAuth();
+    await checkAuth();
 
     const folders = await prisma.folder.findMany({
         where: { projectId: projectId },
@@ -62,4 +63,22 @@ export async function fetchFoldersForProject(projectId: string) {
     });
 
     return folders;
+}
+
+export async function deleteFolder(folderId: string) {
+    const {userId} = await checkAuth();
+
+    try {
+        const deletedFolder = await prisma.folder.delete({
+            where: {
+                id: folderId,
+                userId: userId
+            }
+        });
+        revalidatePath('/projects');
+        return { success: true, data: deletedFolder}
+    } catch (error) {
+        console.error("Failed to delete folder:", error);
+        return { success: false, error: error }
+    }
 }

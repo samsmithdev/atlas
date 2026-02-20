@@ -6,8 +6,8 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["postgresqlExtensions", "typedSql"] 
-  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  previewFeatures = ["postgresqlExtensions", "typedSql"]
+  binaryTargets   = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -21,8 +21,8 @@ model Subject {
   name        String
   description String
 
-  userId       String
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   projectSequence Int @default(0)
 
@@ -62,29 +62,32 @@ model Folder {
   projectId String
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
-  files     File[]
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  files File[]
 
   @@unique([projectId, name]) // Prevent duplicate folder names in the same project
   @@map("folders")
 }
 
 model File {
-  id              String                      @id @default(cuid())
-  readableId      String                      @unique
-  name            String
-  createdDate     DateTime                    @default(now()) @map("created_at")
-  userId       String
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  description     String
-  tags            String[]
-  content         Json                        @default("[]")
+  id          String   @id @default(cuid())
+  readableId  String   @unique
+  name        String
+  createdDate DateTime @default(now()) @map("created_at")
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  description String
+  tags        String[]
+  content     Json     @default("[]")
 
   // Optional: The File might be inside a Folder. If null, it's at Project Root.
-  folderId    String?
-  folder      Folder?  @relation(fields: [folderId], references: [id])
+  folderId String?
+  folder   Folder? @relation(fields: [folderId], references: [id])
 
   // Assets that belong to this file (Attachments/Embeds)
-  assets      Asset[]
+  assets Asset[]
 
   // "hidden" search columns managed by db triggers
   // stores the extracted text for fast keyword search
@@ -100,51 +103,51 @@ model File {
 }
 
 model InboxItem {
-  id          String   @id @default(cuid())
-  createdAt   DateTime @default(now())
-  
-  // Small text content (a quick thought, or the transcript of a voice note)
-  content     String?  @db.Text 
-  
-  // Status to track if you've processed it
-  status      InboxStatus @default(PENDING)
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
 
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Small text content (a quick thought, or the transcript of a voice note)
+  content String? @db.Text
+
+  // Status to track if you've processed it
+  status InboxStatus @default(PENDING)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   // An inbox item might have assets attached (audio, image, etc.)
-  assets      Asset[]
+  assets Asset[]
 
   @@map("inbox_items")
 }
 
 model Asset {
-  id          String   @id @default(cuid())
-  createdAt   DateTime @default(now())
-  name        String   // Display name
-  
-  // Minio/S3 Details
-  bucket      String
-  key         String   // The path in the bucket
-  mimeType    String
-  size        Int
-  
-  // Metadata for your "Smart" features
-  transcript  String?  @db.Text // For Audio/Video
-  altText     String?  // For Images
-  duration    Int?     // For Audio/Video (in seconds)
-  blurHash    String?  // For Images (UI polish)
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  name      String // Display name
 
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Minio/S3 Details
+  bucket   String
+  key      String // The path in the bucket
+  mimeType String
+  size     Int
+
+  // Metadata for your "Smart" features
+  transcript String? @db.Text // For Audio/Video
+  altText    String? // For Images
+  duration   Int? // For Audio/Video (in seconds)
+  blurHash   String? // For Images (UI polish)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   // Polymorphic-ish relation: An Asset belongs to EITHER a File OR an InboxItem
   // (Or potentially neither if it's "archived" but not deleted)
-  fileId      String?
-  file        File?       @relation(fields: [fileId], references: [id], onDelete: Cascade)
-  
+  fileId String?
+  file   File?   @relation(fields: [fileId], references: [id], onDelete: Cascade)
+
   inboxItemId String?
-  inboxItem   InboxItem?  @relation(fields: [inboxItemId], references: [id], onDelete: SetNull)
+  inboxItem   InboxItem? @relation(fields: [inboxItemId], references: [id], onDelete: SetNull)
 
   @@map("assets")
 }
@@ -192,15 +195,17 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  
-  // Connect to your Logic
-  subjects      Subject[]
-  projects      Project[]
-  files         File[]
 
-  assets        Asset[]
+  // Connect to your Logic
+  subjects Subject[]
+  projects Project[]
+  files    File[]
+
+  assets Asset[]
 
   inboxItems InboxItem[]
+
+  folders Folder[]
 }
 
 model VerificationToken {
