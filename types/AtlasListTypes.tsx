@@ -17,3 +17,10 @@ export type AtlasListGroup = {
 }
 
 export type AtlasProjectNavigatorItems = Record<string, AtlasListGroup>;
+
+export enum AtlasItemType {
+    File = 'file',
+    Folder = 'folder',
+    Project = 'project',
+    Subject = 'subject'
+}
