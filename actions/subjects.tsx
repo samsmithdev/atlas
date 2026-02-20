@@ -1,6 +1,7 @@
 'use server'
 
 import { auth } from '@/auth';
+import { checkAuth } from './auth';
 import prisma from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -159,10 +160,29 @@ export async function updateSubject(
                 projects: true
             }
         });
-
+        revalidatePath('/projects');
         return { success: true, data: updatedSubject };
     } catch (error) {
         console.error("Failed to update subject relations:", error);
         return {}
+    }
+}
+
+export async function deleteSubject(subjectId: string) {
+    const { userId } = await checkAuth();
+
+    try {
+        const deletedSubject = await prisma.subject.delete({
+            where: {
+                id: subjectId,
+                userId: userId,
+            }
+        });
+
+        revalidatePath('/projects');
+        return { success: true, data: deletedSubject }
+    } catch (error) {
+        console.error("Failed to delete Subject:", error);
+        return { success: false, error: error }
     }
 }

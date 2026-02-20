@@ -1,5 +1,6 @@
 'use server'
 import { auth } from '@/auth';
+import { checkAuth } from '@/actions/auth';
 import prisma from '@/lib/db';
 import { Project } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
@@ -267,4 +268,22 @@ export async function createProjectTransaction(formData: FormData) {
     })
 
     return newProject;
+}
+
+export async function deleteProject(projectId: string) {
+    const { userId } = await checkAuth();
+
+    try {
+        const deletedProject = await prisma.project.delete({
+            where: {
+                id: projectId,
+                userId: userId,
+            }
+        });
+        revalidatePath('/projects');
+        return { success: true, data: deletedProject }
+    } catch (error) {
+        console.error("Failed to delete th eproject:", error);
+        return { success: false, error: error }
+    }
 }
