@@ -2,6 +2,7 @@ import AtlasSelectProjectPane from "@/components/atlas/panes/AtlasSelectProjectP
 import AtlasActionModalTestPage from "./_components/AtlasActionModalTestPage";
 import { fetchProjectsForMenu } from "@/actions/projects";
 import { AtlasProjectNavigatorItem, AtlasGroupedProjectsForNav } from "@/types/AtlasNavigatorTypes";
+import { AtlasListGroup, AtlasProjectNavigatorItems } from "@/types/AtlasListTypes";
 
 export default async function ProjectsHomepage() {
         const projectLinkSubjectGroup = (await fetchProjectsForMenu()).reduce((accumulator, project) => {
@@ -11,9 +12,9 @@ export default async function ProjectsHomepage() {
             
             if (!accumulator[subjectId]) {
                 accumulator[subjectId] = {
-                    subjectName: subjectName,
-                    subjectShortcode: shortCode,
-                    projects: []
+                    header: subjectName,
+                    description: project.subject?.description,
+                    
                 };
             }
     
@@ -26,7 +27,8 @@ export default async function ProjectsHomepage() {
             accumulator[subjectId].projects.push(navigatorItem);
     
             return accumulator;
-        }, {} as AtlasGroupedProjectsForNav)
+        }, {} as AtlasProjectNavigatorItems)
+
     return (
         <AtlasSelectProjectPane projectsGroupedBySubject={projectLinkSubjectGroup} />
     );

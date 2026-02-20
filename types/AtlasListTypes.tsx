@@ -7,3 +7,13 @@ export type AtlasListItem = {
     link: string;
     onDelete: (id: string) => void;
 }
+
+export type AtlasListGroup = {
+    header: string;
+    description?: string;
+    id: string;
+    onDelete: (id: string) => void;
+    listItems: AtlasListItem[];
+}
+
+export type AtlasProjectNavigatorItems = Record<string, AtlasListGroup>;
