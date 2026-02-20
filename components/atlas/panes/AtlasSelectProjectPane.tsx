@@ -6,6 +6,7 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { AtlasGroupedProjectsForNav } from '@/types/AtlasNavigatorTypes';
 import AtlasEmptySelectProjectPane from './empty-states/AtlasEmptySelectProjectPane';
 import Link from 'next/link';
+import { AtlasListItem } from '@/types/AtlasListTypes';
 
 type SelectProjectPaneProps = {
     projectsGroupedBySubject: AtlasGroupedProjectsForNav;

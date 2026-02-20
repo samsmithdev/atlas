@@ -1,30 +1,24 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardAction} from '@/components/ui/card';
+import { Card, CardAction, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { AtlasLinkButton } from '../buttons/AtlasLinkButton';
 
 interface AtlasListItemCardProps extends React.ComponentPropsWithoutRef<typeof Link> {
     displayText: string;
     itemId: string;
     onDelete: (id: string) => void;
 }
-
-export default function AtlasListItemCard({displayText, itemId, onDelete, href, ...props }: AtlasListItemCardProps) {
+// Set text-lg at calling site?
+export default function AtlasListItemCard({displayText, itemId, onDelete, href, className, ...props }: AtlasListItemCardProps) {
     return (
-        <Card className='flex flex-row'>
-            <Link 
-            href={href}
-            className={cn(
-                // Sizing
-                'w-full text-lg',
-
-                // Color
-                'bg-background text-foreground'
-            )}
-            >
-                {displayText}
-            </Link>
-            <Button variant='destructive' size='xs' className='shrink' onClick={() => onDelete(itemId)}/>
+        <Card>
+            <CardAction>
+                <Button size='xs' variant='destructive' onClick={() => onDelete(itemId)}>x</Button>
+            </CardAction>
+            <CardContent className='flex flex-col'>
+                <AtlasLinkButton href={href} displayText={displayText} className='flex flex-1' variant='atlas_list_item' />
+            </CardContent>
         </Card>
     )
 }

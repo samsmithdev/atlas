@@ -19,7 +19,7 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
-        
+
         atlas_link: cn(
           // Border
           "border border-2 border-ro rounded-none border-t-0 border-r-0 border-l-0", 
@@ -40,6 +40,16 @@ const buttonVariants = cva(
           "hover:bg-accent hover:text-accent-foreground cursor-auto hover:cursor-pointer hover:scale-110"
          ),
 
+         atlas_list_item: cn(
+          // Background
+          "bg-background",
+
+          // Border
+          "border border-1 border-ro rounded-none border-t-0 border-r-0 border-l-0",
+
+          // Hover
+          "hover:bg-primary-muted cursor-auto hover:cursor-pointer"
+         ),
         atlas_folder: 'text-l p-4 border-b-2 bg-input shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 rounded-none cursor-auto hover:cursor-pointer hover:scale-110',
       },
       size: {
