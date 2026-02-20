@@ -1,3 +1,5 @@
+'use client';
+
 import AtlasListItemCard from "@/components/atlas/cards/AtlasListItemCard";
 import { Button } from '@/components/ui/button';
 import { Card,

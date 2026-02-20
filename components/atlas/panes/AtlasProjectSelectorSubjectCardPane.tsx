@@ -1,3 +1,5 @@
+'use client';
+
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AtlasItemType, AtlasListGroup, AtlasProjectNavigatorItems } from "@/types/AtlasListTypes";
 import { Scroll } from "lucide-react";
