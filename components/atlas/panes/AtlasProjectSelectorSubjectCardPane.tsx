@@ -43,7 +43,7 @@ export default function AtlasProjectSelectorSubjectCardPane({projectNavigatorIte
                         subjectName={subject.header} 
                         subjectDescription={subject.description ?? ''} subjectId={subject.id} projects={subject.listItems} 
                         onDelete={handleDeleteSubjectRequest}
-                        className='flex shrink w-1/3'
+                        className='flex shrink w-1/3 max-h-1/2'
                         />
                     ))) : 
                     (<p></p>))}

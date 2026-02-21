@@ -12,10 +12,10 @@ interface AtlasListItemCardProps extends React.ComponentPropsWithoutRef<typeof L
 // Set text-lg at calling site?
 export default function AtlasListItemCard({displayText, itemId, onDelete, href, className, ...props }: AtlasListItemCardProps) {
     return (
-        <Card className='flex flex-row w-full'>
+        <Card className='flex flex-row w-full p-0 bg-background border-0'>
             
-            <CardContent className='flex flex-col w-full h-full'>
-                <AtlasLinkButton href={href} displayText={displayText} className='flex flex-1' variant='atlas_list_item' />
+            <CardContent className='flex flex-col w-full h-full p-0'>
+                <AtlasLinkButton href={href} displayText={displayText} className='flex flex-1' variant='atlas_link' />
             </CardContent>
             <div className='flex shrink'>
                 <CardAction className='flex shrink'>

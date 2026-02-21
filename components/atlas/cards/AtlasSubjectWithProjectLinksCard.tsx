@@ -50,7 +50,7 @@ export default function AtlasSubjectWithProjectLinksCard({ subjectName, subjectD
             'bg-background text-card-foreground',
 
             // Border
-            'border-2 border-primary',
+            'border-2 border-primary rounded-none',
 
             className
         )}>
@@ -67,7 +67,7 @@ export default function AtlasSubjectWithProjectLinksCard({ subjectName, subjectD
             </CardHeader>
             <CardContent className={cn(
                 // Content Border
-                'border-2 rounded-none border-primary',
+                'rounded-none',
                 // Content Background
                 'bg-background',
                 // Content Positioning
