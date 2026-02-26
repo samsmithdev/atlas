@@ -17,7 +17,7 @@ interface AtlasSelectFileForProjectPanelProps {
     fileList: AtlasFileListItem[];
 }
 
-export default async function AtlasSelectFileForProjectPanel({ fileList }: AtlasSelectFileForProjectPanelProps) {
+export default function AtlasSelectFileForProjectPanel({ fileList }: AtlasSelectFileForProjectPanelProps) {
     const params = useParams();
     const activeFileId = params.fileId as string;
 
@@ -44,14 +44,14 @@ export default async function AtlasSelectFileForProjectPanel({ fileList }: Atlas
     }
 
     return (
-        <div className='w-full h-full'>
+        <div className='w-full h-full' id='atlas-select-file-for-project-panel'>
             {(optimisticFileList && optimisticFileList.length > 0) ?
             (<ScrollArea className=''>
                 <ul className='space-y-2 flex flex-col pr-4 pl-4 mb-4'>
                     {optimisticFileList.map((fileListItem) => (
                         (fileListItem.type === AtlasFileListType.File) ? (
-                            <AtlasListItemCard displayText={fileListItem.name} itemId={fileListItem.id} onDelete={handleDeleteRequest} href={fileListItem.link ?? ''} />
-                        ) : (<AtlasListFolderCollapsible folderName={fileListItem.name} folderId={fileListItem.id} folderItems={fileListItem.subitems?.map((file) => { 
+                            <AtlasListItemCard key={fileListItem.id} displayText={fileListItem.name} itemId={fileListItem.id} onDelete={handleDeleteRequest} href={fileListItem.link ?? ''} />
+                        ) : (<AtlasListFolderCollapsible key={fileListItem.id} folderName={fileListItem.name} folderId={fileListItem.id} folderItems={fileListItem.subitems?.map((file) => { 
                             return {displayText: file.name, itemId: file.id, link: file.link ?? ''}
                         }) ?? []} onDelete={handleDeleteRequest} />)
                     ))}
