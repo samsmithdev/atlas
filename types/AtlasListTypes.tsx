@@ -22,3 +22,17 @@ export enum AtlasItemType {
     Project = 'project',
     Subject = 'subject'
 }
+
+// File Navigator List Types
+export enum AtlasFileListType {
+    File = 'file',
+    Folder = 'folder',
+}
+
+export type AtlasFileListItem = {
+    name: string;
+    id: string;
+    description?: string;
+    type: AtlasFileListType;
+    subitems?: AtlasFileListItem[];
+}
