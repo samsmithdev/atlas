@@ -10,7 +10,7 @@ A.T.L.A.S.' goal is NOT to be a perfectly customized system for everybody. Its g
 
 As someone who was diagnosed with autism and ADHD at 30, I've struggled with executive dysfunction for my entire life. I have always had trouble keeping things from slipping through the cracks on my own, but no matter what I tried, every system took more work than I could put in. 
 
-A.T.L.A.S. is ultimately the result of why I got into coding to begin with. I've always seen technology as something rare and impactful, and now I've finally been able to line up my day job with a coding framework accessible from pretty much everywhere. Now is the perfect time to make the automated system, that like a friend helping, might not use the exact system for whatever situation, but does accomplish the goal nonetheless.
+A.T.L.A.S. is ultimately the result of why I got into coding to begin with. I've always seen technology as something rare and impactful, and now I've finally been able to line up my day job with a coding framework accessible from pretty much everywhere. Now that I finally have these tools, I've been able to get to work coding what I've liked about a variety of systems into one automated central hub.
 
 ## Getting Started with A.T.L.A.S.
 
