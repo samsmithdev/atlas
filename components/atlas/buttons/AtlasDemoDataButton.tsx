@@ -5,6 +5,6 @@ import { loadDemonstrationData } from '@/actions/demo';
 
 export default function AtlasDemoDataButton() {
     return (
-        <Button variant='atlas_action' onClick={() => loadDemonstrationData}></Button>
+        <Button variant='atlas_action' onClick={loadDemonstrationData}>Load Demo Data</Button>
     )
 }
