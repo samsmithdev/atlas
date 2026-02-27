@@ -64,6 +64,8 @@ export async function createProjectFormTransaction(prevState: ActionState, formD
     }
 }
 
+
+
 export async function fetchProject(projectId: string) {
     // Get the session inside the action
     const session = await auth();
@@ -226,17 +228,9 @@ export async function updateProject(
     }
 }
 
-export async function createProjectTransaction(formData: FormData) {
+export async function createProjectTransaction(subjectId: string, name: string, description: string) {
     // Get the session inside the action
-    const session = await auth();
-    const userId = session?.user?.id;
-
-    if (!userId) {
-        throw new Error('Unauthorized: You muse be logged in to create a file.');
-    }
-    const subjectId = formData.get('subjectId') as string;
-    const name = formData.get('name') as string;
-    const description = formData.get('description') as string;
+    const { userId, session } = await checkAuth();
 
     // Basic validation, will consider Zod in the future
     if (!subjectId || !name) {

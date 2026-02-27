@@ -65,7 +65,7 @@ export async function createFileFormTransaction(prevState: ActionState, formData
   }
 }
 
-export async function createFileTransaction(formData: FormData) {
+export async function createFileTransaction(projectId: string, name: string, description: string, folderId?: string) {
   // Get the session inside the action
   const session = await auth();
   const userId = session?.user?.id;
@@ -73,14 +73,6 @@ export async function createFileTransaction(formData: FormData) {
   if (!userId) {
     throw new Error('Unauthorized: You muse be logged in to create a file.');
   }
-
-  const projectId = formData.get('projectId') as string;
-  const name = formData.get('name') as string;
-  const description = formData.get('description') as string;
-  const folderIdField = formData.get('folderId') as string;
-  const folderId = folderIdField==='' ? folderIdField : null;
-  console.log(folderId);
-  console.log(folderIdField);
 
   if (!projectId || !name) {
     throw new Error('Missing required fields');

@@ -16,7 +16,7 @@ export type ActionState = {
 };
 
 export async function createFolderFormTransaction(prevState: ActionState, formData: FormData): Promise<ActionState> {
-    const {session, userId} = await checkAuth();
+    const { session, userId } = await checkAuth();
 
     // Extract the data
     const name = formData.get('name') as string;
@@ -37,7 +37,31 @@ export async function createFolderFormTransaction(prevState: ActionState, formDa
             });
         });
         revalidatePath('/projects');
-        return { status: 'success', message: 'Folder successfully created!'};
+        return { status: 'success', message: 'Folder successfully created!' };
+    } catch (error) {
+        return { status: 'error', message: 'DB Error attempting to create folder' };
+    }
+}
+
+export async function createFolderTransaction(name: string, projectId: string) {
+    const { session, userId } = await checkAuth();
+
+    if (!name || !projectId) {
+        return { status: 'error', message: 'Folders require a name and Project ID' };
+    }
+
+    try {
+        await prisma.$transaction(async (tx) => {
+            await tx.folder.create({
+                data: {
+                    name,
+                    projectId,
+                    userId
+                }
+            });
+        });
+        revalidatePath('/projects');
+        return { status: 'success', message: 'Folder successfully created!' };
     } catch (error) {
         return { status: 'error', message: 'DB Error attempting to create folder' };
     }
@@ -66,7 +90,7 @@ export async function fetchFoldersForProject(projectId: string) {
 }
 
 export async function deleteFolder(folderId: string) {
-    const {userId} = await checkAuth();
+    const { userId } = await checkAuth();
 
     try {
         const deletedFolder = await prisma.folder.delete({
@@ -76,7 +100,7 @@ export async function deleteFolder(folderId: string) {
             }
         });
         revalidatePath('/projects');
-        return { success: true, data: deletedFolder}
+        return { success: true, data: deletedFolder }
     } catch (error) {
         console.error("Failed to delete folder:", error);
         return { success: false, error: error }

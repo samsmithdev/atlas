@@ -60,6 +60,40 @@ export async function createSubjectTransaction(prevState: ActionState, formData:
     }
 }
 
+export async function createSubjectDirect(name: string, shortcode: string, description?: string) {
+    const { userId, session } = await checkAuth();
+
+    const duplicateSubjectShortcode = await prisma.subject.findUnique({
+        where: {
+            shortcode: shortcode,
+            userId: userId
+        }
+    });
+
+    if (!name || name.length < 3) {
+        return { status: 'error', message: 'Name must be at least 3 characters.' }
+    } else if (duplicateSubjectShortcode) {
+        return { status: 'error', message: 'Shortcode must be unique.' }
+    }
+
+    try {
+        const subject = await prisma.subject.create({
+            data: {
+                name,
+                shortcode,
+                description: description ?? '',
+                userId: userId
+            }
+        });
+
+        revalidatePath('/projects');
+
+        return { status: 'success', message: 'Subject created successfully!', data: subject };
+    } catch (error) {
+        return { status: 'error', message: `Database Error: Failed to create subject. DB response was ${error}` }
+    }
+}
+
 export async function createSubject(subjectData: {
     id?: string,
     shortcode: string,
