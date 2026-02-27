@@ -73,7 +73,7 @@ export default async function AtlasFilesLayout({
             <div className="w-1/4 overflow-y-auto mb-8 mt-8 scroll-h" id='atlas-files-layout_select-file-container'>
                 <AtlasSelectFileForProjectPanel fileList={Object.values(fileListItemsRecord)} />
             </div>
-            <div className="flex-1 ml-4 mr-8" id='atlas-files-layout_content'>{children}</div>
+            <div className="flex-1 mb-8 mr-6" id='atlas-files-layout_content'>{children}</div>
         </div>
     )
 }

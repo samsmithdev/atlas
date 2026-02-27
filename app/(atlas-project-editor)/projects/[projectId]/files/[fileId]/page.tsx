@@ -1,5 +1,5 @@
 import { fetchFile } from "@/actions/files";
-import AtlasEditMarkdownFilePane from "@/components/atlas/panes/AtlasEditMarkdownFilePane";
+import AtlasEditMarkdownFilePanel from "@/components/atlas/panels/AtlasEditMarkdownFilePanel";
 
 interface AtlasFileIdPageProps {
     params: Promise<{ projectId: string, fileId: string }>;
@@ -11,7 +11,7 @@ export default async function AtlasFileIdPage({ params }: AtlasFileIdPageProps) 
 
     return (
         <div className="h-full w-full" id='atlas-fileid-page'>
-            <AtlasEditMarkdownFilePane fileId={fileId} initialContent={file?.content} />
+            <AtlasEditMarkdownFilePanel fileId={fileId} initialContent={file?.content} />
         </div>
     )
 }
