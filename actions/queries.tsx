@@ -6,10 +6,17 @@ interface FileSearchResult {
     id: string;
     name: string;
     description: string;
+    readable_id: string;
+    projectId: string;
+}
+interface FormattedFileSearchResult {
+    id: string;
+    name: string;
+    description: string;
     readableId: string;
     projectId: string;
 }
-
+// "readableId", "projectId"
 export async function searchFiles(query: string) {
       // Get the session inside the action
       const session = await auth();
@@ -22,9 +29,9 @@ export async function searchFiles(query: string) {
     const formattedQuery = query.trim().split(/\s+/).join(' & ') + ':*';
 
     const results = await prisma.$queryRaw<FileSearchResult[]>`
-        SELECT id, name, description, "readableId", "projectId"
+        SELECT id, name, description, readable_id as "readableId", project_id as "projectId"
         FROM files 
-        WHERE fts_vector @@ to_tsquery('english', ${formattedQuery}) and "userId" = ${userId}
+        WHERE fts_vector @@ to_tsquery('english', ${formattedQuery}) and user_id = ${userId}
         LIMIT 10;
     `;
 

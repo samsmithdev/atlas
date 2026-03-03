@@ -95,7 +95,7 @@ model File {
   // stores the AI embeddings for "ATLAS" search
   semantic_vector Unsupported("vector(768)")?
   project         Project?                    @relation(fields: [projectId], references: [id])
-  projectId       String?
+  projectId       String? @map("project_id")
 
   // add index on hidden column for speed
   @@index([fts_vector], type: Gin)
