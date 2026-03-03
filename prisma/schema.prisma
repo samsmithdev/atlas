@@ -21,10 +21,10 @@ model Subject {
   name        String
   description String
 
-  userId String
+  userId String   @map("user_id")
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  projectSequence Int @default(0)
+  projectSequence Int @default(0) @map("project_sequence")
 
   projects Project[]
 
@@ -34,20 +34,20 @@ model Subject {
 model Project {
   id String @id @default(cuid())
 
-  readableId String @unique
+  readableId String @unique   @map("readable_id")
 
   name         String
-  created_date DateTime @default(now())
-  userId       String
+  createdDate DateTime @default(now()) @map("created_date")
+  userId       String @map("user_id")
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   description  String
 
-  fileSequence Int @default(0)
+  fileSequence Int @default(0)  @map("file_sequence")
 
   files     File[]
   folders   Folder[]
   subject   Subject? @relation(fields: [subjectId], references: [id])
-  subjectId String?
+  subjectId String? @map("subject_id")
 
   semantic_vector Unsupported("vector(768)")?
 
@@ -57,12 +57,12 @@ model Project {
 model Folder {
   id        String   @id @default(cuid())
   name      String
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at")
 
-  projectId String
+  projectId String  @map("project_id")
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
-  userId String
+  userId String @map("user_id")
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   files File[]
@@ -73,17 +73,17 @@ model Folder {
 
 model File {
   id          String   @id @default(cuid())
-  readableId  String   @unique
+  readableId  String   @unique  @map("readable_id")
   name        String
   createdDate DateTime @default(now()) @map("created_at")
-  userId      String
+  userId      String  @map("user_id")
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   description String
   tags        String[]
   content     Json     @default("[]")
 
   // Optional: The File might be inside a Folder. If null, it's at Project Root.
-  folderId String?
+  folderId String?  @map("folder_id")
   folder   Folder? @relation(fields: [folderId], references: [id])
 
   // Assets that belong to this file (Attachments/Embeds)
@@ -100,11 +100,12 @@ model File {
   // add index on hidden column for speed
   @@index([fts_vector], type: Gin)
   @@map("files") // lowercase table names are often easier in raw SQL
+  inboxItems InboxItem[]
 }
 
 model InboxItem {
   id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now())  @map("created_at")
 
   // Small text content (a quick thought, or the transcript of a voice note)
   content String? @db.Text
@@ -112,41 +113,46 @@ model InboxItem {
   // Status to track if you've processed it
   status InboxStatus @default(PENDING)
 
-  userId String
+  userId String @map("user_id")
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   // An inbox item might have assets attached (audio, image, etc.)
   assets Asset[]
+
+  actionTaken   InboxAction?  @map("action_taken")
+
+  resolvedFileId String?  @map("resolved_file_id")
+  resolvedFile    File? @relation(fields: [resolvedFileId], references: [id])
 
   @@map("inbox_items")
 }
 
 model Asset {
   id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at")
   name      String // Display name
 
   // Minio/S3 Details
   bucket   String
   key      String // The path in the bucket
-  mimeType String
+  mimeType String @map("mime_type")
   size     Int
 
   // Metadata for your "Smart" features
   transcript String? @db.Text // For Audio/Video
-  altText    String? // For Images
+  altText    String? @map("alt_text")// For Images
   duration   Int? // For Audio/Video (in seconds)
-  blurHash   String? // For Images (UI polish)
+  blurHash   String? @map("blur_hash")// For Images (UI polish)
 
-  userId String
+  userId String @map("user_id")
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   // Polymorphic-ish relation: An Asset belongs to EITHER a File OR an InboxItem
   // (Or potentially neither if it's "archived" but not deleted)
-  fileId String?
+  fileId String?  @map("file_id")
   file   File?   @relation(fields: [fileId], references: [id], onDelete: Cascade)
 
-  inboxItemId String?
+  inboxItemId String? @map("inbox_item_id")
   inboxItem   InboxItem? @relation(fields: [inboxItemId], references: [id], onDelete: SetNull)
 
   @@map("assets")
@@ -158,6 +164,11 @@ enum InboxStatus {
   ARCHIVED
 }
 
+enum InboxAction {
+  APPENDED
+  CREATED_NEW
+  DELETED
+}
 // Auth
 
 model Account {
