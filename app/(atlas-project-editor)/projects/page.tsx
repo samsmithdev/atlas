@@ -58,6 +58,8 @@ export default async function ProjectsHomepage() {
     }, {} as AtlasProjectNavigatorItems)
 
     return (
-        <AtlasProjectSelectorSubjectCardPane projectNavigatorItems={Object.values(projectNavigatorItems)}/>
+        <div className='w-full h-full p-2 overflow-hidden'>
+            <AtlasProjectSelectorSubjectCardPane projectNavigatorItems={Object.values(projectNavigatorItems)}/>
+        </div>
     );
 }

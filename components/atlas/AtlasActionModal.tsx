@@ -8,6 +8,7 @@ import {
     DialogTitle,
     DialogDescription,
 } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { DecimalsArrowRightIcon } from 'lucide-react';
 import AtlasCreateSubjectForm from './forms/AtlasCreateSubjectForm';
 import AtlasCreateProjectForm from './forms/AtlasCreateProjectForm';
@@ -84,11 +85,13 @@ export default function AtlasActionModal({ subjects, projects, projectLinkSubjec
             case AtlasFormSelector.SelectProject:
                 return (
                     <>
-                        <DialogHeader>
+                        <DialogHeader className='shrink flex'>
                             <DialogTitle>Open Project</DialogTitle>
                             <DialogDescription>Select a project to open.</DialogDescription>
                         </DialogHeader>
+                        <ScrollArea className='flex-1 overflow-auto'>
                         <AtlasSelectProjectPane projectsGroupedBySubject={projectLinkSubjectGroup} />
+                        </ScrollArea>
                     </>
                 );
 
@@ -154,10 +157,16 @@ export default function AtlasActionModal({ subjects, projects, projectLinkSubjec
     }
 
     return (
-        <div className="bg-background text-foreground antialiased" id='atlas-action-modal-container'>
-            <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-                <DialogContent className="sm:max-w-[425px]">{formChoice && renderForm()}</DialogContent>
+
+            <Dialog 
+            open={isOpen} 
+            onOpenChange={handleOpenChange}
+            >
+                <DialogContent className="w-3/4 h-2/3 mx-auto overflow-hidden flex flex-col">
+                    {formChoice && renderForm()}                    
+                </DialogContent>
             </Dialog>
-        </div>
     );
 }
+
+//         <div className="bg-background text-foreground antialiased min-x-[1/4] min-y-[1/4] max-x-[1/3] max-y-[1/3] overflow-hidden" id='atlas-action-modal-container'>

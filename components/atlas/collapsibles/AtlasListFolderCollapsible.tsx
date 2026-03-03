@@ -56,7 +56,7 @@ export default function AtlasListFolderCollapsible({ folderName, folderId, folde
             <CollapsibleContent className="flex flex-col gap-2">
                 {optimisticFiles && optimisticFiles.length > 0 ? (<ul>
                     {optimisticFiles.sort((a, b) => a.displayText.localeCompare(b.displayText)).map((file) => (
-                        <AtlasListItemCard displayText={file.displayText} itemId={file.itemId} onDelete={handleDeleteRequest} href={file.link} />
+                        <AtlasListItemCard key={file.itemId} displayText={file.displayText} itemId={file.itemId} onDelete={handleDeleteRequest} href={file.link} />
                     ))}
                 </ul>) : (<p>No Files</p>)}
             </CollapsibleContent>

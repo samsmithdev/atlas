@@ -33,6 +33,9 @@ export type AtlasFileListItem = {
     name: string;
     id: string;
     description?: string;
+    link?: string;
     type: AtlasFileListType;
     subitems?: AtlasFileListItem[];
 }
+
+export type AtlasFileListItemRecord = Record<string, AtlasFileListItem>;

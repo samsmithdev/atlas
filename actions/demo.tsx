@@ -112,8 +112,9 @@ const files = [
 ];
 
 export async function loadDemonstrationData() {
+    console.log("Entering demo loading");
     const { userId, session } = await checkAuth();
-
+    console.log("Auth passed");
     for (let i = 0; i < subjects.length; i++) {
         const returnedSubject = await createSubjectDirect(subjects[i].name, subjects[i].shortcode, subjects[i].description);
 

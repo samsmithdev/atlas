@@ -34,20 +34,25 @@ export default function AtlasProjectSelectorSubjectCardPane({projectNavigatorIte
     }
 
     return (
-        <ScrollArea className='w-full h-full p-8'>
-            <div className="flex flex-col flex-col-2 gap-8">
+        <ScrollArea className='w-full h-full'>
+            <div className='w-full h-full py-6 px-4'>
+                <ul className='columns-1 md:columns-2 gap-6 space-y-6'>
                 {(projectNavigatorItems ?
-                    (projectNavigatorItems.map((subject) => (
-                        <AtlasSubjectWithProjectLinksCard 
+                    (projectNavigatorItems.sort((a, b) => a.header.localeCompare(b.header)).map((subject) => (
+                        <li key={subject.id} className='break-inside-avoid'><AtlasSubjectWithProjectLinksCard 
                         key={subject.id} 
                         subjectName={subject.header} 
                         subjectDescription={subject.description ?? ''} subjectId={subject.id} projects={subject.listItems} 
                         onDelete={handleDeleteSubjectRequest}
-                        className='flex shrink w-1/3 max-h-1/2'
-                        />
+                        className='w-full shrink'
+                        /></li>
                     ))) : 
                     (<p></p>))}
-            </div>
+                    </ul>
+                    </div>
         </ScrollArea>
     );
 }
+
+// <div className="flex flex-col flex-col-2 gap-8">
+// </div>
