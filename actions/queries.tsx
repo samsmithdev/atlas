@@ -6,16 +6,10 @@ interface FileSearchResult {
     id: string;
     name: string;
     description: string;
-    readable_id: string;
-    projectId: string;
-}
-interface FormattedFileSearchResult {
-    id: string;
-    name: string;
-    description: string;
     readableId: string;
     projectId: string;
 }
+
 // "readableId", "projectId"
 export async function searchFiles(query: string) {
       // Get the session inside the action

@@ -10,6 +10,7 @@ import { deleteFolder } from "@/actions/folders";
 import { deleteProject } from "@/actions/projects";
 import { deleteSubject } from "@/actions/subjects";
 import AtlasProjectSelectorSubjectCardPane from "@/components/atlas/panes/AtlasProjectSelectorSubjectCardPane";
+import AtlasDemoDataButton from "@/components/atlas/buttons/AtlasDemoDataButton";
 
 export default async function ProjectsHomepage() {
     const handleDeleteRequest = async (itemId: string, itemType: AtlasItemType) => {
@@ -60,6 +61,7 @@ export default async function ProjectsHomepage() {
     return (
         <div className='w-full h-full p-2 overflow-hidden'>
             <AtlasProjectSelectorSubjectCardPane projectNavigatorItems={Object.values(projectNavigatorItems)}/>
+            <AtlasDemoDataButton />
         </div>
     );
 }
