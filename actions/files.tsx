@@ -15,6 +15,9 @@ export type ActionState = {
   };
 };
 
+// append to file
+// prepend to file
+
 export async function createFileFormTransaction(prevState: ActionState, formData: FormData): Promise<ActionState> {
   // Get the session inside the action
   const session = await auth();
