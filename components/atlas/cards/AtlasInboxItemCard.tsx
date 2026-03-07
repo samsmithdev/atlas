@@ -38,12 +38,43 @@ export default function AtlasInboxItemCard({ itemHeader, itemContent, itemSummar
                 <CardDescription>{itemSummary}</CardDescription>
                 <CardAction><Button size='xs' variant='destructive' onClick={() => onDelete(itemId)}>X</Button></CardAction>
             </CardHeader>
-            {isExpanded && (
-                <>
-                    <CardContent>{itemContent}</CardContent>
-                    <CardFooter>To Be Added Later :P</CardFooter>
-                </>
-            )}
+            <div 
+                className={`grid transition-[grid-template-rows] duration-200 ease-out ${
+                    isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                }`}
+            >
+                <div className="overflow-hidden">
+                    <CardContent>
+
+                    </CardContent>
+                    <CardFooter>
+                        
+                    </CardFooter>
+                </div>
+            </div>
         </Card>
     )
 }
+
+/*
+{/* 1. The outer div acts as the grid container. 
+      It transitions smoothly between 0fr (collapsed) and 1fr (expanded).
+    }
+    <div 
+        className={`grid transition-[grid-template-rows] duration-200 ease-out ${
+            isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        }`}
+    >
+        {/* 2. The inner div must have overflow-hidden. 
+          When the grid collapses to 0fr, this hides the content inside.
+        }
+        <div className="overflow-hidden">
+            <CardContent>
+                {/* Your content here }
+            </CardContent>
+            <CardFooter>
+                {/* Your footer here }
+            </CardFooter>
+        </div>
+    </div>
+*/
