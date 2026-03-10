@@ -5,12 +5,16 @@ import AtlasProjectSelectorButton from "@/components/atlas/buttons/AtlasProjectS
 import { AtlasProjectSelectorItem } from "@/types/AtlasSelectorTypes";
 import AtlasNewItemButton from "./buttons/AtlasNewItemButton";
 import AtlasSearchButton from "./buttons/AtlasSearchButton";
+import { useParams } from "next/navigation";
 
 type AtlasProjectToolbarProps = {
     activeProject?: AtlasProjectSelectorItem;
 }
 
 export default function AtlasProjectToolbar({ activeProject }: AtlasProjectToolbarProps) {
+    
+    
+
     return (
         <div
             id="atlas-project-toolbar-container"

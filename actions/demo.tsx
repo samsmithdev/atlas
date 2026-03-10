@@ -5,6 +5,14 @@ import { createSubjectDirect } from '@/actions/subjects';
 import { createProjectTransaction } from '@/actions/projects';
 import { createFolderTransaction } from '@/actions/folders';
 import { createFileTransaction } from './files';
+import { createInboxItem } from './inbox';
+
+const inboxItems = [
+    "Remember to not feed the trolls",
+    "The main water line in the basement is glowing etherealy blue",
+    "We need more furnace filters",
+    "Mark's having a kid in January"
+]
 
 const subjects = [
     { name: 'Software Development', shortcode: 'SD', description: "Coding and IT-related Projects." },
@@ -115,6 +123,10 @@ export async function loadDemonstrationData() {
     console.log("Entering demo loading");
     const { userId, session } = await checkAuth();
     console.log("Auth passed");
+
+    for (const item of inboxItems) {
+        await createInboxItem(item)
+    }
     for (let i = 0; i < subjects.length; i++) {
         const returnedSubject = await createSubjectDirect(subjects[i].name, subjects[i].shortcode, subjects[i].description);
 

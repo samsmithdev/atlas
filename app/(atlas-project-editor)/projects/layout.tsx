@@ -3,6 +3,7 @@ import { fetchSubjectSelectors } from "@/actions/subjects";
 import { fetchProjectSelectors, fetchProjectsForMenu } from "@/actions/projects";
 import { AtlasGroupedProjectsForNav, AtlasProjectNavigatorItem } from "@/types/AtlasNavigatorTypes";
 import AtlasDemoDataButton from "@/components/atlas/buttons/AtlasDemoDataButton";
+import AtlasProjectHeader from "@/components/atlas/header/AtlasProjectHeader";
 
 export default async function AtlasProjectsLayout({
     children,
@@ -38,6 +39,7 @@ export default async function AtlasProjectsLayout({
 
     return (
         <div className="w-full h-full" id='atlas-projects-layout'>
+            <AtlasProjectHeader projectSelectorItems={projectSelectors}/>
             {children}
             <AtlasActionModal projects={projectSelectors} subjects={subjectSelectors} projectLinkSubjectGroup={projectLinkSubjectGroup} />
         </div>

@@ -1,6 +1,7 @@
 import { fetchProjectSelector } from "@/actions/projects";
 import AtlasProjectToolbar from "@/components/atlas/AtlasProjectToolbar";
 import AtlasProjectSelectorButton from "@/components/atlas/buttons/AtlasProjectSelectorButton";
+import AtlasProjectHeader from "@/components/atlas/header/AtlasProjectHeader";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -15,7 +16,6 @@ export default async function AtlasProjectIdLayout({
 
     return (
         <div className="w-full h-full flex flex-col" id='atlas-projectid-layout'>
-            <div className="flex" id='atlas-projectid-layout_toolbar-container'><AtlasProjectToolbar activeProject={activeProject ?? undefined} /></div>
             <div className="flex-1 w-full overflow-hidden" id='atlas-projectid-layout_body-container'>{children}</div>
         </div>
     )

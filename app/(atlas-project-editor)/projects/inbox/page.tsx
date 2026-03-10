@@ -2,13 +2,13 @@
 
 import { fetchInboxItemTransaction } from "@/actions/inbox";
 import AtlasInboxProcessingPanel from "@/components/atlas/panels/AtlasInboxProcessingPanel";
+import { AtlasInboxItem } from "@/types/AtlasListTypes";
 
 export default async function InboxPage() {
-    const inboxItems = await fetchInboxItemTransaction();
-
+    const inboxItems = (await fetchInboxItemTransaction())
     return (
         <div className="w-full h-full overflow-hidden p-4 flex">
-            <AtlasInboxProcessingPanel inboxItems={inboxItems ?? []} />
+            <AtlasInboxProcessingPanel inboxItems={inboxItems.data ?? []} />
         </div>
         
     )

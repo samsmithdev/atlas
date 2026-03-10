@@ -22,6 +22,21 @@ type AtlasInboxItemForProcessingPanel = {
     itemId: string;
 }
 
+export async function createInboxItem(content?: string) {
+    const { userId, session } = await checkAuth();
+
+    try {
+        await prisma.inboxItem.create({
+            data: {
+                content: content,
+                userId: userId,
+            }
+        });
+    } catch {
+
+    }
+}
+
 export async function fetchInboxItemTransaction() {
     const { userId, session } = await checkAuth();
 

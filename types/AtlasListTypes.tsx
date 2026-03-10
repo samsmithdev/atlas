@@ -44,7 +44,7 @@ export type AtlasFileListItemRecord = Record<string, AtlasFileListItem>;
 
 export type AtlasInboxItem = {
     id: string;
-    createdAt: string;
-    content?: string;
+    createdAt: Date;
+    content: string | null;
     assets: Asset[];
 }
