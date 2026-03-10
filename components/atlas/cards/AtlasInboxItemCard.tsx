@@ -28,6 +28,13 @@ interface AtlasInboxItemCardProps {
     onDelete: (id: string) => void;
 }
 
+// Rethinking cards... 
+// AtlasItemCard
+//  - AtlasItemHeader (headerText, description? href? onClick? onDelete? content? footer?)
+//  - AtlasItemContent (contentType)
+
+// contentType { projectList }
+
 export default function AtlasInboxItemCard({ itemHeader, itemContent, itemSummary, itemId, isActive, onDelete }: AtlasInboxItemCardProps) {
     const [isExpanded, setIsExpanded] = useState(isActive);
 
@@ -45,10 +52,10 @@ export default function AtlasInboxItemCard({ itemHeader, itemContent, itemSummar
             >
                 <div className="overflow-hidden">
                     <CardContent>
-
+                        <p>{itemContent}</p>
                     </CardContent>
                     <CardFooter>
-                        
+                        <div className="w-24 h-24 bg-amber-300"></div>
                     </CardFooter>
                 </div>
             </div>

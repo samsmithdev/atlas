@@ -1,3 +1,5 @@
+import { Asset } from "@prisma/client";
+
 /*
     List item type to bundle data for AtlasListItemCard.
 */
@@ -39,3 +41,10 @@ export type AtlasFileListItem = {
 }
 
 export type AtlasFileListItemRecord = Record<string, AtlasFileListItem>;
+
+export type AtlasInboxItem = {
+    id: string;
+    createdAt: string;
+    content?: string;
+    assets: Asset[];
+}
