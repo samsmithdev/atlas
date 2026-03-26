@@ -16,6 +16,8 @@ export type ActionState = {
     };
 };
 
+// MARK: Create Functions
+
 export async function createSubjectTransaction(prevState: ActionState, formData: FormData): Promise<ActionState> {
     // Get the session inside the action
     const session = await auth();
@@ -120,6 +122,60 @@ export async function createSubject(subjectData: {
     return newSubject;
 }
 
+// MARK: Fetch Functions
+
+export async function fetchSubjectProjectFolderFileSelectors() {
+    const { userId, session } = await checkAuth();
+
+    const subjects = await prisma.subject.findMany({
+        where: { userId },
+        select: {
+            id: true,
+            shortcode: true,
+            name: true,
+            description: true,
+
+            projects: {
+                select: {
+                    id: true,
+                    readableId: true,
+                    description: true,
+                    files: {
+                        where: { folderId: null },
+                        select: {
+                            name: true,
+                            id: true,
+                            readableId: true,
+                            createdDate: true,
+                            description: true,
+                            tags: true,
+                        }
+                    },
+                    folders: {
+                        select: {
+                            id: true,
+                            name: true,
+                            createdAt: true,
+                            files: {
+                                select: {
+                                    name: true,
+                                    id: true,
+                                    readableId: true,
+                                    createdDate: true,
+                                    description: true,
+                                    tags: true
+                                }
+                            }
+                        }
+                    }
+                },
+            }
+        }
+    });
+
+    return subjects;
+}
+
 export async function fetchSubjects() {
     // Get the session inside the action
     const session = await auth();
@@ -158,6 +214,8 @@ export async function fetchSubjectSelectors() {
 
     return subjects;
 }
+
+// MARK: Update Functions
 
 export async function updateSubject(
     subjectId: string,
@@ -201,6 +259,8 @@ export async function updateSubject(
         return {}
     }
 }
+
+// MARK: Delete Functions
 
 export async function deleteSubject(subjectId: string) {
     const { userId } = await checkAuth();
