@@ -129,6 +129,10 @@ export async function fetchSubjectProjectFolderFileSelectors() {
 
     const subjects = await prisma.subject.findMany({
         where: { userId },
+        orderBy: { 
+            shortcode: "asc",
+            name: "asc"
+        },
         select: {
             id: true,
             shortcode: true,
@@ -136,12 +140,14 @@ export async function fetchSubjectProjectFolderFileSelectors() {
             description: true,
 
             projects: {
+                orderBy: { readableId: "asc" },
                 select: {
                     id: true,
                     readableId: true,
                     description: true,
                     files: {
                         where: { folderId: null },
+                        orderBy: {readableId: "asc" },
                         select: {
                             name: true,
                             id: true,
@@ -151,12 +157,16 @@ export async function fetchSubjectProjectFolderFileSelectors() {
                             tags: true,
                         }
                     },
+
+
                     folders: {
+                        orderBy: { name: "asc" },
                         select: {
                             id: true,
                             name: true,
                             createdAt: true,
                             files: {
+                                orderBy: {readableId: "asc" },
                                 select: {
                                     name: true,
                                     id: true,
