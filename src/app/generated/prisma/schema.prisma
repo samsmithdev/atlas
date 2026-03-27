@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../app/generated/prisma"
+  previewFeatures = ["postgresqlExtensions", "typedSql"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  extensions = [vector]
+}
+
+model Subject {
+  id          String @id @default(cuid())
+  shortcode   String @unique
+  name        String
+  description String
+
+  projectSequence Int @default(0)
+
+  projects Project[]
+
+  @@map("subjects")
+}
+
+model Project {
+  id String @id @default(cuid())
+
+  readableId String @unique
+
+  name         String
+  created_date DateTime @default(now())
+  author       String
+  description  String
+
+  fileSequence Int @default(0)
+
+  files     File[]
+  subject   Subject? @relation(fields: [subjectId], references: [id])
+  subjectId String?
+
+  semantic_vector Unsupported("vector(768)")?
+
+  @@map("projects")
+}
+
+model File {
+  id              String                      @id @default(cuid())
+  readableId      String                      @unique
+  name            String
+  createdDate     DateTime                    @default(now()) @map("created_at")
+  author          String
+  description     String
+  tags            String[]
+  content         Json                        @default("[]")
+  // "hidden" search columns managed by db triggers
+  // stores the extracted for fast keyword search
+  fts_vector      Unsupported("tsvector")?
+  // stores the AI embeddings for "ATLAS" search
+  semantic_vector Unsupported("vector(768)")?
+  project         Project?                    @relation(fields: [projectId], references: [id])
+  projectId       String?
+
+  // add index on hidden column for speed
+  @@index([fts_vector], type: Gin)
+  @@map("files") // lowercase table names are often easier in raw SQL
+}
