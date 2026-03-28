@@ -1,9 +1,8 @@
-import AtlasActionModal from "@/components/atlas/AtlasActionModal";
-import { fetchSubjectSelectors } from "@/actions/subjects";
 import { fetchProjectSelectors, fetchProjectsForMenu } from "@/actions/projects";
+import { fetchSubjectSelectors } from "@/actions/subjects";
+import AtlasActionModal from "@/components/atlas/AtlasActionModal";
+import AtlasProjectHeader from "@/components/legacy/header/AtlasProjectHeader";
 import { AtlasGroupedProjectsForNav, AtlasProjectNavigatorItem } from "@/types/AtlasNavigatorTypes";
-import AtlasDemoDataButton from "@/components/atlas/buttons/AtlasDemoDataButton";
-import AtlasProjectHeader from "@/components/atlas/header/AtlasProjectHeader";
 
 export default async function AtlasProjectsLayout({
     children,

@@ -1,6 +1,6 @@
 "use server";
 
-import { checkAuth } from "@/features/auth/queries";
+import { checkAuth } from "@/actions/auth";
 import prisma from "@/lib/db";
 import { revalidatePath } from "next/cache";
 
@@ -14,7 +14,7 @@ export type ActionState = {
   };
 };
 
-export async function createFolderFormTransaction(
+export async function createFolderFormTransactionDeprecated(
   prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
@@ -48,7 +48,59 @@ export async function createFolderFormTransaction(
   }
 }
 
-export async function deleteFolder(folderId: string) {
+export async function createFolderTransactionForDemoDeprecated(
+  name: string,
+  projectId: string
+) {
+  const { session, userId } = await checkAuth();
+
+  if (!name || !projectId) {
+    return {
+      status: "error",
+      message: "Folders require a name and Project ID",
+    };
+  }
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      await tx.folder.create({
+        data: {
+          name,
+          projectId,
+          userId,
+        },
+      });
+    });
+    revalidatePath("/projects");
+    return { status: "success", message: "Folder successfully created!" };
+  } catch (error) {
+    return { status: "error", message: "DB Error attempting to create folder" };
+  }
+}
+
+export async function fetchFolderDetailsDeprecated(folderId: string) {
+  await checkAuth();
+
+  const folder = await prisma.folder.findUnique({
+    where: { id: folderId },
+    select: { id: true, name: true, projectId: true },
+  });
+
+  return folder;
+}
+
+export async function fetchFoldersForProjectDeprecated(projectId: string) {
+  await checkAuth();
+
+  const folders = await prisma.folder.findMany({
+    where: { projectId: projectId },
+    select: { id: true, name: true, projectId: true },
+  });
+
+  return folders;
+}
+
+export async function deleteFolderDeprecated(folderId: string) {
   const { userId } = await checkAuth();
 
   try {

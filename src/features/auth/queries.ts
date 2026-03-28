@@ -1,1 +1,36 @@
 "use server";
+
+import { ActionResponse } from "@/types/actions";
+import { auth } from "auth";
+import { Session } from "next-auth";
+
+export async function checkAuth() {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    throw new Error("Unauthorized: You must be logged in to create a file.");
+  }
+
+  return { session, userId };
+}
+
+export async function fetchAuth(): Promise<
+  ActionResponse<{ userId: string; session: Session }>
+> {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return {
+      success: false,
+      message: "Unauthorized",
+    };
+  }
+
+  return {
+    success: true,
+    message: "Authenticated successfully",
+    data: { userId, session },
+  };
+}

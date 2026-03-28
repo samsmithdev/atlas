@@ -1,5 +1,5 @@
 import { fetchFile } from "@/actions/files";
-import AtlasEditMarkdownFilePanel from "@/components/atlas/panels/AtlasEditMarkdownFilePanel";
+import AtlasEditMarkdownFilePanel from "@/components/legacy/panels/AtlasEditMarkdownFilePanel";
 
 interface AtlasFileIdPageProps {
     params: Promise<{ projectId: string, fileId: string }>;

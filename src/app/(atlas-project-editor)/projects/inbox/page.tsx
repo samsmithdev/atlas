@@ -2,8 +2,7 @@
 
 import { fetchInboxItemTransaction } from "@/actions/inbox";
 import { fetchSubjectProjectFolderFileSelectors } from "@/actions/subjects";
-import AtlasInboxProcessingPanel from "@/components/atlas/panels/AtlasInboxProcessingPanel";
-import { AtlasInboxItem } from "@/types/AtlasListTypes";
+import AtlasInboxProcessingPanel from "@/components/legacy/panels/AtlasInboxProcessingPanel";
 
 export default async function InboxPage() {
     const inboxItems = (await fetchInboxItemTransaction());

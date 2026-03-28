@@ -1,0 +1,89 @@
+'use client';
+
+import { deleteProject } from "@/actions/projects";
+import AtlasListItemCard from "@/components/legacy/cards/AtlasListItemCard";
+import { Button } from '@/components/ui/button';
+import {
+    Card,
+    CardAction,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import { AtlasListItem } from "@/types/AtlasListTypes";
+import { startTransition, useOptimistic } from "react";
+
+interface AtlasSubjectWithProjectLinksCardProps {
+    subjectName: string;
+    subjectDescription: string;
+    subjectId: string;
+    projects: AtlasListItem[];
+    onDelete: (id: string) => void;
+    className?: string;
+}
+
+export default function AtlasSubjectWithProjectLinksCard({ subjectName, subjectDescription, subjectId, projects, onDelete, className }: AtlasSubjectWithProjectLinksCardProps) {
+    const [optimisticProjects, removeOptimisticProject] = useOptimistic(
+        projects,
+        (currentProjects, projectIdToRemove: string) => {
+            return currentProjects.filter(project => project.itemId !== projectIdToRemove);
+        }
+    );
+
+    const handleDeleteProjectRequest = async (projectId: string) => {
+        startTransition(() => {
+            removeOptimisticProject(projectId);
+        });
+
+        const result = await deleteProject(projectId);
+
+        if (!result.success) {
+            console.error("Failed to delete");
+        }
+    }
+
+    return (
+        <Card className={cn(
+            // Background
+            'bg-background text-card-foreground',
+
+            // Border
+            'border-2 border-primary rounded-none',
+
+            className
+        )}>
+            <CardHeader className='flex flex-col w-full'>
+                <div className='flex flex-row w-full'>
+                    <CardTitle className='flex-1'>{subjectName}</CardTitle>
+                    <CardAction>
+                        <Button size='xs' variant='destructive' onClick={() => onDelete(subjectId)}>X</Button>
+                    </CardAction>
+                </div>
+
+                <CardDescription>{subjectDescription}</CardDescription>
+
+            </CardHeader>
+            <CardContent className={cn(
+                // Content Border
+                'rounded-none',
+                // Content Background
+                'bg-background',
+                // Content Positioning
+                '',
+                // Content Styling
+                'flex flex-col overflow-y-scroll'
+            )}>
+                {(projects && projects.length > 0) ? (
+                    <ul>
+                        {projects.map((project) => (
+                            <AtlasListItemCard key={project.itemId} displayText={project.displayText} itemId={project.itemId} onDelete={handleDeleteProjectRequest} href={project.link} />
+                        ))}
+                    </ul>
+                ) :
+                    (<p>No Projects</p>)}
+            </CardContent>
+        </Card>
+    );
+}

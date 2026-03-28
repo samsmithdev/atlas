@@ -1,6 +1,5 @@
-import { ThinkingIndicator } from "@/components/atlas/AtlasInteractionModule";
-import { AtlasLinkButton } from "@/components/atlas/buttons/AtlasLinkButton";
-import Link from "next/link";
+import { ThinkingIndicator } from "@/components/legacy/AtlasInteractionModule";
+import { AtlasLinkButton } from "@/components/legacy/buttons/AtlasLinkButton";
 
 export default function Home() {
 
