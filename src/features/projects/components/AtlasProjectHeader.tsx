@@ -1,13 +1,13 @@
 "use client";
 
+import AtlasProjectSelectorButton from "@/components/legacy/buttons/AtlasLegacyProjectSelectorButton";
 import { cn } from "@/lib/utils";
-import { AtlasProjectSelectorItem } from "@/types/AtlasSelectorTypes";
 import AtlasSearchButton from "../../../features/projects/components/AtlasSearchButton";
-import AtlasNewItemButton from "../buttons/AtlasNewItemButton";
-import AtlasProjectSelectorButton from "../buttons/AtlasProjectSelectorButton";
+import { ProjectsGroupedBySubject } from "../types";
+import AtlasNewItemButton from "./AtlasNewItemButton";
 
 interface AtlasProjectHeaderProps {
-  projectSelectorItems?: AtlasProjectSelectorItem[];
+  projectSelectorItems?: ProjectsGroupedBySubject[];
   className?: string;
 }
 
