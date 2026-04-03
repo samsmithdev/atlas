@@ -19,16 +19,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en" className="h-full dark w-full">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-full w-full overflow-hidden bg-background text-foreground`}
-        id='atlas-root-layout-container'
+        id="atlas-root-layout-container"
       >
         {children}
+        {modal}
       </body>
     </html>
   );
