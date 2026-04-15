@@ -4,3 +4,13 @@ export type ActionResponse<T = void> = {
   data?: T;
   errors?: string[];
 };
+
+export type ActionState = {
+  message: string;
+  status: "success" | "error" | "idle";
+  errors?: {
+    name?: string[];
+    shortcode?: string[];
+    description?: string[];
+  };
+};

@@ -1,106 +1,107 @@
-// REMEMBER: Accept subjects[] and currentSubjectId?
-'use client';
+"use client";
 
 // React and NextJS Imports
-import { useActionState, useEffect } from 'react';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useActionState, useEffect } from "react";
 
 // ATLAS Imports
-import { createProjectFormTransaction, ActionState } from '@/actions/projects';
+import { ActionState, createProjectFormTransaction } from "@/actions/projects";
 
 // Shadcn UI Imports
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue
-} from '@/components/ui/select';
-
-type SubjectSelectorItem = {
-    id: string;
-    shortcode: string;
-    name: string;
-}
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 type CreateProjectformProps = {
-    subjects: SubjectSelectorItem[];
-    activeSubjectId?: string;
-}
-
-const initialState: ActionState = {
-    message: '',
-    status: 'idle',
+  subjects: SubjectSelectorItem[];
 };
 
-export default function AtlasCreateProjectForm({ subjects, activeSubjectId }: CreateProjectformProps) {
-    const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
+const initialState: ActionState = {
+  message: "",
+  status: "idle",
+};
 
-    const [state, formAction, isPending] = useActionState(createProjectFormTransaction, initialState);
+export default function AtlasCreateProjectForm({
+  subjects,
+}: CreateProjectformProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-    // Effect: Close modal on success
-    useEffect(() => {
-        if (state.status === 'success') {
-            const params = new URLSearchParams(searchParams);
-            params.delete('action-modal');
-            router.replace(`${pathname}?${params.toString()}`);
-        }
-    }, [state.status, router, pathname, searchParams]);
+  const [state, formAction, isPending] = useActionState(
+    createProjectFormTransaction,
+    initialState
+  );
 
-    return (
-        <form action={formAction} className="space-y-4 scheme-dark">
-            <div className="space-y-2 scheme-dark">
-                <Label htmlFor="subjectId">Parent Subject</Label>
+  // Effect: Close modal on success
+  useEffect(() => {
+    if (state.status === "success") {
+      const params = new URLSearchParams(searchParams);
+      params.delete("action-modal");
+      router.replace(`${pathname}?${params.toString()}`);
+    }
+  }, [state.status, router, pathname, searchParams]);
 
-                <Select name="subjectId" required>
-                    <SelectTrigger>
-                        <SelectValue placeholder="Select a Subject" />
-                    </SelectTrigger>
+  return (
+    <form action={formAction} className="space-y-4 scheme-dark">
+      <div className="space-y-2 scheme-dark">
+        <Label htmlFor="subjectId">Parent Subject</Label>
 
-                    <SelectContent className='scheme-dark'>
-                        {subjects.map((subject)=> (
-                            <SelectItem key={subject.id} value={subject.id} className='scheme-dark'>
-                                {subject.shortcode} - {subject.name}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-            </div>
+        <Select name="subjectId" required>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a Subject" />
+          </SelectTrigger>
 
-            <div className='grid gap-2'>
-                <Label htmlFor='name'>Name</Label>
-                <Input 
-                    id='name'
-                    name='name'
-                    placeholder='e.g. Kitchen Timer Voice Assistant'
-                    required
-                />
-            </div>
+          <SelectContent className="scheme-dark">
+            {subjects.map((subject) => (
+              <SelectItem
+                key={subject.id}
+                value={subject.id}
+                className="scheme-dark"
+              >
+                {subject.shortcode} - {subject.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
-            <div className='grid gap-2'>
-                <Label htmlFor='description'>Description</Label>
-                <Textarea 
-                    id='description'
-                    name='description'
-                    placeholder="What is the project about?"
-                />
-            </div>
+      <div className="grid gap-2">
+        <Label htmlFor="name">Name</Label>
+        <Input
+          id="name"
+          name="name"
+          placeholder="e.g. Kitchen Timer Voice Assistant"
+          required
+        />
+      </div>
 
-            {state.status === 'error' && (
-                <p className='text-sm text-red-500'>{state.message}</p>
-            )}
+      <div className="grid gap-2">
+        <Label htmlFor="description">Description</Label>
+        <Textarea
+          id="description"
+          name="description"
+          placeholder="What is the project about?"
+        />
+      </div>
 
-            <div className='flex justify-end'>
-                <Button type='submit' disabled={isPending}>
-                    {isPending ? 'Saving...' : 'Create Project'}
-                </Button>
-            </div>
-        </form>
-    )
+      {state.status === "error" && (
+        <p className="text-sm text-red-500">{state.message}</p>
+      )}
+
+      <div className="flex justify-end">
+        <Button type="submit" disabled={isPending}>
+          {isPending ? "Saving..." : "Create Project"}
+        </Button>
+      </div>
+    </form>
+  );
 }

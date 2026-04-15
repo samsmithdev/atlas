@@ -1,0 +1,29 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import AtlasCreateSubjectForm from "@/features/subjects/components/AtlasCreateSubjectForm";
+
+export default async function CreateSubjectModal() {
+  return (
+    <Dialog>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Create a Subject</DialogTitle>
+          <DialogDescription>
+            An ATLAS Subject is the top-level organizer for any projects and
+            files that fit the topic. For example, a C - Cooking subject could
+            hold a project for Recipes, Utensils, Techniques, etc.
+          </DialogDescription>
+        </DialogHeader>
+        <ScrollArea>
+          <AtlasCreateSubjectForm />
+        </ScrollArea>
+      </DialogContent>
+    </Dialog>
+  );
+}
