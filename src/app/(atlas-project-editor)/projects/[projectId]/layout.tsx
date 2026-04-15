@@ -1,5 +1,3 @@
-import { fetchProjectSelector } from "@/actions/projects";
-
 interface LayoutProps {
   children: React.ReactNode;
   params: Promise<{ projectId: string }>;
@@ -10,7 +8,6 @@ export default async function AtlasProjectIdLayout({
   params,
 }: LayoutProps) {
   const { projectId } = await params;
-  const activeProject = await fetchProjectSelector(projectId);
 
   return (
     <div className="w-full h-full flex flex-col" id="atlas-projectid-layout">

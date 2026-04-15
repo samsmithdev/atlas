@@ -1,17 +1,9 @@
 "use server";
 
-import { fetchInboxItemTransaction } from "@/actions/inbox";
-import { fetchSubjectProjectFolderFileSelectors } from "@/actions/subjects";
-import AtlasInboxProcessingPanel from "@/components/legacy/panels/AtlasInboxProcessingPanel";
-
 export default async function InboxPage() {
-    const inboxItems = (await fetchInboxItemTransaction());
-    const fileNavigatorItems = await fetchSubjectProjectFolderFileSelectors();
-
-    return (
-        <div className="w-full h-full overflow-hidden p-4 flex">
-            <AtlasInboxProcessingPanel inboxItems={inboxItems.data ?? []} />
-        </div>
-        
-    )
+  return (
+    <div className="w-full h-full overflow-hidden p-4 flex">
+      {/* inbox processing panel */}
+    </div>
+  );
 }
