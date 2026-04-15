@@ -3,14 +3,12 @@
 import { fetchAuth } from "@/features/auth/queries";
 import prisma from "@/lib/db";
 import { ActionResponse } from "@/types/actions";
-import { Subject } from "@prisma/client";
-import { auth } from "auth";
 import { revalidatePath } from "next/cache";
 
 // Type Imports
 import { SubjectSelector } from "./types";
 
-export async function createSubject(
+export async function createSubjectFormAction(
   prevState: ActionResponse<SubjectSelector>,
   formData: FormData
 ): Promise<ActionResponse<SubjectSelector>> {
@@ -76,151 +74,5 @@ export async function createSubject(
     };
   } catch (error) {
     return { success: false, message: `Database error: ${error}` };
-  }
-}
-
-// MARK: DEPRECATED
-
-export type ActionState = {
-  message: string;
-  status: "success" | "error" | "idle";
-  errors?: {
-    name?: string[];
-    shortcode?: string[];
-    description?: string[];
-  };
-};
-
-// MARK: Create Functions
-
-export async function createSubjectTransaction(
-  prevState: ActionState,
-  formData: FormData
-): Promise<ActionState> {
-  // Get the session inside the action
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  if (!userId) {
-    throw new Error("Unauthorized: You muse be logged in to create a file.");
-  }
-  // Extract the data
-  const name = formData.get("name") as string;
-  const shortcode = formData.get("shortcode") as string;
-  const description = formData.get("description") as string;
-
-  const duplicateSubjectShortcode = await prisma.subject.findUnique({
-    where: {
-      shortcode: shortcode,
-      userId: userId,
-    },
-  });
-
-  if (!name || name.length < 3) {
-    return { status: "error", message: "Name must be at least 3 characters." };
-  } else if (duplicateSubjectShortcode) {
-    return { status: "error", message: "Shortcode must be unique." };
-  }
-
-  try {
-    await prisma.subject.create({
-      data: {
-        name,
-        shortcode,
-        description,
-        userId: userId,
-      },
-    });
-
-    revalidatePath("/projects");
-
-    return { status: "success", message: "Subject created successfully!" };
-  } catch (error) {
-    return {
-      status: "error",
-      message: `Database Error: Failed to create subject. DB response was '${error}'`,
-    };
-  }
-}
-
-// MARK: Update Functions
-
-export async function updateSubject(
-  subjectId: string,
-  updatedSubjectData: {
-    shortcode?: string;
-    name?: string;
-    description?: string;
-    addProjectIds?: string[];
-    removeProjectIds?: string[];
-    deleteProjectIds?: string[];
-  }
-) {
-  // Get the session inside the action
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  if (!userId) {
-    throw new Error("Unauthorized: You muse be logged in to create a file.");
-  }
-
-  try {
-    const updatedSubject = await prisma.subject.update({
-      where: { id: subjectId, userId: userId },
-      data: {
-        name: updatedSubjectData.name,
-        shortcode: updatedSubjectData.shortcode,
-        description: updatedSubjectData.description,
-        projects: {
-          connect: updatedSubjectData.addProjectIds?.map((id) => ({ id })),
-          disconnect: updatedSubjectData.removeProjectIds?.map((id) => ({
-            id,
-          })),
-        },
-      },
-      include: {
-        projects: true,
-      },
-    });
-    revalidatePath("/projects");
-    return { success: true, data: updatedSubject };
-  } catch (error) {
-    console.error("Failed to update subject relations:", error);
-    return {};
-  }
-}
-
-// MARK: Delete Functions
-
-export async function deleteSubject(
-  subjectId: string
-): Promise<ActionResponse<Subject>> {
-  const result = await fetchAuth();
-
-  if (!result.success || !result.data?.userId) {
-    return { success: false, message: "Failed to authenticate user" };
-  }
-
-  try {
-    const deletedSubject = await prisma.subject.delete({
-      where: {
-        id: subjectId,
-        userId: result.data.userId,
-      },
-    });
-
-    revalidatePath("/projects");
-    return {
-      success: true,
-      message: "Successfully deleted project.",
-      data: deletedSubject,
-    };
-  } catch (error) {
-    console.error("Failed to delete Subject:", error);
-    return {
-      success: false,
-      message: "Failed to delete project.",
-      errors: [String(error)],
-    };
   }
 }

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 
 // ATLAS Imports
-import { createSubject } from "@/features/subjects/actions";
+import { createSubjectFormAction } from "@/features/subjects/actions";
 import { SubjectSelector } from "@/features/subjects/types";
 import { ActionResponse } from "@/types/actions";
 
@@ -27,7 +27,7 @@ export default function AtlasCreateSubjectForm({}: AtlasCreateSubjectFormProps) 
   const router = useRouter();
 
   const [state, formAction, isPending] = useActionState(
-    createSubject,
+    createSubjectFormAction,
     initialState
   );
 

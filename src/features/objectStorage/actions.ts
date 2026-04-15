@@ -1,10 +1,13 @@
 "use server";
 
-import { checkAuth } from "@/features/auth/queries";
+import { fetchAuth } from "@/features/auth/queries";
 import prisma from "@/lib/db";
 import { ensureBucketExists } from "@/lib/minio";
 import { getPresignedUploadUrl } from "@/lib/storage";
+import { ActionResponse } from "@/types/actions";
 import { v4 as uuidv4 } from "uuid"; // npm install uuid @types/uuid
+
+// Still needs revised
 
 export async function createAsset(data: {
   name: string;
@@ -15,7 +18,17 @@ export async function createAsset(data: {
   fileId?: string; // Optional: Link directly to a project
   folderId?: string; // Optional: Link directly to a folder
 }) {
-  const { userId, session } = await checkAuth();
+  const result = await fetchAuth();
+  const userId = result.data?.userId;
+
+  if (!result.success || !userId) {
+    const response: ActionResponse = {
+      success: false,
+      message: "Failed to authenticate",
+    };
+
+    return response;
+  }
 
   ensureBucketExists("atlas-uploads");
   // Create the Asset record
@@ -30,6 +43,12 @@ export async function createAsset(data: {
       fileId: data.fileId,
     },
   });
+
+  const response: ActionResponse<typeof asset> = {
+    success: true,
+    message: "Created asset",
+    data: asset,
+  };
 
   return asset;
 }
