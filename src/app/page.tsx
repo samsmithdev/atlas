@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <div className="bg-background w-full h-full items-center flex flex-col gap-8">
@@ -13,14 +15,16 @@ export default function Home() {
         maintenance associated with managing notes as possible. Executive
         dysfunction can make taking comprehensive and organized notes hugely
         impactful, exactly as it makes maintaining them much more difficult.
-        A.T.L.A.S.' goal is to streamline the intake and organizing processes to
-        support neurodivergent users by removing key friction points that lead
-        to abandoning systems.
+        A.T.L.A.S.&apos; goal is to streamline the intake and organizing
+        processes to support neurodivergent users by removing key friction
+        points that lead to abandoning systems.
       </p>
 
       <p className="text-xs text-secondary">
         Unauthorized use is not authorized.
       </p>
+
+      <Link href="/projects">Log In</Link>
     </div>
   );
 }
