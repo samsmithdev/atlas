@@ -74,12 +74,12 @@ export default function AtlasCreateSubjectForm({}: AtlasCreateSubjectFormProps) 
       )}
 
       {/* If you add an errors array to your ActionResponse later, you can map them here */}
-      {!state.success &&
+      {/*!state.success &&
         state.errors?.map((err, idx) => (
           <p key={idx} className="text-sm text-red-500">
             {err}
           </p>
-        ))}
+        ))*/}
 
       <div className="flex justify-end">
         <Button type="submit" disabled={isPending}>

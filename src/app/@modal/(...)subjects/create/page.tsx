@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Dialog,
   DialogContent,
@@ -7,11 +9,20 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import AtlasCreateSubjectForm from "@/features/subjects/components/AtlasCreateSubjectForm";
+import { useRouter } from "next/navigation";
 
-export default async function CreateSubjectModal() {
+export default function CreateSubjectModal() {
+  const router = useRouter();
+
+  const handleOpenChange = (isOpen: boolean) => {
+    if (!isOpen) {
+      router.back();
+    }
+  };
+
   return (
-    <Dialog>
-      <DialogContent>
+    <Dialog defaultOpen={true} onOpenChange={handleOpenChange}>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Create a Subject</DialogTitle>
           <DialogDescription>
