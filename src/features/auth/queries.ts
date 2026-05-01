@@ -1,7 +1,7 @@
 "use server";
 
+import { auth } from "@/auth";
 import { ActionResponse } from "@/types/actions";
-import { auth } from "auth";
 import { Session } from "next-auth";
 
 export async function fetchAuth(): Promise<

@@ -33,7 +33,7 @@ export function withFormAuth<T>(
       return {
         ...prevState,
         success: false,
-        message: authResult.message || "Missing authentication information.",
+        message: `Authentication Error: ${authResult.message} - ${authResult.errors}`,
       };
     }
 

@@ -22,7 +22,7 @@ export default function CreateSubjectModal() {
 
   return (
     <Dialog defaultOpen={true} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-106.25">
         <DialogHeader>
           <DialogTitle>Create a Subject</DialogTitle>
           <DialogDescription>
