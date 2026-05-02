@@ -9,4 +9,6 @@ export const subjectSelectorSelect = {
 
 export type SubjectSelector = Prisma.SubjectGetPayload<{
   select: typeof subjectSelectorSelect;
-}>;
+}> & {
+  readableName: string;
+};
