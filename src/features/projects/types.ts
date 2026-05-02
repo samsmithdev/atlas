@@ -1,14 +1,14 @@
-export type ProjectSelector = {
-  id: string;
-  name: string;
-  readableId: string;
-  description: string;
+import { Prisma } from "@prisma/client";
+
+export const projectSelectorSelect = {
+  id: true,
+  readableId: true,
+  name: true,
+  createdDate: true,
+  description: true,
+  subjectId: true,
 };
 
-export type ProjectsGroupedBySubject = {
-  subjectId: string;
-  subjectName: string;
-  subjectShortcode: string;
-  subjectDescription: string;
-  projects: ProjectSelector[];
-};
+export type ProjectSelector = Prisma.ProjectGetPayload<{
+  select: typeof projectSelectorSelect;
+}>;

@@ -1,18 +1,43 @@
-import { Pool } from 'pg'
-import { PrismaPg } from '@prisma/adapter-pg'
-
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@prisma/client";
 
-// 1. Create a standard Postgres connection pool
-const connectionString = process.env.DATABASE_URL
+const connectionString =
+  process.env.DATABASE_URL ?? "postgres://dummy:dummy@localhost:5432/dummy";
 
-const pool = new Pool({ connectionString })
+const adapter = new PrismaPg({ connectionString });
 
-// 2. Create the Adapter (The translation layer)
-// This tells Prisma: "Use this pool to talk to the DB"
-const adapter = new PrismaPg(pool)
+const prismaClientSingleton = () => {
+  return new PrismaClient({ adapter }).$extends({
+    result: {
+      subject: {
+        readableName: {
+          needs: { shortcode: true, name: true },
+          compute(subject) {
+            return `${subject.shortcode} - ${subject.name}`;
+          },
+        },
+      },
 
-// 3. Instantiate Prisma with the adapter
-const prisma = new PrismaClient({ adapter })
+      project: {
+        readableName: {
+          needs: { readableId: true, name: true },
+          compute(project) {
+            return `${project.readableId} ${project.name}`;
+          },
+        },
+      },
+    },
+  });
+};
 
-export default prisma
+declare global {
+  var prisma: undefined | ReturnType<typeof prismaClientSingleton>;
+}
+
+const prisma = globalThis.prisma ?? prismaClientSingleton();
+
+export default prisma;
+
+if (process.env.NODE_ENV !== "production") {
+  globalThis.prisma = prisma;
+}
