@@ -37,7 +37,7 @@ export const createSubjectFormAction = withFormAuth(
     }
 
     try {
-      const result = await prisma.subject.create({
+      const result = (await prisma.subject.create({
         data: {
           name,
           shortcode,
@@ -45,7 +45,7 @@ export const createSubjectFormAction = withFormAuth(
           userId,
         },
         select: subjectSelectorSelect,
-      });
+      })) as SubjectSelector;
 
       revalidatePath("/projects");
 
