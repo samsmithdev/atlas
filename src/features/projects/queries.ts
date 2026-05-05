@@ -4,7 +4,7 @@ import prisma from "@/lib/db";
 import { projectSelectorSelect } from "./types";
 
 export const fetchProjectSelectorsBySubject = withAuth(async (userId) => {
-  const projectSelectorsBySubject = await prisma.project.findMany({
+  const result = await prisma.project.findMany({
     where: { userId },
     select: {
       ...projectSelectorSelect,
@@ -19,9 +19,11 @@ export const fetchProjectSelectorsBySubject = withAuth(async (userId) => {
     ],
   });
 
+  const safeProjects = JSON.parse(JSON.stringify(result));
+
   return {
     success: true,
     message: "Project selectors fetched successfully.",
-    data: projectSelectorsBySubject,
+    data: safeProjects,
   };
 });
