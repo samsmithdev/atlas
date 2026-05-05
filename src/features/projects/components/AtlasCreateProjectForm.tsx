@@ -47,9 +47,6 @@ export default function AtlasCreateProjectForm({
     }
   }, [state.success, router]);
 
-  console.log("SUBJECT TEST");
-  console.log(subjects[0]);
-
   return (
     <form action={formAction} className="space-y-4">
       <div className="space-y-2 scheme-dark">

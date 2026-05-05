@@ -1,3 +1,4 @@
+import prisma from "@/lib/db";
 import { Prisma } from "@prisma/client";
 
 export const subjectSelectorSelect = {
@@ -5,10 +6,11 @@ export const subjectSelectorSelect = {
   shortcode: true,
   name: true,
   description: true,
-} satisfies Prisma.SubjectSelect;
+  readableName: true,
+} as const;
 
-export type SubjectSelector = Prisma.SubjectGetPayload<{
-  select: typeof subjectSelectorSelect;
-}> & {
-  readableName: string;
-};
+export type SubjectSelector = Prisma.Result<
+  typeof prisma.subject,
+  { select: typeof subjectSelectorSelect },
+  "findFirstOrThrow"
+>;

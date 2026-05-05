@@ -8,9 +8,11 @@ export const fetchSubjectSelectors = withAuth(async (userId) => {
     select: subjectSelectorSelect,
   })) as SubjectSelector[];
 
+  const safeSubjects = JSON.parse(JSON.stringify(result));
+
   return {
     success: true,
     message: "Subject selectors fetched successfully.",
-    data: result,
+    data: safeSubjects,
   };
 });
