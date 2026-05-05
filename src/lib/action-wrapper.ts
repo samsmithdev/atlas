@@ -1,10 +1,10 @@
 import { fetchAuth } from "@/features/auth/queries";
 import { ActionResponse } from "@/types/actions";
 
-export function withAuth<T>(
-  actionFunction: (userId: string) => Promise<ActionResponse<T>>
+export function withAuth<T, Args extends unknown[]>(
+  actionFunction: (userId: string, ...args: Args) => Promise<ActionResponse<T>>
 ) {
-  return async function (): Promise<ActionResponse<T>> {
+  return async function (...args: Args): Promise<ActionResponse<T>> {
     const authResult = await fetchAuth();
 
     if (!authResult.success || !authResult.data) {
@@ -15,7 +15,7 @@ export function withAuth<T>(
       };
     }
 
-    return actionFunction(authResult.data.userId);
+    return actionFunction(authResult.data.userId, ...args);
   };
 }
 
