@@ -16,7 +16,7 @@ export const createProjectFormAction = withFormAuth(
   ) => {
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
-    const subjectId = formData.get("parentSubjectId") as string;
+    const subjectId = formData.get("subjectId") as string;
 
     if (!name || name.length < 3) {
       return { success: false, message: "Name must be at least 3 characters." };

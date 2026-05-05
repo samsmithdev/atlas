@@ -11,6 +11,7 @@ import { SubjectSelector } from "@/features/subjects/types";
 import { ActionResponse } from "@/types/actions";
 
 // Shadcn UI Imports
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -75,6 +76,16 @@ export default function AtlasCreateProjectForm({
       <div className="grid gap-2">
         <Label htmlFor="description">Project Description</Label>
         <Input id="description" name="description" />
+      </div>
+
+      {!state.success && state.message && (
+        <p className="text-sm text-red-500">{state.message}</p>
+      )}
+
+      <div className="flex justify-end">
+        <Button type="submit" disabled={isPending}>
+          {isPending ? "Saving..." : "Create Project"}
+        </Button>
       </div>
     </form>
   );
