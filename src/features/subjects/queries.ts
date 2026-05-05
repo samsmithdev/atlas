@@ -1,12 +1,12 @@
 import { withAuth } from "@/lib/action-wrapper";
 import prisma from "@/lib/db";
-import { subjectSelectorSelect } from "./types";
+import { SubjectSelector, subjectSelectorSelect } from "./types";
 
 export const fetchSubjectSelectors = withAuth(async (userId) => {
-  const result = await prisma.subject.findMany({
+  const result = (await prisma.subject.findMany({
     where: { userId },
     select: subjectSelectorSelect,
-  });
+  })) as SubjectSelector[];
 
   return {
     success: true,
