@@ -81,7 +81,7 @@ model Folder {
 
   files File[]
 
-  @@unique([projectId, name]) // Prevent duplicate folder names in the same project
+  @@unique([projectId, parentId, name]) // Prevent duplicate folder names in the same folder
   @@map("folders")
 }
 
