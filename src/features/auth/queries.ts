@@ -1,7 +1,11 @@
 "use server";
 
 import { auth } from "@/auth";
-import { ActionResponse } from "@/types/actions";
+import {
+  failedActionResponse,
+  successActionResponse,
+} from "@/lib/actions/responses";
+import { ActionResponse } from "@/lib/actions/types";
 import { Session } from "next-auth";
 
 export async function fetchAuth(): Promise<
@@ -11,15 +15,11 @@ export async function fetchAuth(): Promise<
   const userId = session?.user?.id;
 
   if (!userId) {
-    return {
-      success: false,
-      message: "Unauthorized",
-    };
+    return failedActionResponse("Unauthorized");
   }
 
-  return {
-    success: true,
-    message: "Authenticated successfully",
-    data: { userId, session },
-  };
+  return successActionResponse(
+    { userId, session },
+    "Authenticated successfully."
+  );
 }

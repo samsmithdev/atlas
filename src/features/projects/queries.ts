@@ -1,5 +1,6 @@
 import { subjectSelectorSelect } from "@/features/subjects/types";
-import { withAuth } from "@/lib/action-wrapper";
+import { successActionResponse } from "@/lib/actions/responses";
+import { withAuth } from "@/lib/actions/wrapper";
 import prisma from "@/lib/db";
 import { projectSelectorSelect } from "./types";
 
@@ -19,11 +20,8 @@ export const fetchProjectSelectorsBySubject = withAuth(async (userId) => {
     ],
   });
 
-  const safeProjects = JSON.parse(JSON.stringify(result));
-
-  return {
-    success: true,
-    message: "Project selectors fetched successfully.",
-    data: safeProjects,
-  };
+  return successActionResponse(
+    result,
+    "Project Selectors fetched successfully."
+  );
 });

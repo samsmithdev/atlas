@@ -1,11 +1,15 @@
 "use server";
 
+import { ActionResponse } from "@/lib/actions/types";
 import prisma from "@/lib/db";
-import { ActionResponse } from "@/types/actions";
 import { revalidatePath } from "next/cache";
 
 // Type Imports
-import { withFormAuth } from "@/lib/action-wrapper";
+import {
+  failedActionResponse,
+  successActionResponse,
+} from "@/lib/actions/responses";
+import { withFormAuth } from "@/lib/actions/wrapper";
 import { SubjectSelector, subjectSelectorSelect } from "./types";
 
 export const createSubjectFormAction = withFormAuth(
@@ -19,21 +23,7 @@ export const createSubjectFormAction = withFormAuth(
     const description = formData.get("description") as string;
 
     if (!name || name.length < 3) {
-      return { success: false, message: "Name must be at least 3 characters." };
-    }
-
-    const duplicateSubjectShortcode = await prisma.subject.findFirst({
-      where: {
-        shortcode,
-        userId,
-      },
-    });
-
-    if (duplicateSubjectShortcode) {
-      return {
-        success: false,
-        message: `Shortcode must be unique. Duplicate shortcode found: ${duplicateSubjectShortcode.shortcode} - ${duplicateSubjectShortcode.name}`,
-      };
+      return failedActionResponse("Name must be at least 3 characters.");
     }
 
     try {
@@ -49,13 +39,9 @@ export const createSubjectFormAction = withFormAuth(
 
       revalidatePath("/projects");
 
-      return {
-        success: true,
-        message: "Subject created successfully.",
-        data: result,
-      };
+      return successActionResponse(result);
     } catch (error) {
-      return { success: false, message: `Database error: ${error}` };
+      return failedActionResponse("Database error creating subject.");
     }
   }
 );

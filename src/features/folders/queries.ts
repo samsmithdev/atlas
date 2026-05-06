@@ -1,4 +1,5 @@
-import { withAuth } from "@/lib/action-wrapper";
+import { successActionResponse } from "@/lib/actions/responses";
+import { withAuth } from "@/lib/actions/wrapper";
 import prisma from "@/lib/db";
 import { folderSelectorSelect } from "./types";
 
@@ -13,12 +14,9 @@ export const fetchFolderSelectorsBySubject = withAuth(
       orderBy: { name: "asc" },
     });
 
-    const safeFolders = JSON.parse(JSON.stringify(result));
-
-    return {
-      success: true,
-      message: "Folder selectors fetched successfully.",
-      data: safeFolders,
-    };
+    return successActionResponse(
+      result,
+      "Folder selectors fetched successfully."
+    );
   }
 );

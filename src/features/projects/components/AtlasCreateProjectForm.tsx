@@ -8,7 +8,7 @@ import { useActionState, useEffect } from "react";
 import { createProjectFormAction } from "@/features/projects/actions";
 import { ProjectSelector } from "@/features/projects/types";
 import { SubjectSelector } from "@/features/subjects/types";
-import { ActionResponse } from "@/types/actions";
+import { ActionResponse } from "@/lib/actions/types";
 
 // Shadcn UI Imports
 import { Button } from "@/components/ui/button";

@@ -1,4 +1,5 @@
-import { withAuth } from "@/lib/action-wrapper";
+import { successActionResponse } from "@/lib/actions/responses";
+import { withAuth } from "@/lib/actions/wrapper";
 import prisma from "@/lib/db";
 import { SubjectSelector, subjectSelectorSelect } from "./types";
 
@@ -8,11 +9,8 @@ export const fetchSubjectSelectors = withAuth(async (userId) => {
     select: subjectSelectorSelect,
   })) as SubjectSelector[];
 
-  const safeSubjects = JSON.parse(JSON.stringify(result));
-
-  return {
-    success: true,
-    message: "Subject selectors fetched successfully.",
-    data: safeSubjects,
-  };
+  return successActionResponse(
+    result,
+    "Subject selectors fetched successfully."
+  );
 });

@@ -1,11 +1,15 @@
 "use server";
 
+import { ActionResponse } from "@/lib/actions/types";
 import prisma from "@/lib/db";
-import { ActionResponse } from "@/types/actions";
 import { revalidatePath } from "next/cache";
 
 // Type Imports
-import { withFormAuth } from "@/lib/action-wrapper";
+import {
+  failedActionResponse,
+  successActionResponse,
+} from "@/lib/actions/responses";
+import { withFormAuth } from "@/lib/actions/wrapper";
 import { ProjectSelector, projectSelectorSelect } from "./types";
 
 export const createProjectFormAction = withFormAuth(
@@ -19,7 +23,7 @@ export const createProjectFormAction = withFormAuth(
     const subjectId = formData.get("subjectId") as string;
 
     if (!name || name.length < 3) {
-      return { success: false, message: "Name must be at least 3 characters." };
+      return failedActionResponse("Name must be at least 3 characters.");
     }
 
     try {
@@ -34,6 +38,7 @@ export const createProjectFormAction = withFormAuth(
         const sequenceString = updatedSubject.projectSequence
           .toString()
           .padStart(6, "0");
+
         const readableId = `${updatedSubject.shortcode}${sequenceString}`;
 
         const project = await tx.project.create({
@@ -60,13 +65,9 @@ export const createProjectFormAction = withFormAuth(
 
       revalidatePath("/projects");
 
-      return {
-        success: true,
-        message: "Project successfully created.",
-        data: newProject,
-      };
+      return successActionResponse(newProject, "Project successfully created.");
     } catch (error) {
-      return { success: false, message: `Database error: ${error}` };
+      return failedActionResponse(`Database Error: ${error}`);
     }
   }
 );

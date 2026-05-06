@@ -1,4 +1,5 @@
 import { fetchAuth } from "@/features/auth/queries";
+import { failedActionResponse } from "./responses";
 import { ActionResponse } from "./types";
 
 export function withAuth<T, Args extends unknown[]>(
@@ -8,14 +9,18 @@ export function withAuth<T, Args extends unknown[]>(
     const authResult = await fetchAuth();
 
     if (!authResult.success || !authResult.data) {
-      return {
-        success: false,
-        message: authResult.message || "Missing authentication information.",
-        errors: authResult.errors,
-      };
+      return failedActionResponse("Missing authentication information.");
     }
 
-    return actionFunction(authResult.data.userId, ...args);
+    try {
+      return await actionFunction(authResult.data.userId, ...args);
+    } catch (error) {
+      console.error("[SERVER ACTION ERROR]:", error);
+
+      return failedActionResponse("An unexpected server error occurred.", [
+        String(error),
+      ]);
+    }
   };
 }
 
