@@ -25,14 +25,14 @@ export const createFolderFormAction = withFormAuth(
       return failedActionResponse("Name must be at least 3 characters.");
     }
 
-    const newFolder = await prisma.folder.create({
+    const newFolder = (await prisma.folder.create({
       data: {
         name,
         userId,
         projectId,
         parentId,
       },
-    });
+    })) as FolderSelector;
 
     revalidatePath("/projects");
 

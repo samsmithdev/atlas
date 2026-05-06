@@ -7,7 +7,7 @@ import { useActionState, useEffect } from "react";
 // ATLAS Imports
 import { createSubjectFormAction } from "@/features/subjects/actions";
 import { SubjectSelector } from "@/features/subjects/types";
-import { ActionResponse } from "@/types/actions";
+import { ActionResponse } from "@/lib/actions/types";
 
 // Shadcn UI Imports
 import { Button } from "@/components/ui/button";
