@@ -1,9 +1,9 @@
 // Fallback subject/project create page
 "use server";
 
-import { fetchSubjectSelectors } from "@/features/subjects/queries";
+import { fetchSubjectSelectors } from "@/features/workspace/queries";
 
-import AtlasCreateProjectForm from "@/features/projects/components/AtlasCreateProjectForm";
+import AtlasCreateProjectForm from "@/features/workspace/components/AtlasCreateProjectForm";
 
 export default async function AtlasCreateProjectPage() {
   const subjectSelectors = await fetchSubjectSelectors();

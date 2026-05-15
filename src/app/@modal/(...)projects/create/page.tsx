@@ -1,10 +1,10 @@
 // Project/subject creator Dialog
 "use server";
 
-import { fetchSubjectSelectors } from "@/features/subjects/queries";
+import { fetchSubjectSelectors } from "@/features/workspace/queries";
 
 import AtlasFormDialog from "@/components/atlas/layout/AtlasFormDialog";
-import AtlasCreateProjectForm from "@/features/projects/components/AtlasCreateProjectForm";
+import AtlasCreateProjectForm from "@/features/workspace/components/AtlasCreateProjectForm";
 
 export default async function AtlasCreateProjectModalPage() {
   const subjectSelectors = await fetchSubjectSelectors();
