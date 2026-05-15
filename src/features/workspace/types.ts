@@ -52,3 +52,17 @@ export type FolderSelector = Prisma.Result<
 >;
 
 // MARK: Files
+export const fileSelectorSelect = {
+  id: true,
+  readableId: true,
+  name: true,
+  createdDate: true,
+  description: true,
+  tags: true,
+} as const;
+
+export type FileSelector = Prisma.Result<
+  typeof prisma.file,
+  { select: typeof fileSelectorSelect },
+  "findFirstOrThrow"
+>;
