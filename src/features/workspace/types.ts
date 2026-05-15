@@ -43,6 +43,7 @@ export const folderSelectorSelect = {
   projectId: true,
   parentId: true,
   isRoot: true,
+  depth: true,
 } as const;
 
 export type FolderSelector = Prisma.Result<

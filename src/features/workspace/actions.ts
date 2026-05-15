@@ -18,6 +18,7 @@ import {
   SubjectSelector,
   subjectSelectorSelect,
 } from "./types";
+import { createFolderSchema } from "./z-schema";
 
 // MARK: Subjects
 export const createSubjectFormAction = withFormAuth(
@@ -127,13 +128,38 @@ export const createFolderFormAction = withFormAuth(
     prevState: ActionResponse<FolderSelector>,
     formData: FormData
   ) => {
-    const name = formData.get("name") as string;
-    const parentId = formData.get("parentId") as string;
-    const projectId = formData.get("projectId") as string;
+    const parsed = createFolderSchema.safeParse({
+      projectId: formData.get("projectId"),
+      parentId: formData.get("parentFolderId"),
+      name: formData.get("name"),
+    });
 
-    if (!name || name.length > 3) {
-      return failedActionResponse("Name must be at least 3 characters.");
+    if (!parsed.success) {
+      return failedActionResponse(
+        "Validation Failed",
+        extractErrorMessages(parsed.error)
+      );
     }
+
+    const { projectId, parentId, name } = parsed.data;
+
+    const parentFolder = await prisma.folder.findUnique({
+      where: { id: parentId },
+    });
+
+    if (!parentFolder) {
+      return failedActionResponse("Parent Folder Not Found");
+    }
+
+    const MAX_FOLDER_DEPTH = 3;
+
+    if (parentFolder.depth >= MAX_FOLDER_DEPTH) {
+      return failedActionResponse("Failed to Create Folder", [
+        `Maximum folder depth of ${MAX_FOLDER_DEPTH} has been reached. This folder cannot contain any other folders.`,
+      ]);
+    }
+
+    const depth = parentFolder.depth + 1;
 
     const newFolder = (await prisma.folder.create({
       data: {
@@ -141,6 +167,7 @@ export const createFolderFormAction = withFormAuth(
         userId,
         projectId,
         parentId,
+        depth,
       },
     })) as FolderSelector;
 
