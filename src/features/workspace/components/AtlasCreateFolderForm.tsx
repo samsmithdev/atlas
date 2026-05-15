@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 
 // ATLAS Imports
-import { FolderSelector } from "@/features/folders/types";
 import { createFolderFormAction } from "@/features/workspace/actions";
+import { FolderSelector } from "@/features/workspace/types";
 import { ActionResponse } from "@/lib/actions/types";
 
 // Shadcn UI Imports
