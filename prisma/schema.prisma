@@ -19,7 +19,7 @@ model Subject {
   id          String @id @default(cuid())
   shortcode   String @unique
   name        String
-  description String
+  description String  @default("")
 
   userId String @map("user_id")
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -27,6 +27,8 @@ model Subject {
   projectSequence Int @default(0) @map("project_sequence")
 
   projects Project[]
+
+  deletedAt   DateTime? @map("deleted_at")
 
   @@map("subjects")
 }
@@ -40,7 +42,8 @@ model Project {
   createdDate DateTime @default(now()) @map("created_date")
   userId      String   @map("user_id")
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  description String
+  description String  @default("")
+  deletedAt   DateTime? @map("deleted_at")
 
   fileSequence Int @default(0) @map("file_sequence")
 
@@ -60,6 +63,7 @@ model Folder {
   createdAt DateTime @default(now()) @map("created_at")
   isRoot    Boolean  @default(false)
   depth     Int      @default(0)
+  deletedAt   DateTime? @map("deleted_at")
 
   // --- The New Recursive Magic ---
 
@@ -93,9 +97,10 @@ model File {
   createdDate DateTime @default(now()) @map("created_at")
   userId      String   @map("user_id")
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  description String
+  description String    @default("")
   tags        String[]
   content     Json     @default("[]")
+  deletedAt   DateTime? @map("deleted_at")
 
   folderId String @map("folder_id")
   folder   Folder @relation(fields: [folderId], references: [id])
@@ -127,6 +132,8 @@ model InboxItem {
 
   // Status to track if you've processed it
   status InboxStatus @default(PENDING)
+
+  deletedAt   DateTime? @map("deleted_at")
 
   userId String @map("user_id")
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)

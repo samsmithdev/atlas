@@ -13,7 +13,11 @@ export const createSubjectSchema = z.object({
     .min(1, "Shortcode is required.")
     .max(4, "Shortcode is too long.")
     .regex(/^[A-Z]+$/, "Shortcode can only contain letters."),
-  description: z.string().trim().max(255, "Description is too long").optional(),
+  description: z
+    .string()
+    .trim()
+    .max(255, "Description is too long")
+    .default(""),
 });
 
 export const createProjectSchema = z.object({
@@ -28,7 +32,7 @@ export const createProjectSchema = z.object({
     .trim()
     .min(1, "Project name cannot be empty.")
     .max(100, "Project name is too long"),
-  description: z.string().trim().optional(),
+  description: z.string().trim().max(255, "Description too long.").default(""),
 });
 
 export const createFolderSchema = z.object({

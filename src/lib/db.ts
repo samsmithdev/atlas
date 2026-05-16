@@ -27,6 +27,53 @@ const prismaClientSingleton = () => {
         },
       },
     },
+
+    query: {
+      $allModels: {
+        async findMany({ model, args, query }) {
+          const softDeleteModels = ["Subject", "Project", "Folder", "File"];
+
+          if (softDeleteModels.includes(model as string)) {
+            // Cast args.where to any to bypass the union type restriction
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const whereClause = args.where as any;
+
+            if (whereClause?.deletedAt === undefined) {
+              args.where = { ...args.where, deletedAt: null };
+            }
+          }
+          return query(args);
+        },
+
+        async findFirst({ model, args, query }) {
+          const softDeleteModels = ["Subject", "Project", "Folder", "File"];
+
+          if (softDeleteModels.includes(model as string)) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const whereClause = args.where as any;
+
+            if (whereClause?.deletedAt === undefined) {
+              args.where = { ...args.where, deletedAt: null };
+            }
+          }
+          return query(args);
+        },
+
+        async count({ model, args, query }) {
+          const softDeleteModels = ["Subject", "Project", "Folder", "File"];
+
+          if (softDeleteModels.includes(model as string)) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const whereClause = args.where as any;
+
+            if (whereClause?.deletedAt === undefined) {
+              args.where = { ...args.where, deletedAt: null };
+            }
+          }
+          return query(args);
+        },
+      },
+    },
   });
 };
 

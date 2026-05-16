@@ -18,7 +18,7 @@ import {
   SubjectSelector,
   subjectSelectorSelect,
 } from "./types";
-import { createFolderSchema } from "./z-schema";
+import { createFolderSchema, createSubjectSchema } from "./z-schema";
 
 // MARK: Subjects
 export const createSubjectFormAction = withFormAuth(
@@ -27,20 +27,27 @@ export const createSubjectFormAction = withFormAuth(
     prevState: ActionResponse<SubjectSelector>,
     formData: FormData
   ) => {
-    const name = formData.get("name") as string;
-    const shortcode = formData.get("shortcode") as string;
-    const description = formData.get("description") as string;
+    const parsed = createSubjectSchema.safeParse({
+      name: formData.get("name"),
+      shortcode: formData.get("shortcode"),
+      description: formData.get("description"),
+    });
 
-    if (!name || name.length < 3) {
-      return failedActionResponse("Name must be at least 3 characters.");
+    if (!parsed.success) {
+      return failedActionResponse(
+        "Validation Failed",
+        extractErrorMessages(parsed.error)
+      );
     }
+
+    const { name, shortcode, description } = parsed.data;
 
     try {
       const result = (await prisma.subject.create({
         data: {
           name,
           shortcode,
-          description,
+          description: description ?? "",
           userId,
         },
         select: subjectSelectorSelect,
