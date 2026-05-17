@@ -3,6 +3,8 @@ import { successActionResponse } from "@/lib/actions/responses";
 import { withAuth } from "@/lib/actions/wrapper";
 import prisma from "@/lib/db";
 import {
+  fileContentSelect,
+  fileSelectorSelect,
   folderSelectorSelect,
   projectSelectorSelect,
   SubjectSelector,
@@ -63,3 +65,34 @@ export const fetchFolderSelectorsBySubject = withAuth(
     );
   }
 );
+
+// MARK: Files
+export const fetchFileSelectorsByFolder = withAuth(
+  async (userId, folderId: string) => {
+    const result = await prisma.file.findMany({
+      where: {
+        userId,
+        folderId,
+      },
+      select: fileSelectorSelect,
+      orderBy: { readableId: "asc" },
+    });
+
+    return successActionResponse(
+      result,
+      "File selectors fetched successfully."
+    );
+  }
+);
+
+export const fetchFileContent = withAuth(async (userId, fileId: string) => {
+  const result = await prisma.file.findFirst({
+    where: {
+      userId,
+      id: fileId,
+    },
+    select: fileContentSelect,
+  });
+
+  return successActionResponse(result, "File contents fetched successfully.");
+});

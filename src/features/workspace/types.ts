@@ -67,3 +67,15 @@ export type FileSelector = Prisma.Result<
   { select: typeof fileSelectorSelect },
   "findFirstOrThrow"
 >;
+
+export const fileContentSelect = {
+  ...fileSelectorSelect,
+  content: true,
+  assets: true,
+} as const;
+
+export type FileContent = Prisma.Result<
+  typeof prisma.file,
+  { select: typeof fileContentSelect },
+  "findFirstOrThrow"
+>;
