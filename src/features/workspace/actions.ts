@@ -12,13 +12,20 @@ import prisma from "@/lib/db";
 import { extractErrorMessages } from "@/lib/errors";
 import { revalidatePath } from "next/cache";
 import {
+  FileSelector,
+  fileSelectorSelect,
   FolderSelector,
   ProjectSelector,
   projectSelectorSelect,
   SubjectSelector,
   subjectSelectorSelect,
 } from "./types";
-import { createFolderSchema, createSubjectSchema } from "./z-schema";
+import {
+  createFileSchema,
+  createFolderSchema,
+  createProjectSchema,
+  createSubjectSchema,
+} from "./z-schema";
 
 // MARK: Subjects
 export const createSubjectFormAction = withFormAuth(
@@ -74,13 +81,20 @@ export const createProjectFormAction = withFormAuth(
     prevState: ActionResponse<ProjectSelector>,
     formData: FormData
   ) => {
-    const name = formData.get("name") as string;
-    const description = formData.get("description") as string;
-    const subjectId = formData.get("subjectId") as string;
+    const parsed = createProjectSchema.safeParse({
+      name: formData.get("name"),
+      description: formData.get("description"),
+      subjectId: formData.get("subjectId"),
+    });
 
-    if (!name || name.length < 3) {
-      return failedActionResponse("Name must be at least 3 characters.");
+    if (!parsed.success) {
+      return failedActionResponse(
+        "Validation Failed",
+        extractErrorMessages(parsed.error)
+      );
     }
+
+    const { subjectId, name, description } = parsed.data;
 
     try {
       const newProject = (await prisma.$transaction(async (tx) => {
@@ -185,3 +199,68 @@ export const createFolderFormAction = withFormAuth(
 );
 
 // MARK: Files
+export const createFileFormAction = withFormAuth(
+  async (
+    userId: string,
+    prevState: ActionResponse<FileSelector>,
+    formData: FormData
+  ) => {
+    const parsed = createFileSchema.safeParse({
+      folderId: formData.get("folderId"),
+      projectId: formData.get("projectId"),
+      name: formData.get("name"),
+      description: formData.get("description"),
+      tags: formData.get("tags"),
+    });
+
+    if (!parsed.success) {
+      return failedActionResponse(
+        "Validation Failed",
+        extractErrorMessages(parsed.error)
+      );
+    }
+
+    const { folderId, projectId, name, description, tags } = parsed.data;
+
+    try {
+      const newFile = (await prisma.$transaction(async (tx) => {
+        const updatedProject = await tx.project.update({
+          where: { id: projectId, userId: userId },
+          data: {
+            fileSequence: { increment: 1 },
+          },
+        });
+
+        const sequenceString = updatedProject.fileSequence
+          .toString()
+          .padStart(6, "0");
+
+        const readableId = `${updatedProject.readableId}-${sequenceString}`;
+
+        const newFile = await tx.file.create({
+          data: {
+            name,
+            description,
+            userId,
+            readableId,
+            projectId,
+            folderId,
+            tags,
+          },
+          select: fileSelectorSelect,
+        });
+
+        return newFile;
+      })) as FileSelector;
+
+      revalidatePath("/projects");
+
+      return successActionResponse(newFile, "File successfully created!");
+    } catch (error) {
+      return failedActionResponse(
+        "Create File Failed",
+        extractErrorMessages(error)
+      );
+    }
+  }
+);
