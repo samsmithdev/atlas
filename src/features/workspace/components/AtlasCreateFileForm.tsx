@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 
 // ATLAS Imports
-import { createFolderFormAction } from "@/features/workspace/actions";
-import { FolderSelector } from "@/features/workspace/types";
+import { createFileFormAction } from "@/features/workspace/actions";
+import { FileSelector } from "@/features/workspace/types";
 import { ActionResponse } from "@/lib/actions/types";
 
 // Shadcn UI Imports
@@ -15,27 +15,28 @@ import { Input } from "@/components/ui/input";
 
 import { CornerDownLeft } from "lucide-react";
 
-const initialState: ActionResponse<FolderSelector> = {
+const initialState: ActionResponse<FileSelector> = {
   message: "",
   success: false,
 };
 
-interface AtlasCreateFolderFormProps {
+interface AtlasCreateFileFormProps {
   projectId: string;
-  parentId: string;
+  folderId: string;
 }
 
-export default function AtlasCreateFolderForm({
+export default function AtlasCreateFileForm({
   projectId,
-  parentId,
-}: AtlasCreateFolderFormProps) {
+  folderId,
+}: AtlasCreateFileFormProps) {
   const router = useRouter();
 
   const [state, formAction, isPending] = useActionState(
-    createFolderFormAction,
+    createFileFormAction,
     initialState
   );
 
+  // Maybe a modal item thing?
   // TODO: Verify this
   useEffect(() => {
     if (state.success) {
@@ -43,11 +44,14 @@ export default function AtlasCreateFolderForm({
     }
   }, [state.success, router]);
 
+  // DECISION: This form will just be to create a file inside of the directory without a full modal. The editor will have a File Details pane that can be put in on the right of a file, or the list item can be right-clicked, or maybe a hotkey?
+
   return (
     <form action={formAction} className="space-y-4">
       <Input id="name" name="name" required />
-      <input type="hidden" name="parentId" value={parentId} />
       <input type="hidden" name="projectId" value={projectId} />
+      <input type="hidden" name="folderId" value={folderId} />
+
       {!state.success && state.message && (
         <p className="text-sm text-red-500">{state.message}</p>
       )}
@@ -57,7 +61,7 @@ export default function AtlasCreateFolderForm({
           <CornerDownLeft
             className={isPending ? "opacity-10" : "opacity-100"}
           />
-          {isPending ? "Saving..." : "Create Folder"}
+          {isPending ? "Saving..." : "Create File"}
         </Button>
       </div>
     </form>
