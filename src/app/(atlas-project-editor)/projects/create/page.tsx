@@ -3,7 +3,7 @@
 
 import { fetchSubjectSelectors } from "@/features/workspace/queries";
 
-import AtlasCreateProjectForm from "@/features/workspace/components/AtlasCreateProjectForm";
+import AtlasCreateProjectForm from "@/features/workspace/components/projects/AtlasCreateProjectForm";
 
 export default async function AtlasCreateProjectPage() {
   const subjectSelectors = await fetchSubjectSelectors();
