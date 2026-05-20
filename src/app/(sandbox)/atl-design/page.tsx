@@ -1,5 +1,5 @@
 // src/app/(sandbox)/design/page.tsx
-import AtlasCreateProjectForm from "@/features/workspace/components/projects/AtlasCreateProjectForm";
+import AtlasCreateFolderForm from "@/features/workspace/components/folders/AtlasCreateFolderForm";
 import { AtlasCreateProjectSkeleton } from "@/features/workspace/components/projects/AtlasCreateProjectSkeleton";
 
 export default function DesignSandbox() {
@@ -16,11 +16,9 @@ export default function DesignSandbox() {
       </section>
 
       <section>
-        <h2 className="text-xl font-bold mb-4 border-b pb-2">
-          Create Project Form
-        </h2>
+        <h2 className="text-xl font-bold mb-4 border-b pb-2">Folder Options</h2>
         <div className="flex gap-4">
-          <AtlasCreateProjectForm subjects={[]} />
+          <AtlasCreateFolderForm parentId="321" projectId="321" />
         </div>
       </section>
     </div>
