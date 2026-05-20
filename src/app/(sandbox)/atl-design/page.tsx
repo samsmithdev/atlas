@@ -4,7 +4,7 @@ import { AtlasCreateProjectSkeleton } from "@/features/workspace/components/proj
 
 export default function DesignSandbox() {
   return (
-    <div className="p-10 max-w-2xl mx-auto space-y-12">
+    <div className="p-10 max-w-md mx-auto space-y-12">
       <section>
         <h2 className="text-xl font-bold mb-4 border-b pb-2">
           Create Project Skeleton
