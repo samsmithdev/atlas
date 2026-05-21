@@ -24,6 +24,27 @@ export const fetchSubjectSelectors = withAuth(async (userId) => {
   );
 });
 
+export const fetchSubjectsWithProjectSelectors = withAuth(async (userId) => {
+  const result = await prisma.subject.findMany({
+    where: { userId },
+    select: {
+      ...subjectSelectorSelect,
+
+      projects: {
+        select: projectSelectorSelect,
+        orderBy: { readableId: "asc" },
+      },
+    },
+
+    orderBy: [{ shortcode: "asc" }, { name: "asc" }],
+  });
+
+  return successActionResponse(
+    result,
+    "Subjects and their projects fetched successfully."
+  );
+});
+
 // MARK: Projects
 export const fetchProjectSelectorsBySubject = withAuth(async (userId) => {
   const result = await prisma.project.findMany({
