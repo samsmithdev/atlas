@@ -18,7 +18,7 @@ async function FormLoader() {
 
     const subjects = subjectSelectors.data;
 
-    <AtlasCreateProjectForm subjects={subjects} />;
+    return <AtlasCreateProjectForm subjects={subjects} />;
   } catch (error) {
     return <p>Error Loading Subjects</p>;
   }
