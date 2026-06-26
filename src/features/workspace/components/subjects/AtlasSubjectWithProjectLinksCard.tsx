@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { SubjectWithProjectSelectors } from "@/features/workspace/types";
+import { AppRoutes } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -28,19 +29,19 @@ export default function AtlasSubjectWithProjectLinksCard({
       </CardHeader>
 
       <CardContent>
-        <ol>
-          {subject.projects.length > 0 ? (
-            subject.projects.map((project) => (
+        {subject.projects.length > 0 ? (
+          <ol>
+            {subject.projects.map((project) => (
               <li key={project.id}>
-                <Link href={`/projects/${project.id}/files`}>
+                <Link href={AppRoutes.projectFiles(project.id)}>
                   {project.readableName}
                 </Link>
               </li>
-            ))
-          ) : (
-            <li key="123">No Projects Found</li>
-          )}
-        </ol>
+            ))}
+          </ol>
+        ) : (
+          <p>No Projects Found</p>
+        )}
       </CardContent>
     </Card>
   );
