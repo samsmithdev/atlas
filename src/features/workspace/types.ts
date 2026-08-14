@@ -10,7 +10,7 @@ export const subjectSelectorSelect = {
   name: true,
   description: true,
   readableName: true,
-  subjectId: true,
+  //subjectId: true,
 } as const;
 
 export const projectSelectorSelect = {
