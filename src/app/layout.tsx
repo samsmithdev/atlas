@@ -18,9 +18,11 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
+  header,
   children,
   modal,
 }: Readonly<{
+  header: React.ReactNode;
   children: React.ReactNode;
   modal: React.ReactNode;
 }>) {
@@ -30,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-full w-full overflow-hidden bg-background text-foreground`}
         id="atlas-root-layout-container"
       >
+        {header}
         {children}
         {modal}
       </body>
