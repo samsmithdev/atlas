@@ -1,6 +1,6 @@
 "use server";
 
-import AtlasFormDialog from "@/components/atlas/layout/AtlasFormDialog";
+import AtlasFormDialog from "@/components/layout/AtlasFormDialog";
 import AtlasSelectProjectPanelContainer from "@/features/workspace/components/projects/AtlasSelectProjectPanelContainer";
 import AtlasSelectProjectPanelSkeleton from "@/features/workspace/components/projects/AtlasSelectProjectPanelSkeleton";
 import { Suspense } from "react";

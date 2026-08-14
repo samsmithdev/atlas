@@ -1,7 +1,7 @@
 // Project/subject creator Dialog
 "use server";
 
-import AtlasFormDialog from "@/components/atlas/layout/AtlasFormDialog";
+import AtlasFormDialog from "@/components/layout/AtlasFormDialog";
 import AtlasCreateProjectFormContainer from "@/features/workspace/components/projects/AtlasCreateProjectFormContainer";
 import { AtlasCreateProjectSkeleton } from "@/features/workspace/components/projects/AtlasCreateProjectSkeleton";
 import { Suspense } from "react";
