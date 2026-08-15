@@ -1,6 +1,6 @@
 "use server";
 
-import { UserDropdown } from "@/features/auth/components/UserDropdown";
+import { UserDropdown } from "@/features/auth/components/UserDropdown/UserDropdown";
 import { fetchAuth } from "@/features/auth/queries";
 
 export default async function UserDropdownContainer() {

@@ -3,14 +3,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import LoggedInUserDropdownContent from "@/features/auth/components/UserDropdown/LoggedInUserDropdownContent";
+import LoggedOutUserDropdownContent from "@/features/auth/components/UserDropdown/LoggedOutUserDropdownContent";
 import { User } from "lucide-react";
-import { signOut } from "next-auth/react";
 
 interface UserDropdownProps {
   user: {
@@ -21,6 +18,8 @@ interface UserDropdownProps {
 }
 
 export function UserDropdown({ user }: UserDropdownProps) {
+  const userLoggedIn = user.email != null;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -36,23 +35,17 @@ export function UserDropdown({ user }: UserDropdownProps) {
           </Avatar>
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user.name}</p>
-            <p className="text-xs leading-none text-muted-foreground">
-              {user.email}
-            </p>
-          </div>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className="text-red-600 cursor-pointer"
-          onClick={() => signOut({ redirectTo: "/" })}
-        >
-          Log Out
-        </DropdownMenuItem>
-      </DropdownMenuContent>
+      {userLoggedIn ? (
+        <LoggedInUserDropdownContent
+          user={{
+            name: user.name ?? "",
+            email: user.email ?? "",
+            imageUrl: user.imageUrl ?? "",
+          }}
+        />
+      ) : (
+        <LoggedOutUserDropdownContent />
+      )}
     </DropdownMenu>
   );
 }
