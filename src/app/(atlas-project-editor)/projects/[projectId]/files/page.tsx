@@ -1,5 +1,3 @@
 export default async function AtlasProjectFilesPage() {
-  return {
-    /* Empty EditMarkdownPane? */
-  };
+  return <p>hi</p>;
 }
