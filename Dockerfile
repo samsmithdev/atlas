@@ -6,6 +6,8 @@ FROM node:20-alpine AS base
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat openssl
 
+RUN corepack enable pnpm
+
 # -----------------------------------------------------------------------------
 # STAGE 2: Dependencies
 # We install all the NPM packages. We do this in a separate stage so we can
@@ -16,10 +18,10 @@ FROM base AS deps
 WORKDIR /app
 
 # Copy package files
-COPY package.json package-lock.json* ./
+COPY package.json pnpm-lock.yaml* ./
 
 # Install dependencies (including devDependencies for building)
-RUN npm ci
+RUN pnpm install --frozen-lockfile
 
 # -----------------------------------------------------------------------------
 # STAGE 3: Builder
@@ -35,7 +37,7 @@ COPY . .
 RUN DATABASE_URL="postgresql://dummy:password@localhost:5432/mydb" npx prisma generate
 
 # Build the Next.js application
-RUN npm run build
+RUN pnpm run build
 
 # -----------------------------------------------------------------------------
 # STAGE 4: Runner
