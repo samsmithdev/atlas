@@ -1,10 +1,11 @@
 "use server";
 
 import { fetchAuth } from "@/features/auth/queries";
+import { failedActionResponse } from "@/lib/actions/responses";
+import { ActionResponse } from "@/lib/actions/types";
 import prisma from "@/lib/db";
 import { ensureBucketExists } from "@/lib/minio";
 import { getPresignedUploadUrl } from "@/lib/storage";
-import { ActionResponse } from "@/types/actions";
 import { v4 as uuidv4 } from "uuid"; // npm install uuid @types/uuid
 
 // Still needs revised
@@ -65,12 +66,19 @@ export async function generateUploadUrl(
   mimeType: string
 ): Promise<{ success: boolean; data?: UploadConfig; error?: string }> {
   // 1. Auth Check (Protect your bucket!)
-  const { userId, session } = await checkAuth();
+  const authResult = await fetchAuth();
+
+  if (!authResult.success || !authResult.data) {
+    return failedActionResponse("Missing authentication information.");
+  }
+
+  const userId = authResult.data.userId;
 
   try {
     // 2. Generate a safe, unique filename (Object Key)
     // Structure: userId/year/month/uuid-originalName
     // This keeps folders organized in Minio if you browse manually.
+
     const date = new Date();
     const uniqueId = uuidv4();
     const extension = filename.split(".").pop();
