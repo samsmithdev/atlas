@@ -1,8 +1,12 @@
 // MARK: Imports
-import { successActionResponse } from "@/lib/actions/responses";
+import {
+  failedActionResponse,
+  successActionResponse,
+} from "@/lib/actions/responses";
 import { withAuth } from "@/lib/actions/wrapper";
 import prisma from "@/lib/db";
 import {
+  FileContent,
   fileContentSelect,
   fileSelectorSelect,
   folderSelectorSelect,
@@ -106,14 +110,20 @@ export const fetchFileSelectorsByFolder = withAuth(
   }
 );
 
-export const fetchFileContent = withAuth(async (userId, fileId: string) => {
-  const result = await prisma.file.findFirst({
-    where: {
-      userId,
-      id: fileId,
-    },
-    select: fileContentSelect,
-  });
+export const fetchFileContent = withAuth<FileContent, [string]>(
+  async (userId, fileId: string) => {
+    const result = await prisma.file.findFirst({
+      where: {
+        userId,
+        id: fileId,
+      },
+      select: fileContentSelect,
+    });
 
-  return successActionResponse(result, "File contents fetched successfully.");
-});
+    if (!result) {
+      return failedActionResponse("File not found or access denied.");
+    }
+
+    return successActionResponse(result, "File contents fetched successfully.");
+  }
+);

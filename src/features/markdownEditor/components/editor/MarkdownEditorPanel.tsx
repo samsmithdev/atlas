@@ -20,7 +20,13 @@ import UniqueId from "@tiptap/extension-unique-id";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
-export const MarkdownEditorPanel = () => {
+interface MarkdownEditorPanelProps {
+  initialContent: string;
+}
+
+export default function MarkdownEditorPanel({
+  initialContent,
+}: MarkdownEditorPanelProps) {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -44,7 +50,7 @@ export const MarkdownEditorPanel = () => {
       TextStyleKit,
       UniqueId,
     ],
-    content: "<p>Start typing...</p>",
+    content: initialContent,
     editorProps: {
       attributes: {
         class:
@@ -64,4 +70,4 @@ export const MarkdownEditorPanel = () => {
       </div>
     </div>
   );
-};
+}
