@@ -20,7 +20,7 @@ import UniqueId from "@tiptap/extension-unique-id";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
-export const MarkdownEditor = () => {
+export const MarkdownEditorPanel = () => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -59,7 +59,7 @@ export const MarkdownEditor = () => {
 
   return (
     <div className="flex flex-col h-full w-full">
-      <div className="flex-grow overflow-y-auto p-4">
+      <div className="grow overflow-y-auto p-4">
         <EditorContent editor={editor} />
       </div>
     </div>
